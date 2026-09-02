@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProDevUnity — Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="min-h-screen flex flex-col relative pb-10">
+
+    <header class="sticky top-0 z-40 px-8 py-4 flex items-center justify-between border-b border-[#262a35] bg-[#0f1115]">
+        <a href="index.html" class="flex items-center space-x-3">
+            <div class="w-9 h-9 rounded-lg bg-[#161920] border border-[#262a35] flex items-center justify-center text-amber-400 font-bold text-base">
+                <i class="fa-solid fa-shield-halved text-sm"></i>
+            </div>
+            <span class="text-lg font-bold tracking-tight text-white">Admin<span class="text-amber-400">Control</span></span>
+        </a>
+    </header>
+
+    <main id="main-container" class="max-w-5xl w-full mx-auto p-6 md:p-10 flex-1 z-10 space-y-8">
+        <h1 class="text-2xl font-bold text-white tracking-tight">Platform Governance & Stats</h1>
+
+        <!-- METRICHE GLOBALI -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="flat-card p-5 space-y-1">
+                <span class="text-xs text-slate-400">Total Registered Users</span>
+                <p id="stat-users" class="text-2xl font-bold text-blue-400">0</p>
+            </div>
+            <div class="flat-card p-5 space-y-1">
+                <span class="text-xs text-slate-400">Total Posts Published</span>
+                <p id="stat-posts" class="text-2xl font-bold text-emerald-400">0</p>
+            </div>
+            <div class="flat-card p-5 space-y-1">
+                <span class="text-xs text-slate-400">Chat Messages Exchanged</span>
+                <p id="stat-messages" class="text-2xl font-bold text-amber-400">0</p>
+            </div>
+        </div>
+
+        <!-- MODERAZIONE UTENTI -->
+        <div class="flat-card p-6 space-y-4">
+            <h2 class="text-sm font-bold text-white uppercase tracking-wider">User Moderation & Suspension</h2>
+            <form onsubmit="handleBanUser(event)" class="flex space-x-3">
+                <input type="text" id="ban-target-username" required placeholder="Target Username (e.g. dev_spam)" class="flex-1 bg-[#0f1115] border border-[#262a35] rounded-lg px-3.5 py-2 text-xs text-white focus:outline-none focus:border-red-500">
+                <button type="submit" class="bg-red-600 hover:bg-red-500 text-white font-semibold px-4 py-2 rounded-lg text-xs transition">Suspend / Ban User</button>
+            </form>
+        </div>
+    </main>
+
+    <script src="main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!currentUser || currentUser.role !== 'admin') {
+                alert('Access Restricted to Platform Administrators.');
+                window.location.href = 'index.html';
+                return;
+            }
+            loadAdminStats();
+        });
+
+        async function loadAdminStats() {
+            try {
+                const res = await fetchWithAuth(`${API_BASE_URL}/api/admin/stats`);
+                const data = await res.json();
+                document.getElementById('stat-users').innerText = data.totalUsers || 0;
+                document.getElementById('stat-posts').innerText = data.totalPosts || 0;
+                document.getElementById('stat-messages').innerText = data.totalMessages || 0;
+            } catch (err) { console.error('Admin stats error'); }
+        }
+
+        async function handleBanUser(e) {
+            e.preventDefault();
+            const username = document.getElementById('ban-target-username').value.trim();
+            try {
+                const res = await fetchWithAuth(`${API_BASE_URL}/api/admin/ban`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, ban: true })
+                });
+                const data = await res.json();
+                if (data.ok) alert(`User @${username} suspended successfully.`);
+            } catch (err) { alert('Ban operation failed.'); }
+        }
+    </script>
+</body>
+</html>

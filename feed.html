@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProDevUnity — Community Feed</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="min-h-screen flex flex-col relative pb-10">
+
+    <div id="toast-container" class="toast-popup opacity-0 pointer-events-none transform translate-y-4">
+        <i class="fa-solid fa-check mr-2"></i> <span id="toast-message">Copied to clipboard!</span>
+    </div>
+
+    <header class="sticky top-0 z-40 px-8 py-4 flex items-center justify-between border-b border-[#262a35] bg-[#0f1115]">
+        <a href="index.html" class="flex items-center space-x-3">
+            <div class="w-9 h-9 rounded-lg bg-[#161920] border border-[#262a35] flex items-center justify-center text-blue-400 font-bold text-base">
+                <i class="fa-solid fa-code text-sm"></i>
+            </div>
+            <span class="text-lg font-bold tracking-tight text-white">ProDev<span class="text-blue-400">Unity</span></span>
+        </a>
+
+        <div class="flex items-center space-x-4">
+            <span id="user-display" class="text-xs font-medium text-slate-400 bg-[#161920] px-3 py-1.5 rounded-lg border border-[#262a35]">
+                User: <strong id="current-username-display" class="text-blue-400">@guest</strong>
+            </span>
+            <button onclick="logout()" id="logout-btn" class="hidden text-xs bg-[#161920] hover:bg-[#222733] text-slate-300 border border-[#262a35] px-3.5 py-1.5 rounded-lg transition">Logout</button>
+            <button onclick="openAuthModal()" id="login-btn" class="flat-btn-primary text-xs px-4 py-2 rounded-lg transition">Access Platform</button>
+        </div>
+    </header>
+
+    <main id="main-container" class="max-w-6xl w-full mx-auto p-6 md:p-10 flex-1 z-10">
+        <section class="space-y-6">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <h1 class="text-2xl font-bold text-white tracking-tight">Community Feed</h1>
+                    <p class="text-xs text-slate-400 mt-0.5">Real-time technical discussions and code snippets.</p>
+                </div>
+                <button onclick="openNewPostModal()" class="flat-btn-primary font-semibold px-4 py-2 rounded-lg text-xs flex items-center space-x-2 self-start md:self-auto">
+                    <i class="fa-solid fa-plus"></i>
+                    <span>New Post</span>
+                </button>
+            </div>
+
+            <div class="flex flex-col md:flex-row gap-3">
+                <div class="relative flex-1">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-500 text-xs"></i>
+                    <input type="text" id="post-search-input" onkeyup="filterPosts()" placeholder="Search discussions or code..." class="w-full bg-[#161920] border border-[#262a35] rounded-lg pl-9 pr-4 py-2 text-xs text-white focus:outline-none focus:border-blue-500 transition">
+                </div>
+                <select id="language-filter-select" onchange="filterPosts()" class="bg-[#161920] border border-[#262a35] rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500 transition">
+                    <option value="ALL">All Languages</option>
+                    <option value="JavaScript">JavaScript / Node.js</option>
+                    <option value="Python">Python</option>
+                    <option value="HTML/CSS">HTML / CSS</option>
+                    <option value="C++">C++ / C#</option>
+                    <option value="General">General / Architecture</option>
+                </select>
+            </div>
+
+            <div id="posts-container" class="space-y-4"></div>
+        </section>
+    </main>
+
+    <div id="main-dock" class="fixed left-4 top-1/2 -translate-y-1/2 z-50">
+        <div class="flat-dock-container flex flex-col items-center gap-2">
+            <a href="index.html" class="dock-item" title="Home"><i class="fa-solid fa-house text-base"></i></a>
+            <a href="feed.html" class="dock-item active" title="Feed"><i class="fa-solid fa-fire text-base"></i></a>
+            <a href="jobs.html" class="dock-item" title="Jobs"><i class="fa-solid fa-briefcase text-base"></i></a>
+            <a href="directory.html" class="dock-item" title="Featured"><i class="fa-solid fa-crown text-base"></i></a>
+            <a href="chat.html" class="dock-item" title="Chat"><i class="fa-solid fa-comments text-base"></i></a>
+        </div>
+    </div>
+
+    <!-- NEW POST MODAL -->
+    <div id="new-post-modal" class="hidden fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4">
+        <div class="flat-card max-w-md w-full p-6 space-y-4 relative">
+            <button onclick="closeNewPostModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg">&times;</button>
+            <h3 class="text-base font-bold text-white">Publish Discussion</h3>
+            <form onsubmit="handleCreatePost(event)" class="space-y-3">
+                <div>
+                    <label class="block text-xs font-medium text-slate-400 mb-1">Title</label>
+                    <input type="text" id="post-title" required class="w-full bg-[#0f1115] border border-[#262a35] rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500 transition" placeholder="Topic title...">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-slate-400 mb-1">Language Category</label>
+                    <select id="post-language-select" class="w-full bg-[#0f1115] border border-[#262a35] rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500 transition">
+                        <option value="JavaScript">JavaScript / Node.js</option>
+                        <option value="Python">Python</option>
+                        <option value="HTML/CSS">HTML / CSS</option>
+                        <option value="C++">C++ / C#</option>
+                        <option value="General">General / Architecture</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-slate-400 mb-1">Description</label>
+                    <textarea id="post-description" rows="3" required class="w-full bg-[#0f1115] border border-[#262a35] rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500 transition" placeholder="Details..."></textarea>
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-slate-400 mb-1">Code Snippet (Optional)</label>
+                    <textarea id="post-code" rows="3" class="w-full bg-[#0f1115] font-mono text-xs border border-[#262a35] rounded-lg px-3 py-2 text-slate-200 focus:outline-none focus:border-blue-500 transition" placeholder="// code snippet"></textarea>
+                </div>
+                <button type="submit" class="w-full flat-btn-primary font-semibold py-2.5 rounded-lg text-xs uppercase tracking-wider">Publish Post</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- AUTH MODAL -->
+    <div id="auth-modal" class="hidden fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4">
+        <div class="flat-card max-w-sm w-full p-6 space-y-5 relative">
+            <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg">&times;</button>
+            <div class="text-center space-y-1">
+                <h3 class="text-lg font-bold text-white">Access ProDevUnity</h3>
+                <p class="text-xs text-slate-400">Log in or register to join the platform.</p>
+            </div>
+            <div class="flex bg-[#0f1115] p-1 rounded-lg border border-[#262a35]">
+                <button type="button" onclick="setAuthMode('login')" id="auth-tab-login" class="flex-1 py-1.5 rounded-md text-xs font-semibold text-white bg-[#161920] transition">Login</button>
+                <button type="button" onclick="setAuthMode('register')" id="auth-tab-register" class="flex-1 py-1.5 rounded-md text-xs font-semibold text-slate-400 transition">Register</button>
+            </div>
+            <form onsubmit="handleAuth(event)" class="space-y-3">
+                <div>
+                    <label class="block text-xs font-medium text-slate-400 mb-1">Username</label>
+                    <input type="text" id="auth-username" required class="w-full bg-[#0f1115] border border-[#262a35] rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500 transition" placeholder="dev_kevin">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-slate-400 mb-1">Password</label>
+                    <input type="password" id="auth-password" required class="w-full bg-[#0f1115] border border-[#262a35] rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500 transition" placeholder="••••••••">
+                </div>
+                <div id="auth-role-group" class="hidden">
+                    <label class="block text-xs font-medium text-slate-400 mb-1">Role</label>
+                    <select id="auth-role" class="w-full bg-[#0f1115] border border-[#262a35] rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500 transition">
+                        <option value="dev">Developer (dev_)</option>
+                        <option value="client">Client (client_)</option>
+                    </select>
+                </div>
+                <button type="submit" id="auth-submit-btn" class="w-full flat-btn-primary font-semibold py-2.5 rounded-lg text-xs uppercase tracking-wider">Log In</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+    <script>
+        let allFetchedPosts = [];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!currentUser) openAuthModal();
+            loadPosts();
+        });
+
+        async function loadPosts() {
+            try {
+                const res = await fetch(`${API_BASE_URL}/api/posts`);
+                allFetchedPosts = await res.json();
+                renderPostsList(allFetchedPosts);
+            } catch (err) {
+                document.getElementById('posts-container').innerHTML = '<div class="text-red-400 text-xs py-4 text-center">Error fetching posts. Check server connection.</div>';
+            }
+        }
+
+        function renderPostsList(posts) {
+            const container = document.getElementById('posts-container');
+            if (!posts.length) {
+                container.innerHTML = '<div class="flat-card p-8 text-center text-slate-500 text-xs">No discussions found yet. Be the first to start one!</div>';
+                return;
+            }
+            container.innerHTML = posts.map(p => `
+                <div class="flat-card p-5 space-y-2.5">
+                    <div class="flex items-center justify-between text-xs">
+                        <div class="flex items-center space-x-2">
+                            <span class="font-bold text-blue-400">@${escapeHTML(p.author || 'anonymous')}</span>
+                            <span class="bg-[#222733] border border-[#262a35] px-2 py-0.5 rounded text-[10px] text-slate-400">${escapeHTML(p.language || 'General')}</span>
+                        </div>
+                        <span class="text-slate-500 text-[10px]">${new Date(Number(p.created_at) || Date.now()).toLocaleDateString()}</span>
+                    </div>
+                    <h3 class="text-sm font-bold text-white">${escapeHTML(p.title)}</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed">${escapeHTML(p.description)}</p>
+                    ${p.code ? `
+                        <div class="relative group mt-2">
+                            <pre class="bg-[#0f1115] p-3 rounded-lg border border-[#262a35] text-[11px] font-mono text-slate-200 overflow-x-auto"><code class="language-javascript">${escapeHTML(p.code)}</code></pre>
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('');
+            if (window.Prism) Prism.highlightAll();
+        }
+
+        function filterPosts() {
+            const searchVal = document.getElementById('post-search-input').value.toLowerCase();
+            const langVal = document.getElementById('language-filter-select').value;
+            const filtered = allFetchedPosts.filter(p => {
+                const matchesSearch = (p.title || '').toLowerCase().includes(searchVal) || (p.description || '').toLowerCase().includes(searchVal);
+                const matchesLang = (langVal === 'ALL') || (p.language === langVal);
+                return matchesSearch && matchesLang;
+            });
+            renderPostsList(filtered);
+        }
+
+        function openNewPostModal() { if (!currentUser) { openAuthModal(); return; } document.getElementById('new-post-modal').classList.remove('hidden'); }
+        function closeNewPostModal() { document.getElementById('new-post-modal').classList.add('hidden'); }
+
+        async function handleCreatePost(e) {
+            e.preventDefault();
+            if (!currentUser) { closeNewPostModal(); openAuthModal(); return; }
+            const title = document.getElementById('post-title').value;
+            const language = document.getElementById('post-language-select').value;
+            const description = document.getElementById('post-description').value;
+            const code = document.getElementById('post-code').value;
+
+            try {
+                const res = await fetchWithAuth(`${API_BASE_URL}/api/posts`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ title, language, description, code })
+                });
+                const data = await res.json();
+                if (data.ok) {
+                    closeNewPostModal();
+                    loadPosts();
+                    document.getElementById('post-title').value = '';
+                    document.getElementById('post-description').value = '';
+                    document.getElementById('post-code').value = '';
+                } else {
+                    alert('Error: ' + (data.error || 'Failed to create post'));
+                }
+            } catch (err) { alert('Error publishing post.'); }
+        }
+    </script>
+</body>
+</html>
