@@ -1,84 +1,201 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="it" class="dark">
 <head>
     <script>
-      // Applica il tema PRIMA del rendering della pagina per evitare il flash nero
       if (localStorage.getItem('prodevunity_theme') === 'light') {
         document.documentElement.classList.add('light-theme');
       }
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ProDevUnity - Admin Dashboard</title>
+    <title>ProDevUnity - Admin Control</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css?v=5">
 </head>
-<body class="min-h-screen flex flex-col relative pb-10">
-    
-    <header class="sticky top-0 z-40 px-8 py-4 flex items-center justify-between border-b">
+<body class="min-h-screen flex flex-col bg-[#0b0c10] text-slate-100">
+
+    <!-- HEADER NAVIGATION -->
+    <header class="px-8 py-5 flex items-center justify-between border-b border-[#262a35] sticky top-0 bg-[#0b0c10]/90 backdrop-blur-md z-50">
         <a href="feed.html" class="flex items-center space-x-3">
-            <div class="w-8 h-8 rounded-lg bg-amber-600/20 border border-amber-500/30 flex items-center justify-center text-amber-400 font-bold text-sm">
+            <div class="w-9 h-9 rounded-lg bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 font-bold text-base">
                 <i class="fa-solid fa-shield-halved"></i>
             </div>
-            <span class="text-base font-bold tracking-tight">Admin<span class="text-amber-400">Control</span></span>
+            <span class="text-xl font-bold tracking-tight text-white">Admin<span class="text-amber-400">Control</span></span>
         </a>
         <div class="flex items-center space-x-4">
-            <button onclick="toggleTheme()" class="p-2 rounded-lg border border-slate-700/50 hover:bg-slate-800/20 transition text-xs flex items-center space-x-1.5" title="Cambia Tema">
-                <i class="fa-solid fa-sun text-amber-400"></i>
-                <i class="fa-solid fa-moon text-blue-400"></i>
-            </button>
-            <button onclick="logout()" id="logout-btn" class="text-xs bg-[#161920] hover:bg-[#222733] text-slate-300 border border-[#262a35] px-3.5 py-1.5 rounded-lg transition">Logout</button>
+            <button onclick="toggleTheme()" class="text-slate-400 hover:text-white px-3 py-2 transition"><i class="fa-solid fa-circle-half-stroke"></i></button>
+            <button onclick="logout()" class="flat-btn-primary bg-red-600/20 hover:bg-red-600/30 border border-red-500/30 text-red-400 text-xs px-4 py-2 rounded-lg font-semibold transition">Logout</button>
         </div>
     </header>
 
-    <main id="main-container" class="max-w-5xl w-full mx-auto p-6 md:p-10 flex-1 z-10 space-y-8">
-        <h1 class="text-2xl font-bold tracking-tight">Statistiche & Moderazione Piattaforma</h1>
+    <!-- MAIN DASHBOARD -->
+    <main class="max-w-6xl w-full mx-auto px-6 py-10 space-y-10 flex-1">
         
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div class="flat-card p-5 space-y-1">
-                <span class="text-xs text-slate-400">Utenti Registrati</span>
-                <p id="stat-users" class="text-2xl font-bold text-blue-400">0</p>
-            </div>
-            <div class="flat-card p-5 space-y-1">
-                <span class="text-xs text-slate-400">Post Pubblicati</span>
-                <p id="stat-posts" class="text-2xl font-bold text-emerald-400">0</p>
-            </div>
-            <div class="flat-card p-5 space-y-1">
-                <span class="text-xs text-slate-400">Messaggi Chat</span>
-                <p id="stat-messages" class="text-2xl font-bold text-amber-400">0</p>
-            </div>
+        <div class="space-y-2">
+            <h1 class="text-2xl font-bold tracking-tight text-white">Statistiche & Moderazione Piattaforma</h1>
+            <p class="text-xs text-slate-400">Pannello di controllo riservato agli amministratori.</p>
         </div>
-    </main>
 
-    <!-- BANNER COOKIE GDPR -->
-    <div id="cookie-banner" class="hidden fixed bottom-4 right-4 max-w-xs bg-[#131722] border border-[#262a35] p-4 rounded-xl shadow-xl z-50 text-xs space-y-3">
-        <p class="text-slate-300">Utilizziamo cookie tecnici per mantenere attiva la tua sessione in modo sicuro.</p>
-        <div class="flex space-x-2">
-            <button onclick="acceptCookies()" class="flat-btn-primary px-3 py-1 rounded font-semibold text-[11px]">Accetta</button>
-            <a href="terms.html" class="text-slate-400 hover:text-white px-2 py-1 text-[11px]">Info</a>
+        <!-- CONTATORI DINAMICI -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="flat-card p-6 space-y-2 border-[#262a35]">
+                <span class="text-xs text-slate-400 font-medium">Utenti Registrati</span>
+                <p id="stat-users" class="text-3xl font-extrabold text-blue-400">...</p>
+            </div>
+            <div class="flat-card p-6 space-y-2 border-[#262a35]">
+                <span class="text-xs text-slate-400 font-medium">Post Pubblicati</span>
+                <p id="stat-posts" class="text-3xl font-extrabold text-emerald-400">...</p>
+            </div>
+            <div class="flat-card p-6 space-y-2 border-[#262a35]">
+                <span class="text-xs text-slate-400 font-medium">Messaggi Chat</span>
+                <p id="stat-messages" class="text-3xl font-extrabold text-amber-400">...</p>
+            </div>
         </div>
-    </div>
+
+        <!-- TABELLA GESTIONE UTENTI -->
+        <div class="space-y-4">
+            <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                <i class="fa-solid fa-users text-blue-400"></i> Gestione Utenti
+            </h2>
+            <div class="flat-card overflow-hidden border-[#262a35]">
+                <table class="w-full text-left text-xs text-slate-300">
+                    <thead class="bg-[#12151c] text-slate-400 border-b border-[#262a35] uppercase text-[10px] tracking-wider">
+                        <tr>
+                            <th class="p-4">ID</th>
+                            <th class="p-4">Username</th>
+                            <th class="p-4">Ruolo</th>
+                            <th class="p-4 text-right">Azione</th>
+                        </tr>
+                    </thead>
+                    <tbody id="users-table-body" class="divide-y divide-[#262a35]">
+                        <tr><td colspan="4" class="p-4 text-center text-slate-500">Caricamento utenti...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- TABELLA GESTIONE POST -->
+        <div class="space-y-4">
+            <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                <i class="fa-solid fa-newspaper text-emerald-400"></i> Moderazione Post
+            </h2>
+            <div class="flat-card overflow-hidden border-[#262a35]">
+                <table class="w-full text-left text-xs text-slate-300">
+                    <thead class="bg-[#12151c] text-slate-400 border-b border-[#262a35] uppercase text-[10px] tracking-wider">
+                        <tr>
+                            <th class="p-4">ID</th>
+                            <th class="p-4">Titolo Post</th>
+                            <th class="p-4">Autore</th>
+                            <th class="p-4 text-right">Azione</th>
+                        </tr>
+                    </thead>
+                    <tbody id="posts-table-body" class="divide-y divide-[#262a35]">
+                        <tr><td colspan="4" class="p-4 text-center text-slate-500">Caricamento post...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
 
     <script src="main.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
             if (!currentUser || currentUser.role !== 'admin') {
-                alert('Accesso riservato agli amministratori.');
-                window.location.href = 'index.html';
+                alert('Accesso negato: riservato agli Amministratori.');
+                window.location.href = 'feed.html';
                 return;
             }
-            loadAdminStats();
+            loadStats();
+            loadAdminUsers();
+            loadAdminPosts();
         });
 
-        async function loadAdminStats() {
+        async function loadStats() {
             try {
                 const res = await fetchWithAuth(`${API_BASE_URL}/api/admin/stats`);
-                const data = await res.json();
-                document.getElementById('stat-users').innerText = data.totalUsers || 0;
-                document.getElementById('stat-posts').innerText = data.totalPosts || 0;
-                document.getElementById('stat-messages').innerText = data.totalMessages || 0;
-            } catch (err) { console.error('Admin stats error'); }
+                if (res.ok) {
+                    const data = await res.json();
+                    document.getElementById('stat-users').textContent = data.usersCount || 0;
+                    document.getElementById('stat-posts').textContent = data.postsCount || 0;
+                    document.getElementById('stat-messages').textContent = data.messagesCount || 0;
+                }
+            } catch (e) {
+                console.error("Errore statistiche admin:", e);
+            }
+        }
+
+        async function loadAdminUsers() {
+            const tbody = document.getElementById('users-table-body');
+            try {
+                const res = await fetch(`${API_BASE_URL}/api/accounts`);
+                const users = await res.json();
+                if (!users.length) {
+                    tbody.innerHTML = '<tr><td colspan="4" class="p-4 text-center text-slate-500">Nessun utente presente.</td></tr>';
+                    return;
+                }
+                tbody.innerHTML = users.map(u => `
+                    <tr class="hover:bg-[#161922] transition">
+                        <td class="p-4 font-mono text-slate-400">#${u.id}</td>
+                        <td class="p-4 font-bold text-white">@${escapeHTML(u.username)}</td>
+                        <td class="p-4"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${u.role === 'admin' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30' : 'bg-blue-500/20 text-blue-400'}">${u.role.toUpperCase()}</span></td>
+                        <td class="p-4 text-right">
+                            ${u.role !== 'admin' ? `<button onclick="deleteUser(${u.id})" class="bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 px-3 py-1 rounded text-xs transition">Elimina</button>` : '<span class="text-slate-600 text-[10px]">Protetto</span>'}
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (e) {
+                tbody.innerHTML = '<tr><td colspan="4" class="p-4 text-center text-red-400">Errore nel caricamento.</td></tr>';
+            }
+        }
+
+        async function loadAdminPosts() {
+            const tbody = document.getElementById('posts-table-body');
+            try {
+                const res = await fetch(`${API_BASE_URL}/api/posts`);
+                const posts = await res.json();
+                if (!posts.length) {
+                    tbody.innerHTML = '<tr><td colspan="4" class="p-4 text-center text-slate-500">Nessun post presente.</td></tr>';
+                    return;
+                }
+                tbody.innerHTML = posts.map(p => `
+                    <tr class="hover:bg-[#161922] transition">
+                        <td class="p-4 font-mono text-slate-400">#${p.id}</td>
+                        <td class="p-4 font-semibold text-slate-200">${escapeHTML(p.title)}</td>
+                        <td class="p-4 text-slate-400">@${escapeHTML(p.author || 'Anonimo')}</td>
+                        <td class="p-4 text-right">
+                            <button onclick="deletePost(${p.id})" class="bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 px-3 py-1 rounded text-xs transition">Elimina</button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (e) {
+                tbody.innerHTML = '<tr><td colspan="4" class="p-4 text-center text-red-400">Errore nel caricamento.</td></tr>';
+            }
+        }
+
+        async function deleteUser(id) {
+            if (!confirm('Vuoi davvero eliminare questo utente?')) return;
+            const res = await fetchWithAuth(`${API_BASE_URL}/api/admin/users/${id}`, { method: 'DELETE' });
+            if (res.ok) {
+                alert('Utente eliminato.');
+                loadAdminUsers();
+                loadStats();
+            } else {
+                alert('Errore durante l\'eliminazione.');
+            }
+        }
+
+        async function deletePost(id) {
+            if (!confirm('Vuoi davvero eliminare questo post?')) return;
+            const res = await fetchWithAuth(`${API_BASE_URL}/api/admin/posts/${id}`, { method: 'DELETE' });
+            if (res.ok) {
+                alert('Post eliminato.');
+                loadAdminPosts();
+                loadStats();
+            } else {
+                alert('Errore durante l\'eliminazione.');
+            }
         }
     </script>
 </body>
