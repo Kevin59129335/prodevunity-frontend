@@ -70,6 +70,9 @@ function openAuthModal(mode = 'login') {
     const submitBtn = document.getElementById('auth-submit-btn');
     const toggleText = document.getElementById('auth-toggle-text');
     const roleGroup = document.getElementById('role-select-group');
+    
+    const tabLogin = document.getElementById('tab-login');
+    const tabRegister = document.getElementById('tab-register');
 
     if (!modal) return;
 
@@ -78,11 +81,30 @@ function openAuthModal(mode = 'login') {
         if (submitBtn) submitBtn.textContent = 'Registrati Ora';
         if (toggleText) toggleText.innerHTML = 'Hai già un account? <a href="#" onclick="openAuthModal(\'login\')" class="text-blue-400 font-bold">Accedi</a>';
         if (roleGroup) roleGroup.classList.remove('hidden');
+        
+        if (tabRegister) {
+            tabRegister.classList.add('bg-[#1c1f28]', 'text-white', 'shadow');
+            tabRegister.classList.remove('text-slate-400');
+        }
+        if (tabLogin) {
+            tabLogin.classList.remove('bg-[#1c1f28]', 'text-white', 'shadow');
+            tabLogin.classList.add('text-slate-400');
+        }
+
     } else {
         if (title) title.textContent = 'Accedi a ProDevUnity';
         if (submitBtn) submitBtn.textContent = 'Accedi';
         if (toggleText) toggleText.innerHTML = 'Non hai un account? <a href="#" onclick="openAuthModal(\'register\')" class="text-blue-400 font-bold">Registrati</a>';
         if (roleGroup) roleGroup.classList.add('hidden');
+        
+        if (tabLogin) {
+            tabLogin.classList.add('bg-[#1c1f28]', 'text-white', 'shadow');
+            tabLogin.classList.remove('text-slate-400');
+        }
+        if (tabRegister) {
+            tabRegister.classList.remove('bg-[#1c1f28]', 'text-white', 'shadow');
+            tabRegister.classList.add('text-slate-400');
+        }
     }
 
     modal.classList.remove('hidden');
