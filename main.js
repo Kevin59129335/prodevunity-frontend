@@ -79,66 +79,6 @@ function updateUIAuth() {
     }
 }
 
-// Handler form modale (Login / Register)
-async function handleAuth(e) {
-    e.preventDefault();
-    const username = document.getElementById('auth-username').value;
-    const password = document.getElementById('auth-password').value;
-
-    if (authMode === 'login') {
-        await login(username, password);
-    } else {
-        const email = document.getElementById('auth-email').value;
-        const role = document.getElementById('auth-role').value;
-        await register(username, email, password, role);
-    }
-}
-
-async function login(username, password) {
-    try {
-        const res = await fetch(`${API_BASE_URL}/api/auth/login`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            credentials: 'include',
-            body: JSON.stringify({ username, password })
-        });
-
-        const data = await res.json();
-        if (res.ok) {
-            currentUser = data.user;
-            localStorage.setItem('prodevunity_user', JSON.stringify(currentUser));
-            window.location.href = 'feed.html';
-        } else {
-            alert(data.error || 'Credenziali non valide');
-        }
-    } catch (err) {
-        console.error(err);
-        alert('Errore di connessione con il backend Render.');
-    }
-}
-
-async function register(username, email, password, role = 'dev') {
-    try {
-        const res = await fetch(`${API_BASE_URL}/api/auth/register`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            credentials: 'include',
-            body: JSON.stringify({ username, email, password, role })
-        });
-
-        const data = await res.json();
-        if (res.ok) {
-            alert('Registrazione completata! Ora puoi effettuare il login.');
-            setAuthMode('login');
-        } else {
-            alert(data.error || 'Errore durante la registrazione');
-        }
-    } catch (err) {
-        console.error(err);
-        alert('Errore durante la comunicazione con il server.');
-    }
-}
-
 async function logout() {
     try {
         await fetch(`${API_BASE_URL}/api/auth/logout`, {
@@ -155,57 +95,7 @@ async function logout() {
 }
 
 // ==========================================
-// CONTROLLI MODALE DI AUTENTICAZIONE
-// ==========================================
-function openAuthModal(mode = 'login') {
-    const modal = document.getElementById('auth-modal');
-    if (modal) {
-        modal.classList.remove('hidden');
-        setAuthMode(mode);
-    }
-}
-
-function closeAuthModal() {
-    const modal = document.getElementById('auth-modal');
-    if (modal) modal.classList.add('hidden');
-}
-
-function setAuthMode(mode) {
-    authMode = mode;
-    const emailGroup = document.getElementById('auth-email-group');
-    const roleGroup = document.getElementById('auth-role-group');
-    const termsGroup = document.getElementById('auth-terms-group');
-    const submitBtn = document.getElementById('auth-submit-btn');
-    const tabLogin = document.getElementById('auth-tab-login');
-    const tabRegister = document.getElementById('auth-tab-register');
-
-    if (mode === 'register') {
-        if (emailGroup) emailGroup.classList.remove('hidden');
-        if (roleGroup) roleGroup.classList.remove('hidden');
-        if (termsGroup) termsGroup.classList.remove('hidden');
-        if (submitBtn) submitBtn.textContent = 'Create Account';
-        if (tabRegister) {
-            tabRegister.className = 'flex-1 py-1.5 rounded-md text-xs font-semibold text-white bg-[#161920] transition';
-        }
-        if (tabLogin) {
-            tabLogin.className = 'flex-1 py-1.5 rounded-md text-xs font-semibold text-slate-400 transition';
-        }
-    } else {
-        if (emailGroup) emailGroup.classList.add('hidden');
-        if (roleGroup) roleGroup.classList.add('hidden');
-        if (termsGroup) termsGroup.classList.add('hidden');
-        if (submitBtn) submitBtn.textContent = 'Log In';
-        if (tabLogin) {
-            tabLogin.className = 'flex-1 py-1.5 rounded-md text-xs font-semibold text-white bg-[#161920] transition';
-        }
-        if (tabRegister) {
-            tabRegister.className = 'flex-1 py-1.5 rounded-md text-xs font-semibold text-slate-400 transition';
-        }
-    }
-}
-
-// ==========================================
-// GESTIONE TEMA CHIARO / SCURO
+// GESTIONE TEMA CHIARO / SCURO (LIGHT / DARK)
 // ==========================================
 function toggleTheme() {
     const currentTheme = localStorage.getItem('prodevunity_theme') || 'dark';
