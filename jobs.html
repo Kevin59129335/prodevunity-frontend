@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="style.css?v=5">
 </head>
 <body class="min-h-screen flex flex-col relative pb-10">
-    
+
     <header class="sticky top-0 z-40 px-8 py-4 flex items-center justify-between border-b">
         <a href="feed.html" class="flex items-center space-x-3">
             <div class="w-8 h-8 rounded-lg bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-blue-400 font-bold text-sm">
@@ -42,16 +42,29 @@
                     <h1 class="text-2xl font-bold tracking-tight">Job Board & Incarichi</h1>
                     <p class="text-xs text-slate-400 mt-0.5">Offerte di lavoro verificate e contratti direttamente gestiti con i clienti.</p>
                 </div>
+                <button onclick="applyJob('Candidatura Generica')" class="flat-btn-primary font-semibold px-4 py-2 rounded-lg text-xs flex items-center space-x-2 self-start md:self-auto">
+                    <i class="fa-solid fa-paper-plane"></i>
+                    <span>Candidatura Spontanea</span>
+                </button>
             </div>
 
             <div id="jobs-container" class="space-y-4">
-                <div class="flat-card p-6 space-y-3">
+                <div class="flat-card p-6 space-y-4">
                     <div class="flex items-center justify-between">
-                        <span class="bg-[#222733] text-slate-300 text-[10px] font-semibold px-2.5 py-1 rounded border border-[#262a35]">FREELANCE</span>
-                        <span class="text-emerald-400 font-semibold text-xs">$3,500 USD</span>
+                        <span class="bg-blue-500/10 text-blue-400 text-[10px] font-semibold px-2.5 py-1 rounded border border-blue-500/20 uppercase">FREELANCE</span>
+                        <span class="text-emerald-400 font-bold text-sm">$3,500 USD</span>
                     </div>
-                    <h3 class="text-base font-bold">Full-Stack Stripe Integration Architect</h3>
-                    <p class="text-xs text-slate-400 leading-relaxed">Cerchiamo uno sviluppatore esperto per integrare webhook Express, connection pooling su MySQL e deploy del backend su Railway.</p>
+                    <div>
+                        <h3 class="text-base font-bold">Full-Stack Stripe Integration Architect</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed mt-1">Cerchiamo uno sviluppatore esperto per integrare webhook Express, connection pooling su MySQL e deploy del backend su Railway.</p>
+                    </div>
+                    <div class="pt-3 border-t border-[#262a35] flex items-center justify-between text-xs">
+                        <span class="text-slate-500 text-[11px]"><i class="fa-regular fa-clock mr-1"></i>Pubblicato recentemente</span>
+                        <button onclick="applyJob('Full-Stack Stripe Integration Architect')" class="flat-btn-primary px-4 py-2 rounded-lg text-xs font-semibold flex items-center space-x-1.5">
+                            <i class="fa-solid fa-paper-plane"></i>
+                            <span>Candidati Ora</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </section>
@@ -67,20 +80,16 @@
         </div>
     </div>
 
-    <!-- BANNER COOKIE GDPR -->
-    <div id="cookie-banner" class="hidden fixed bottom-4 right-4 max-w-xs bg-[#131722] border border-[#262a35] p-4 rounded-xl shadow-xl z-50 text-xs space-y-3">
-        <p class="text-slate-300">Utilizziamo cookie tecnici per mantenere attiva la tua sessione in modo sicuro.</p>
-        <div class="flex space-x-2">
-            <button onclick="acceptCookies()" class="flat-btn-primary px-3 py-1 rounded font-semibold text-[11px]">Accetta</button>
-            <a href="terms.html" class="text-slate-400 hover:text-white px-2 py-1 text-[11px]">Info</a>
-        </div>
-    </div>
-
     <script src="main.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             if (!currentUser) { window.location.href = 'index.html'; }
         });
+
+        function applyJob(title) {
+            alert(`Candidatura inviata per l'incarico: "${title}"! Verrai reindirizzato alla chat per parlare con il cliente.`);
+            window.location.href = 'chat.html';
+        }
     </script>
 </body>
 </html>
