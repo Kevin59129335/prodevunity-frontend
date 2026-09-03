@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ProDevUnity - Chat Crittografata</title>
+    <title>ProDevUnity - Canali & Chat</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="min-h-screen flex flex-col relative pb-10">
@@ -30,28 +29,61 @@
         </div>
     </header>
 
-    <main id="main-container" class="max-w-6xl w-full mx-auto p-6 md:p-10 flex-1 z-10">
-        <section class="space-y-6">
-            <div class="flex items-center justify-between">
-                <div>
-                    <h1 class="text-2xl font-bold tracking-tight">Canali & Chat</h1>
-                    <p class="text-xs text-slate-400 mt-0.5">Canali di comunicazione crittografati per sviluppatori.</p>
+    <main id="main-container" class="max-w-7xl w-full mx-auto p-6 md:p-10 flex-1 z-10">
+        <div class="flex flex-col md:flex-row gap-6">
+            
+            <!-- BARRA LATERALE CANALI & UTENTI -->
+            <div class="w-full md:w-80 space-y-4">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-lg font-bold">Canali & DM</h2>
+                    <button onclick="openCreateChannelModal()" class="flat-btn-primary text-xs px-2.5 py-1 rounded-lg">+ Nuovo</button>
+                </div>
+
+                <input type="text" id="search-chat-input" oninput="searchChannelsAndUsers()" placeholder="Cerca canale o @utente..." class="w-full bg-[#0f1115] border border-[#262a35] rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-blue-500">
+
+                <div class="flat-card p-3 space-y-2 max-h-[400px] overflow-y-auto" id="channels-list">
+                    <button onclick="switchChannel('general')" class="w-full text-left p-2 rounded-lg text-xs bg-blue-600/10 text-blue-400 font-bold block"># general</button>
                 </div>
             </div>
 
-            <div class="flat-card p-5 flex flex-col h-[480px]">
-                <div id="chat-messages-box" class="flex-1 overflow-y-auto py-4 space-y-2.5 pr-2">
-                    <div class="text-center py-12 text-slate-500 text-xs">Caricamento canale...</div>
+            <!-- AREA MESSAGGI -->
+            <div class="flex-1 flat-card p-5 flex flex-col h-[520px]">
+                <div class="border-b border-[#262a35] pb-3 mb-3 flex items-center justify-between">
+                    <span id="current-channel-title" class="font-bold text-sm text-blue-400"># general</span>
                 </div>
+                <div id="chat-messages-box" class="flex-1 overflow-y-auto py-2 space-y-2.5 pr-2"></div>
                 <form onsubmit="sendChatMessage(event)" class="pt-3 border-t border-[#262a35] flex space-x-2">
-                    <input type="text" id="chat-input-text" required placeholder="Scrivi un messaggio crittografato..." class="flex-1 bg-[#0f1115] border border-[#262a35] rounded-lg px-3.5 py-2 text-xs text-white focus:outline-none focus:border-blue-500 transition">
+                    <input type="text" id="chat-input-text" required placeholder="Scrivi un messaggio..." class="flex-1 bg-[#0f1115] border border-[#262a35] rounded-lg px-3.5 py-2 text-xs text-white focus:outline-none focus:border-blue-500 transition">
                     <button type="submit" class="flat-btn-primary font-semibold px-4 py-2 rounded-lg text-xs">
                         <i class="fa-solid fa-paper-plane"></i>
                     </button>
                 </form>
             </div>
-        </section>
+        </div>
     </main>
+
+    <!-- MODALE CREA CANALE -->
+    <div id="create-channel-modal" class="hidden fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4">
+        <div class="flat-card max-w-sm w-full p-6 space-y-4 relative">
+            <button onclick="closeCreateChannelModal()" class="absolute top-4 right-4 text-slate-400 text-lg">&times;</button>
+            <h3 class="text-base font-bold text-white">Crea Canale</h3>
+            <form onsubmit="handleCreateChannel(event)" class="space-y-3">
+                <div>
+                    <label class="block text-xs text-slate-400 mb-1">Nome Canale</label>
+                    <input type="text" id="new-channel-name" required placeholder="es. javascript-help" class="w-full bg-[#0f1115] border border-[#262a35] rounded-lg px-3 py-2 text-xs">
+                </div>
+                <div class="flex items-center space-x-2 text-xs text-slate-300">
+                    <input type="checkbox" id="is-private-check" onchange="togglePasscodeField(this)">
+                    <label for="is-private-check">Canale Privato (Password)</label>
+                </div>
+                <div id="passcode-field-group" class="hidden">
+                    <label class="block text-xs text-slate-400 mb-1">Codice di Accesso</label>
+                    <input type="password" id="new-channel-passcode" placeholder="es. 1234" class="w-full bg-[#0f1115] border border-[#262a35] rounded-lg px-3 py-2 text-xs">
+                </div>
+                <button type="submit" class="w-full flat-btn-primary py-2 rounded-lg text-xs font-bold">Crea Ora</button>
+            </form>
+        </div>
+    </div>
 
     <div id="main-dock" class="fixed left-4 top-1/2 -translate-y-1/2 z-50">
         <div class="flat-dock-container flex flex-col items-center gap-2">
@@ -63,24 +95,73 @@
         </div>
     </div>
 
-    <!-- BANNER COOKIE GDPR -->
-    <div id="cookie-banner" class="hidden fixed bottom-4 right-4 max-w-xs bg-[#131722] border border-[#262a35] p-4 rounded-xl shadow-xl z-50 text-xs space-y-3">
-        <p class="text-slate-300">Utilizziamo cookie tecnici per mantenere attiva la tua sessione in modo sicuro.</p>
-        <div class="flex space-x-2">
-            <button onclick="acceptCookies()" class="flat-btn-primary px-3 py-1 rounded font-semibold text-[11px]">Accetta</button>
-            <a href="terms.html" class="text-slate-400 hover:text-white px-2 py-1 text-[11px]">Info</a>
-        </div>
-    </div>
-
     <script src="main.js"></script>
     <script>
         let activeChatChannel = 'general';
+        let chatPollingInterval = null;
 
         document.addEventListener('DOMContentLoaded', () => {
             if (!currentUser) { window.location.href = 'index.html'; return; }
+            searchChannelsAndUsers();
             loadChatMessages();
             chatPollingInterval = setInterval(loadChatMessages, 3000);
         });
+
+        async function searchChannelsAndUsers() {
+            const query = document.getElementById('search-chat-input').value;
+            const container = document.getElementById('channels-list');
+
+            try {
+                const res = await fetch(`${API_BASE_URL}/api/chat/channels?search=${encodeURIComponent(query)}`);
+                const data = await res.json();
+
+                let html = '<div class="text-[10px] text-slate-500 font-bold uppercase mb-1">Canali</div>';
+                
+                if (!data.channels.find(c => c.name === 'general')) {
+                    html += `<button onclick="switchChannel('general')" class="w-full text-left p-2 rounded-lg text-xs hover:bg-slate-800/30 font-bold block"># general</button>`;
+                }
+
+                data.channels.forEach(c => {
+                    const icon = c.is_private ? '<i class="fa-solid fa-lock text-amber-400 mr-1"></i>' : '# ';
+                    html += `<button onclick="attemptJoinChannel('${c.name}', ${c.is_private})" class="w-full text-left p-2 rounded-lg text-xs hover:bg-slate-800/30 font-bold block">${icon}${c.name}</button>`;
+                });
+
+                if (data.users && data.users.length) {
+                    html += '<div class="text-[10px] text-slate-500 font-bold uppercase mt-3 mb-1">Messaggi Diretti</div>';
+                    data.users.forEach(u => {
+                        if (u.username !== currentUser.username) {
+                            const dmChannel = [currentUser.username, u.username].sort().join('_dm_');
+                            html += `<button onclick="switchChannel('${dmChannel}', '@${u.username}')" class="w-full text-left p-2 rounded-lg text-xs hover:bg-slate-800/30 text-emerald-400 block"><i class="fa-solid fa-user mr-1"></i> @${u.username}</button>`;
+                        }
+                    });
+                }
+
+                container.innerHTML = html;
+            } catch (err) { console.error('Errore ricerca canali'); }
+        }
+
+        async function attemptJoinChannel(channelName, isPrivate) {
+            if (isPrivate) {
+                const code = prompt(`Inserisci il codice di accesso per il canale #${channelName}:`);
+                if (!code) return;
+
+                const res = await fetch(`${API_BASE_URL}/api/chat/verify-passcode`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ channel: channelName, passcode: code })
+                });
+
+                const data = await res.json();
+                if (!res.ok) { alert(data.error || 'Codice errato!'); return; }
+            }
+            switchChannel(channelName);
+        }
+
+        function switchChannel(channelName, displayTitle) {
+            activeChatChannel = channelName;
+            document.getElementById('current-channel-title').innerText = displayTitle || `# ${channelName}`;
+            loadChatMessages();
+        }
 
         async function loadChatMessages() {
             const container = document.getElementById('chat-messages-box');
@@ -100,9 +181,8 @@
                         <p class="text-xs text-slate-200">${escapeHTML(m.text)}</p>
                     </div>
                 `).join('');
-            } catch (err) {
-                container.innerHTML = '<div class="text-red-400 text-xs py-4 text-center">Errore durante il caricamento dei messaggi.</div>';
-            }
+                container.scrollTop = container.scrollHeight;
+            } catch (err) { container.innerHTML = '<div class="text-red-400 text-xs py-4 text-center">Errore nel caricamento.</div>'; }
         }
 
         async function sendChatMessage(e) {
@@ -123,6 +203,31 @@
                     loadChatMessages();
                 }
             } catch (err) { alert('Impossibile inviare il messaggio.'); }
+        }
+
+        function openCreateChannelModal() { document.getElementById('create-channel-modal').classList.remove('hidden'); }
+        function closeCreateChannelModal() { document.getElementById('create-channel-modal').classList.add('hidden'); }
+        function togglePasscodeField(cb) { document.getElementById('passcode-field-group').classList.toggle('hidden', !cb.checked); }
+
+        async function handleCreateChannel(e) {
+            e.preventDefault();
+            const name = document.getElementById('new-channel-name').value;
+            const isPrivate = document.getElementById('is-private-check').checked;
+            const passcode = document.getElementById('new-channel-passcode').value;
+
+            try {
+                const res = await fetchWithAuth(`${API_BASE_URL}/api/chat/channels`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, isPrivate, passcode })
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    closeCreateChannelModal();
+                    searchChannelsAndUsers();
+                    switchChannel(name);
+                } else { alert(data.error || 'Errore durante la creazione.'); }
+            } catch (err) { alert('Errore di comunicazione col server.'); }
         }
     </script>
 </body>
