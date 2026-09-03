@@ -1,29 +1,31 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ProDevUnity — Featured Directory</title>
+    <title>ProDevUnity - Directory Developer</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="min-h-screen flex flex-col relative pb-10">
-
-    <header class="sticky top-0 z-40 px-8 py-4 flex items-center justify-between border-b border-[#262a35] bg-[#0f1115]">
-        <a href="index.html" class="flex items-center space-x-3">
-            <div class="w-9 h-9 rounded-lg bg-[#161920] border border-[#262a35] flex items-center justify-center text-blue-400 font-bold text-base">
-                <i class="fa-solid fa-code text-sm"></i>
+    
+    <header class="sticky top-0 z-40 px-8 py-4 flex items-center justify-between border-b">
+        <a href="feed.html" class="flex items-center space-x-3">
+            <div class="w-8 h-8 rounded-lg bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-blue-400 font-bold text-sm">
+                <i class="fa-solid fa-code"></i>
             </div>
-            <span class="text-lg font-bold tracking-tight text-white">ProDev<span class="text-blue-400">Unity</span></span>
+            <span class="text-base font-bold tracking-tight">ProDev<span class="text-blue-400">Unity</span></span>
         </a>
-
         <div class="flex items-center space-x-4">
+            <button onclick="toggleTheme()" class="p-2 rounded-lg border border-slate-700/50 hover:bg-slate-800/20 transition text-xs flex items-center space-x-1.5" title="Cambia Tema">
+                <i class="fa-solid fa-sun text-amber-400"></i>
+                <i class="fa-solid fa-moon text-blue-400"></i>
+            </button>
             <span id="user-display" class="text-xs font-medium text-slate-400 bg-[#161920] px-3 py-1.5 rounded-lg border border-[#262a35]">
                 User: <strong id="current-username-display" class="text-blue-400">@guest</strong>
             </span>
-            <button onclick="logout()" id="logout-btn" class="hidden text-xs bg-[#161920] hover:bg-[#222733] text-slate-300 border border-[#262a35] px-3.5 py-1.5 rounded-lg transition">Logout</button>
-            <button onclick="openAuthModal()" id="login-btn" class="flat-btn-primary text-xs px-4 py-2 rounded-lg transition">Access Platform</button>
+            <button onclick="logout()" id="logout-btn" class="text-xs bg-[#161920] hover:bg-[#222733] text-slate-300 border border-[#262a35] px-3.5 py-1.5 rounded-lg transition">Logout</button>
         </div>
     </header>
 
@@ -31,43 +33,37 @@
         <section class="space-y-6">
             <div class="flex items-center justify-between">
                 <div>
-                    <h1 class="text-2xl font-bold text-white tracking-tight">Featured Directory</h1>
-                    <p class="text-xs text-slate-400 mt-0.5">Promoted accounts boosted via Stripe Checkout.</p>
+                    <h1 class="text-2xl font-bold tracking-tight">Directory Sviluppatori</h1>
+                    <p class="text-xs text-slate-400 mt-0.5">Profili con valutazioni e recensioni verificate dai clienti.</p>
                 </div>
-                <button onclick="openBoostModal()" class="bg-amber-600 hover:bg-amber-500 text-white font-semibold px-4 py-2 rounded-lg text-xs flex items-center space-x-2 transition">
-                    <i class="fa-solid fa-bolt"></i>
-                    <span>Boost Account</span>
-                </button>
             </div>
-
             <div id="featured-developers-list" class="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
         </section>
     </main>
 
-    <!-- DOCK SBLOCCATO (Rimossa classe hidden) -->
     <div id="main-dock" class="fixed left-4 top-1/2 -translate-y-1/2 z-50">
         <div class="flat-dock-container flex flex-col items-center gap-2">
-            <a href="index.html" class="dock-item" title="Home"><i class="fa-solid fa-house text-base"></i></a>
             <a href="feed.html" class="dock-item" title="Feed"><i class="fa-solid fa-fire text-base"></i></a>
             <a href="jobs.html" class="dock-item" title="Jobs"><i class="fa-solid fa-briefcase text-base"></i></a>
             <a href="directory.html" class="dock-item active" title="Featured"><i class="fa-solid fa-crown text-base"></i></a>
             <a href="chat.html" class="dock-item" title="Chat"><i class="fa-solid fa-comments text-base"></i></a>
+            <a href="settings.html" class="dock-item" title="Impostazioni"><i class="fa-solid fa-gear text-base"></i></a>
         </div>
     </div>
 
-    <!-- BOOST MODAL -->
-    <div id="boost-modal" class="hidden fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4">
-        <div class="flat-card max-w-sm w-full p-6 space-y-5 relative">
-            <button onclick="closeBoostModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg">&times;</button>
-            <h3 class="text-base font-bold text-white">Recharge & Feature</h3>
-            <button onclick="handleStripePayment()" id="pay-stripe-btn" class="w-full flat-btn-primary font-semibold py-2.5 rounded-lg text-xs uppercase tracking-wider">Pay $1.00 with Stripe</button>
+    <!-- BANNER COOKIE GDPR -->
+    <div id="cookie-banner" class="hidden fixed bottom-4 right-4 max-w-xs bg-[#131722] border border-[#262a35] p-4 rounded-xl shadow-xl z-50 text-xs space-y-3">
+        <p class="text-slate-300">Utilizziamo cookie tecnici per mantenere attiva la tua sessione in modo sicuro.</p>
+        <div class="flex space-x-2">
+            <button onclick="acceptCookies()" class="flat-btn-primary px-3 py-1 rounded font-semibold text-[11px]">Accetta</button>
+            <a href="terms.html" class="text-slate-400 hover:text-white px-2 py-1 text-[11px]">Info</a>
         </div>
     </div>
 
     <script src="main.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            if (!currentUser) openAuthModal();
+            if (!currentUser) { window.location.href = 'index.html'; return; }
             loadAccounts();
         });
 
@@ -79,35 +75,20 @@
                 const list = Object.entries(accounts);
 
                 container.innerHTML = list.map(([user, details]) => `
-                    <div class="flat-card p-5 space-y-2 ${details.boostedUntil > Date.now() ? 'boosted-card' : ''}">
-                        ${details.boostedUntil > Date.now() ? '<span class="text-amber-500 text-[10px] font-bold tracking-wider">★ FEATURED</span>' : '<span class="text-slate-500 text-[10px] font-medium">MEMBER</span>'}
-                        <h4 class="text-white font-bold text-sm">@${escapeHTML(user)}</h4>
-                        <p class="text-xs text-slate-400">${escapeHTML(details.profile?.bio || 'Developer on ProDevUnity')}</p>
+                    <div class="flat-card p-5 space-y-3 ${details.boostedUntil > Date.now() ? 'boosted-card' : ''}">
+                        <div class="flex items-center justify-between">
+                            ${details.boostedUntil > Date.now() ? '<span class="text-amber-500 text-[10px] font-bold tracking-wider">FEATURED</span>' : '<span class="text-slate-500 text-[10px] font-medium">MEMBER</span>'}
+                            <span class="text-[10px] text-slate-400">(${details.reviewCount} recensioni)</span>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-sm">@${escapeHTML(user)}</h4>
+                            <div class="mt-1">${renderStarRating(details.rating)}</div>
+                        </div>
+                        <p class="text-xs text-slate-400">${escapeHTML(details.profile?.bio || 'Sviluppatore su ProDevUnity')}</p>
                     </div>
                 `).join('');
             } catch (err) { console.error('Error loading accounts'); }
         }
-
-        /* RISOLTA DISCREPANZA: Usato fetchWithAuth ed endpoint /api/stripe/checkout */
-        async function handleStripePayment() {
-            if (!currentUser) { openAuthModal(); return; }
-            const btn = document.getElementById('pay-stripe-btn');
-            btn.disabled = true;
-
-            try {
-                const res = await fetchWithAuth(`${API_BASE_URL}/api/stripe/checkout`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ amount: 1.00 })
-                });
-                const data = await res.json();
-                if (data.url) { window.location.href = data.url; } 
-                else { alert('Stripe Error: ' + (data.error || 'Failed')); btn.disabled = false; }
-            } catch (err) { alert('Connection Error.'); btn.disabled = false; }
-        }
-
-        function openBoostModal() { if (!currentUser) { openAuthModal(); return; } document.getElementById('boost-modal').classList.remove('hidden'); }
-        function closeBoostModal() { document.getElementById('boost-modal').classList.add('hidden'); }
     </script>
 </body>
 </html>

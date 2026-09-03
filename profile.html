@@ -1,156 +1,70 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ProDevUnity — Developer Profile</title>
+    <title>ProDevUnity - Profilo Sviluppatore</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="min-h-screen flex flex-col relative pb-10">
-
-    <header class="sticky top-0 z-40 px-8 py-4 flex items-center justify-between border-b border-[#262a35] bg-[#0f1115]">
-        <a href="index.html" class="flex items-center space-x-3">
-            <div class="w-9 h-9 rounded-lg bg-[#161920] border border-[#262a35] flex items-center justify-center text-blue-400 font-bold text-base">
-                <i class="fa-solid fa-code text-sm"></i>
+    
+    <header class="sticky top-0 z-40 px-8 py-4 flex items-center justify-between border-b">
+        <a href="feed.html" class="flex items-center space-x-3">
+            <div class="w-8 h-8 rounded-lg bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-blue-400 font-bold text-sm">
+                <i class="fa-solid fa-code"></i>
             </div>
-            <span class="text-lg font-bold tracking-tight text-white">ProDev<span class="text-blue-400">Unity</span></span>
+            <span class="text-base font-bold tracking-tight">ProDev<span class="text-blue-400">Unity</span></span>
         </a>
-
         <div class="flex items-center space-x-4">
+            <button onclick="toggleTheme()" class="p-2 rounded-lg border border-slate-700/50 hover:bg-slate-800/20 transition text-xs flex items-center space-x-1.5" title="Cambia Tema">
+                <i class="fa-solid fa-sun text-amber-400"></i>
+                <i class="fa-solid fa-moon text-blue-400"></i>
+            </button>
             <span id="user-display" class="text-xs font-medium text-slate-400 bg-[#161920] px-3 py-1.5 rounded-lg border border-[#262a35]">
                 User: <strong id="current-username-display" class="text-blue-400">@guest</strong>
             </span>
-            <button onclick="logout()" id="logout-btn" class="hidden text-xs bg-[#161920] hover:bg-[#222733] text-slate-300 border border-[#262a35] px-3.5 py-1.5 rounded-lg transition">Logout</button>
-            <button onclick="openAuthModal()" id="login-btn" class="flat-btn-primary text-xs px-4 py-2 rounded-lg transition">Access Platform</button>
+            <button onclick="logout()" id="logout-btn" class="text-xs bg-[#161920] hover:bg-[#222733] text-slate-300 border border-[#262a35] px-3.5 py-1.5 rounded-lg transition">Logout</button>
         </div>
     </header>
 
     <main id="main-container" class="max-w-4xl w-full mx-auto p-6 md:p-10 flex-1 z-10 space-y-8">
-        <!-- HEADER PROFILO -->
         <div class="flat-card p-6 space-y-4">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div class="space-y-1">
-                    <div class="flex items-center space-x-2">
-                        <h1 id="profile-username" class="text-2xl font-bold text-white tracking-tight">@loading</h1>
-                        <span id="profile-badges" class="flex space-x-1"></span>
-                    </div>
-                    <p id="profile-bio" class="text-xs text-slate-300"></p>
-                </div>
-                <div class="flex items-center space-x-2">
-                    <button onclick="triggerTip()" class="bg-amber-600 hover:bg-amber-500 text-white px-3.5 py-2 rounded-lg text-xs font-semibold flex items-center space-x-1.5 transition">
-                        <i class="fa-solid fa-mug-hot"></i>
-                        <span>Tip Dev</span>
-                    </button>
-                    <button onclick="subscribeStripe()" class="flat-btn-primary px-3.5 py-2 rounded-lg text-xs font-semibold flex items-center space-x-1.5">
-                        <i class="fa-solid fa-crown"></i>
-                        <span>Get Verified</span>
-                    </button>
+                    <h1 id="profile-username" class="text-2xl font-bold tracking-tight">@loading</h1>
+                    <p id="profile-bio" class="text-xs text-slate-300">Sviluppatore su ProDevUnity</p>
                 </div>
             </div>
-
-            <!-- TECH STACK -->
-            <div class="pt-2 border-t border-[#262a35]">
-                <span class="text-[10px] text-slate-500 uppercase tracking-wider block mb-2 font-bold">Tech Stack</span>
-                <div id="profile-tech-stack" class="flex flex-wrap gap-1.5"></div>
-            </div>
-
-            <!-- LINK SOCIAL -->
-            <div id="profile-socials" class="flex space-x-3 pt-2 text-xs"></div>
         </div>
-
-        <!-- PORTFOLIO PROGETTI -->
-        <section class="space-y-4">
-            <div class="flex items-center justify-between">
-                <h2 class="text-lg font-bold text-white tracking-tight">Featured Projects</h2>
-                <button onclick="openAddProjectModal()" class="bg-[#161920] border border-[#262a35] hover:bg-[#222733] text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition">+ Add Project</button>
-            </div>
-            <div id="portfolio-container" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
-        </section>
     </main>
 
     <div id="main-dock" class="fixed left-4 top-1/2 -translate-y-1/2 z-50">
         <div class="flat-dock-container flex flex-col items-center gap-2">
-            <a href="index.html" class="dock-item" title="Home"><i class="fa-solid fa-house text-base"></i></a>
             <a href="feed.html" class="dock-item" title="Feed"><i class="fa-solid fa-fire text-base"></i></a>
             <a href="jobs.html" class="dock-item" title="Jobs"><i class="fa-solid fa-briefcase text-base"></i></a>
             <a href="directory.html" class="dock-item" title="Featured"><i class="fa-solid fa-crown text-base"></i></a>
             <a href="chat.html" class="dock-item" title="Chat"><i class="fa-solid fa-comments text-base"></i></a>
+            <a href="settings.html" class="dock-item" title="Impostazioni"><i class="fa-solid fa-gear text-base"></i></a>
+        </div>
+    </div>
+
+    <!-- BANNER COOKIE GDPR -->
+    <div id="cookie-banner" class="hidden fixed bottom-4 right-4 max-w-xs bg-[#131722] border border-[#262a35] p-4 rounded-xl shadow-xl z-50 text-xs space-y-3">
+        <p class="text-slate-300">Utilizziamo cookie tecnici per mantenere attiva la tua sessione in modo sicuro.</p>
+        <div class="flex space-x-2">
+            <button onclick="acceptCookies()" class="flat-btn-primary px-3 py-1 rounded font-semibold text-[11px]">Accetta</button>
+            <a href="terms.html" class="text-slate-400 hover:text-white px-2 py-1 text-[11px]">Info</a>
         </div>
     </div>
 
     <script src="main.js"></script>
     <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        const targetUser = urlParams.get('username') || (currentUser ? currentUser.username : 'dev_kevin');
-
         document.addEventListener('DOMContentLoaded', () => {
-            loadUserProfile();
+            if (!currentUser) { window.location.href = 'index.html'; return; }
+            document.getElementById('profile-username').innerText = `@${currentUser.username}`;
         });
-
-        async function loadUserProfile() {
-            try {
-                const res = await fetch(`${API_BASE_URL}/api/users/${targetUser}`);
-                const data = await res.json();
-                
-                if (!data.profile) return;
-                const p = data.profile;
-
-                document.getElementById('profile-username').innerText = `@${p.username}`;
-                document.getElementById('profile-bio').innerText = p.bio || 'No bio provided.';
-                
-                // Badges
-                let badgeHTML = '';
-                if (p.is_verified) badgeHTML += '<span class="text-blue-400 text-xs" title="Verified Dev"><i class="fa-solid fa-circle-check"></i></span>';
-                if (p.role === 'admin') badgeHTML += '<span class="text-amber-400 text-xs" title="Admin"><i class="fa-solid fa-shield-halved"></i></span>';
-                document.getElementById('profile-badges').innerHTML = badgeHTML;
-
-                // Tech Stack
-                const stackArr = (p.tech_stack || '').split(',').map(s => s.trim()).filter(Boolean);
-                document.getElementById('profile-tech-stack').innerHTML = stackArr.map(s => `
-                    <span class="bg-[#161920] border border-[#262a35] text-slate-300 px-2 py-1 rounded text-[10px] font-mono">${escapeHTML(s)}</span>
-                `).join('');
-
-                // Socials
-                document.getElementById('profile-socials').innerHTML = `
-                    ${p.github_url ? `<a href="${p.github_url}" target="_blank" class="text-slate-400 hover:text-white"><i class="fa-brands fa-github mr-1"></i> GitHub</a>` : ''}
-                    ${p.linkedin_url ? `<a href="${p.linkedin_url}" target="_blank" class="text-slate-400 hover:text-white"><i class="fa-brands fa-linkedin mr-1"></i> LinkedIn</a>` : ''}
-                    ${p.website_url ? `<a href="${p.website_url}" target="_blank" class="text-slate-400 hover:text-white"><i class="fa-solid fa-globe mr-1"></i> Portfolio</a>` : ''}
-                `;
-
-                // Portfolio
-                const portContainer = document.getElementById('portfolio-container');
-                if (!data.projects.length) {
-                    portContainer.innerHTML = '<div class="flat-card p-6 text-center text-slate-500 text-xs col-span-2">No portfolio projects uploaded.</div>';
-                } else {
-                    portContainer.innerHTML = data.projects.map(proj => `
-                        <div class="flat-card p-4 space-y-2">
-                            <h3 class="text-sm font-bold text-white">${escapeHTML(proj.title)}</h3>
-                            <p class="text-xs text-slate-300">${escapeHTML(proj.description)}</p>
-                            <div class="flex space-x-3 pt-2 text-[11px]">
-                                ${proj.github_repo ? `<a href="${proj.github_repo}" target="_blank" class="text-blue-400 hover:underline"><i class="fa-brands fa-github"></i> Code</a>` : ''}
-                                ${proj.project_url ? `<a href="${proj.project_url}" target="_blank" class="text-emerald-400 hover:underline"><i class="fa-solid fa-arrow-up-right-from-square"></i> Demo</a>` : ''}
-                            </div>
-                        </div>
-                    `).join('');
-                }
-
-            } catch (err) { console.error('Error loading profile'); }
-        }
-
-        async function subscribeStripe() {
-            if (!currentUser) { openAuthModal(); return; }
-            try {
-                const res = await fetchWithAuth(`${API_BASE_URL}/api/stripe/checkout`, { method: 'POST' });
-                const data = await res.json();
-                if (data.url) window.location.href = data.url;
-            } catch (err) { alert('Stripe checkout error.'); }
-        }
-
-        function triggerTip() {
-            alert('Tip feature: Redirecting to Developer PayPal/Stripe link...');
-        }
     </script>
 </body>
 </html>
