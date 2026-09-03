@@ -1,157 +1,138 @@
-<!DOCTYPE html>
-<html lang="it">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ProDevUnity — Impostazioni Account</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
-</head>
-<body class="min-h-screen flex flex-col relative pb-10">
-    
-    <header class="sticky top-0 z-40 px-8 py-4 flex items-center justify-between border-b">
-        <a href="feed.html" class="flex items-center space-x-3">
-            <div class="w-8 h-8 rounded-lg bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-blue-400 font-bold text-sm">
-                <i class="fa-solid fa-code"></i>
-            </div>
-            <span class="text-base font-bold tracking-tight">ProDev<span class="text-blue-400">Unity</span></span>
-        </a>
-        <div class="flex items-center space-x-4">
-            <button onclick="toggleTheme()" class="p-2 rounded-lg border border-slate-700/50 hover:bg-slate-800/20 transition text-xs flex items-center space-x-1.5" title="Switch Tema">
-                <i class="fa-solid fa-sun text-amber-400"></i>
-                <i class="fa-solid fa-moon text-blue-400"></i>
-            </button>
-            <span id="user-display" class="text-xs font-medium text-slate-400 bg-[#161920] px-3 py-1.5 rounded-lg border border-[#262a35]">
-                User: <strong id="current-username-display" class="text-blue-400">@guest</strong>
-            </span>
-            <button onclick="logout()" id="logout-btn" class="text-xs bg-[#161920] hover:bg-[#222733] text-slate-300 border border-[#262a35] px-3.5 py-1.5 rounded-lg transition">Logout</button>
-        </div>
-    </header>
+// ==========================================
+// CONFIGURAZIONE API & BASE URL
+// ==========================================
+const API_BASE_URL = 'https://prodevunity-backend.onrender.com';
 
-    <main id="main-container" class="max-w-4xl w-full mx-auto p-6 md:p-10 flex-1 z-10 space-y-6">
-        <div>
-            <h1 class="text-2xl font-bold tracking-tight">Impostazioni & Preferenze</h1>
-            <p class="text-xs text-slate-400 mt-0.5">Gestisci l'aspetto della piattaforma, la sicurezza del tuo account e le preferenze del profilo.</p>
-        </div>
+// Stato globale dell'utente
+let currentUser = JSON.parse(localStorage.getItem('prodevunity_user')) || null;
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            
-            <!-- MENU LATERALE IMPOSTAZIONI -->
-            <div class="space-y-1">
-                <a href="#appearance" class="block p-3 rounded-lg font-semibold text-xs bg-blue-600/10 text-blue-400 border border-blue-500/20 flex items-center space-x-2">
-                    <i class="fa-solid fa-palette"></i>
-                    <span>Aspetto & Tema</span>
-                </a>
-                <a href="#profile" class="block p-3 rounded-lg font-semibold text-xs text-slate-400 hover:bg-slate-800/10 transition flex items-center space-x-2">
-                    <i class="fa-solid fa-user-pen"></i>
-                    <span>Profilo Pubblico</span>
-                </a>
-                <a href="#security" class="block p-3 rounded-lg font-semibold text-xs text-slate-400 hover:bg-slate-800/10 transition flex items-center space-x-2">
-                    <i class="fa-solid fa-shield-halved"></i>
-                    <span>Sicurezza & Password</span>
-                </a>
-            </div>
+// ==========================================
+// INIZIALIZZAZIONE AL CARICAMENTO DELLA PAGINA
+// ==========================================
+document.addEventListener('DOMContentLoaded', () => {
+    applySavedTheme();
+    updateUIAuth();
+    checkAuthSession();
+});
 
-            <!-- PANNELLO PRINCIPALE -->
-            <div class="md:col-span-2 space-y-6">
-                
-                <!-- SEZIONE TEMA -->
-                <div id="appearance" class="flat-card p-6 space-y-4">
-                    <h3 class="text-sm font-bold border-b pb-2 flex items-center gap-2">
-                        <i class="fa-solid fa-palette text-blue-400"></i> Tema dell'Interfaccia
-                    </h3>
-                    <div class="grid grid-cols-2 gap-4">
-                        <label onclick="setThemeMode('dark')" class="flat-card p-4 cursor-pointer text-center space-y-2 border-2 hover:border-blue-500 transition">
-                            <input type="radio" name="theme" value="dark" class="hidden">
-                            <div class="w-8 h-8 rounded-full bg-[#090a0f] border border-slate-700 mx-auto flex items-center justify-center text-white">
-                                <i class="fa-solid fa-moon"></i>
-                            </div>
-                            <span class="block text-xs font-bold">Modalità Scura</span>
-                        </label>
-                        <label onclick="setThemeMode('light')" class="flat-card p-4 cursor-pointer text-center space-y-2 border-2 hover:border-blue-500 transition">
-                            <input type="radio" name="theme" value="light" class="hidden">
-                            <div class="w-8 h-8 rounded-full bg-slate-100 border border-slate-300 mx-auto flex items-center justify-center text-slate-900">
-                                <i class="fa-solid fa-sun text-amber-500"></i>
-                            </div>
-                            <span class="block text-xs font-bold">Modalità Chiara</span>
-                        </label>
-                    </div>
-                </div>
+// ==========================================
+// GESTIONE AUTENTICAZIONE E SESSIONE
+// ==========================================
 
-                <!-- SEZIONE PROFILO -->
-                <div id="profile" class="flat-card p-6 space-y-4">
-                    <h3 class="text-sm font-bold border-b pb-2 flex items-center gap-2">
-                        <i class="fa-solid fa-user-pen text-emerald-400"></i> Informazioni Profilo
-                    </h3>
-                    <form onsubmit="handleSaveProfile(event)" class="space-y-3">
-                        <div>
-                            <label class="block text-xs font-medium text-slate-400 mb-1">Bio / Descrizione Breve</label>
-                            <textarea id="settings-bio" rows="3" class="w-full bg-[#0f1115] border border-[#262a35] rounded-lg p-3 text-xs focus:outline-none focus:border-blue-500 transition" placeholder="Descrivi le tue competenze..."></textarea>
-                        </div>
-                        <button type="submit" class="flat-btn-primary text-xs px-4 py-2 rounded-lg font-semibold">Salva Profilo</button>
-                    </form>
-                </div>
+// Verifica la sessione lato server con il cookie JWT
+async function checkAuthSession() {
+    try {
+        const res = await fetch(`${API_BASE_URL}/api/auth/me`, {
+            method: 'GET',
+            credentials: 'include'
+        });
+        if (res.ok) {
+            const data = await res.json();
+            currentUser = data.user;
+            localStorage.setItem('prodevunity_user', JSON.stringify(currentUser));
+        } else {
+            // Sessione scaduta o non valida
+            currentUser = null;
+            localStorage.removeItem('prodevunity_user');
+        }
+    } catch (err) {
+        console.error("Errore nel recupero della sessione:", err);
+    }
+    updateUIAuth();
+}
 
-                <!-- SEZIONE SICUREZZA -->
-                <div id="security" class="flat-card p-6 space-y-4">
-                    <h3 class="text-sm font-bold border-b pb-2 flex items-center gap-2">
-                        <i class="fa-solid fa-lock text-purple-400"></i> Modifica Password
-                    </h3>
-                    <form onsubmit="handleChangePassword(event)" class="space-y-3">
-                        <div>
-                            <label class="block text-xs font-medium text-slate-400 mb-1">Nuova Password</label>
-                            <input type="password" id="settings-new-pass" required class="w-full bg-[#0f1115] border border-[#262a35] rounded-lg px-3 py-2 text-xs focus:outline-none">
-                        </div>
-                        <button type="submit" class="bg-purple-600 hover:bg-purple-500 text-white text-xs px-4 py-2 rounded-lg font-semibold transition">Aggiorna Password</button>
-                    </form>
-                </div>
+// Aggiorna gli elementi grafici dell'interfaccia in base al login
+function updateUIAuth() {
+    const userDisplay = document.getElementById('current-username-display');
+    const logoutBtn = document.getElementById('logout-btn');
 
-            </div>
-        </div>
-    </main>
+    if (userDisplay) {
+        userDisplay.textContent = currentUser ? `@${currentUser.username}` : '@guest';
+    }
 
-    <!-- DOCK NAVIGAZIONE CON ICONA IMPOSTAZIONI AGGIUNTA -->
-    <div id="main-dock" class="fixed left-4 top-1/2 -translate-y-1/2 z-50">
-        <div class="flat-dock-container flex flex-col items-center gap-2">
-            <a href="feed.html" class="dock-item" title="Feed"><i class="fa-solid fa-fire text-base"></i></a>
-            <a href="jobs.html" class="dock-item" title="Jobs"><i class="fa-solid fa-briefcase text-base"></i></a>
-            <a href="directory.html" class="dock-item" title="Featured"><i class="fa-solid fa-crown text-base"></i></a>
-            <a href="chat.html" class="dock-item" title="Chat"><i class="fa-solid fa-comments text-base"></i></a>
-            <a href="settings.html" class="dock-item active" title="Impostazioni"><i class="fa-solid fa-gear text-base"></i></a>
-        </div>
-    </div>
+    if (logoutBtn) {
+        logoutBtn.style.display = currentUser ? 'block' : 'none';
+    }
+}
 
-    <script src="main.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            if (!currentUser) {
-                window.location.href = 'index.html';
-                return;
-            }
-            loadUserSettings();
+// Gestione Login
+async function login(username, password) {
+    try {
+        const res = await fetch(`${API_BASE_URL}/api/auth/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({ username, password })
         });
 
-        function setThemeMode(mode) {
-            localStorage.setItem('prodevunity_theme', mode);
-            applySavedTheme();
+        const data = await res.json();
+        if (res.ok) {
+            currentUser = data.user;
+            localStorage.setItem('prodevunity_user', JSON.stringify(currentUser));
+            window.location.href = 'feed.html';
+        } else {
+            alert(data.error || 'Credenziali non valide');
         }
+    } catch (err) {
+        console.error(err);
+        alert('Errore di connessione con il backend.');
+    }
+}
 
-        function loadUserSettings() {
-            const savedTheme = localStorage.getItem('prodevunity_theme') || 'dark';
-            const radio = document.querySelector(`input[name="theme"][value="${savedTheme}"]`);
-            if (radio) radio.checked = true;
-        }
+// Gestione Registrazione
+async function register(username, email, password, role = 'dev') {
+    try {
+        const res = await fetch(`${API_BASE_URL}/api/auth/register`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({ username, email, password, role })
+        });
 
-        async function handleSaveProfile(e) {
-            e.preventDefault();
-            alert('Profilo aggiornato con successo!');
+        const data = await res.json();
+        if (res.ok) {
+            alert('Registrazione completata! Ora puoi effettuare il login.');
+            window.location.href = 'index.html';
+        } else {
+            alert(data.error || 'Errore durante la registrazione');
         }
+    } catch (err) {
+        console.error(err);
+        alert('Errore durante la comunicazione con il server.');
+    }
+}
 
-        async function handleChangePassword(e) {
-            e.preventDefault();
-            alert('Password modificata con successo!');
-        }
-    </script>
-</body>
-</html>
+// Gestione Logout
+async function logout() {
+    try {
+        await fetch(`${API_BASE_URL}/api/auth/logout`, {
+            method: 'POST',
+            credentials: 'include'
+        });
+    } catch (err) {
+        console.error("Errore durante il logout dal server:", err);
+    } finally {
+        currentUser = null;
+        localStorage.removeItem('prodevunity_user');
+        window.location.href = 'index.html';
+    }
+}
+
+// ==========================================
+// GESTIONE TEMA CHIARO / SCURO
+// ==========================================
+function toggleTheme() {
+    const currentTheme = localStorage.getItem('prodevunity_theme') || 'dark';
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    localStorage.setItem('prodevunity_theme', newTheme);
+    applySavedTheme();
+}
+
+function applySavedTheme() {
+    const savedTheme = localStorage.getItem('prodevunity_theme') || 'dark';
+    if (savedTheme === 'light') {
+        document.documentElement.classList.add('light-theme');
+    } else {
+        document.documentElement.classList.remove('light-theme');
+    }
+}
