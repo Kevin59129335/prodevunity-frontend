@@ -1,19 +1,19 @@
 // ==========================================
 // CONFIGURAZIONE API & BASE URL
 // ==========================================
-const API_BASE_URL = 'https://prodevunity-backend.onrender.com';[cite: 10]
+const API_BASE_URL = 'https://prodevunity-backend.onrender.com';
 
 // Stato globale dell'utente
-let currentUser = JSON.parse(localStorage.getItem('prodevunity_user')) || null;[cite: 10]
+let currentUser = JSON.parse(localStorage.getItem('prodevunity_user')) || null;
 let authMode = 'login';
 
 // ==========================================
 // INIZIALIZZAZIONE AL CARICAMENTO DELLA PAGINA
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
-    applySavedTheme();[cite: 10]
-    updateUIAuth();[cite: 10]
-    checkAuthSession();[cite: 10]
+    applySavedTheme();
+    updateUIAuth();
+    checkAuthSession();
 });
 
 // Helper per escape HTML sicuro
@@ -43,35 +43,35 @@ async function fetchWithAuth(url, options = {}) {
 
 async function checkAuthSession() {
     try {
-        const res = await fetch(`${API_BASE_URL}/api/auth/me`, {[cite: 10]
+        const res = await fetch(`${API_BASE_URL}/api/auth/me`, {
             method: 'GET',
-            credentials: 'include'[cite: 10]
+            credentials: 'include'
         });
-        if (res.ok) {[cite: 10]
-            const data = await res.json();[cite: 10]
-            currentUser = data.user;[cite: 10]
-            localStorage.setItem('prodevunity_user', JSON.stringify(currentUser));[cite: 10]
+        if (res.ok) {
+            const data = await res.json();
+            currentUser = data.user;
+            localStorage.setItem('prodevunity_user', JSON.stringify(currentUser));
         } else {
-            currentUser = null;[cite: 10]
-            localStorage.removeItem('prodevunity_user');[cite: 10]
+            currentUser = null;
+            localStorage.removeItem('prodevunity_user');
         }
     } catch (err) {
-        console.error("Errore nel recupero della sessione:", err);[cite: 10]
+        console.error("Errore nel recupero della sessione:", err);
     }
-    updateUIAuth();[cite: 10]
+    updateUIAuth();
 }
 
 function updateUIAuth() {
-    const userDisplay = document.getElementById('current-username-display');[cite: 10]
-    const logoutBtn = document.getElementById('logout-btn');[cite: 10]
+    const userDisplay = document.getElementById('current-username-display');
+    const logoutBtn = document.getElementById('logout-btn');
     const loginBtn = document.getElementById('login-btn');
 
     if (userDisplay) {
-        userDisplay.textContent = currentUser ? `@${currentUser.username}` : '@guest';[cite: 10]
+        userDisplay.textContent = currentUser ? `@${currentUser.username}` : '@guest';
     }
 
     if (logoutBtn) {
-        logoutBtn.style.display = currentUser ? 'block' : 'none';[cite: 10]
+        logoutBtn.style.display = currentUser ? 'block' : 'none';
     }
 
     if (loginBtn) {
@@ -81,76 +81,76 @@ function updateUIAuth() {
 
 // Handler form modale (Login / Register)
 async function handleAuth(e) {
-    e.preventDefault();[cite: 8]
-    const username = document.getElementById('auth-username').value;[cite: 8]
-    const password = document.getElementById('auth-password').value;[cite: 8]
+    e.preventDefault();
+    const username = document.getElementById('auth-username').value;
+    const password = document.getElementById('auth-password').value;
 
     if (authMode === 'login') {
         await login(username, password);
     } else {
-        const email = document.getElementById('auth-email').value;[cite: 8]
-        const role = document.getElementById('auth-role').value;[cite: 8]
+        const email = document.getElementById('auth-email').value;
+        const role = document.getElementById('auth-role').value;
         await register(username, email, password, role);
     }
 }
 
 async function login(username, password) {
     try {
-        const res = await fetch(`${API_BASE_URL}/api/auth/login`, {[cite: 10]
-            method: 'POST',[cite: 10]
-            headers: { 'Content-Type': 'application/json' },[cite: 10]
-            credentials: 'include',[cite: 10]
-            body: JSON.stringify({ username, password })[cite: 10]
+        const res = await fetch(`${API_BASE_URL}/api/auth/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({ username, password })
         });
 
-        const data = await res.json();[cite: 10]
-        if (res.ok) {[cite: 10]
-            currentUser = data.user;[cite: 10]
-            localStorage.setItem('prodevunity_user', JSON.stringify(currentUser));[cite: 10]
-            window.location.href = 'feed.html';[cite: 10]
+        const data = await res.json();
+        if (res.ok) {
+            currentUser = data.user;
+            localStorage.setItem('prodevunity_user', JSON.stringify(currentUser));
+            window.location.href = 'feed.html';
         } else {
-            alert(data.error || 'Credenziali non valide');[cite: 10]
+            alert(data.error || 'Credenziali non valide');
         }
     } catch (err) {
-        console.error(err);[cite: 10]
+        console.error(err);
         alert('Errore di connessione con il backend Render.');
     }
 }
 
 async function register(username, email, password, role = 'dev') {
     try {
-        const res = await fetch(`${API_BASE_URL}/api/auth/register`, {[cite: 10]
-            method: 'POST',[cite: 10]
-            headers: { 'Content-Type': 'application/json' },[cite: 10]
-            credentials: 'include',[cite: 10]
-            body: JSON.stringify({ username, email, password, role })[cite: 10]
+        const res = await fetch(`${API_BASE_URL}/api/auth/register`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({ username, email, password, role })
         });
 
-        const data = await res.json();[cite: 10]
-        if (res.ok) {[cite: 10]
-            alert('Registrazione completata! Ora puoi effettuare il login.');[cite: 10]
+        const data = await res.json();
+        if (res.ok) {
+            alert('Registrazione completata! Ora puoi effettuare il login.');
             setAuthMode('login');
         } else {
-            alert(data.error || 'Errore durante la registrazione');[cite: 10]
+            alert(data.error || 'Errore durante la registrazione');
         }
     } catch (err) {
-        console.error(err);[cite: 10]
-        alert('Errore durante la comunicazione con il server.');[cite: 10]
+        console.error(err);
+        alert('Errore durante la comunicazione con il server.');
     }
 }
 
 async function logout() {
     try {
-        await fetch(`${API_BASE_URL}/api/auth/logout`, {[cite: 10]
-            method: 'POST',[cite: 10]
-            credentials: 'include'[cite: 10]
+        await fetch(`${API_BASE_URL}/api/auth/logout`, {
+            method: 'POST',
+            credentials: 'include'
         });
     } catch (err) {
-        console.error("Errore durante il logout dal server:", err);[cite: 10]
+        console.error("Errore durante il logout dal server:", err);
     } finally {
-        currentUser = null;[cite: 10]
-        localStorage.removeItem('prodevunity_user');[cite: 10]
-        window.location.href = 'index.html';[cite: 10]
+        currentUser = null;
+        localStorage.removeItem('prodevunity_user');
+        window.location.href = 'index.html';
     }
 }
 
@@ -158,7 +158,7 @@ async function logout() {
 // CONTROLLI MODALE DI AUTENTICAZIONE
 // ==========================================
 function openAuthModal(mode = 'login') {
-    const modal = document.getElementById('auth-modal');[cite: 8]
+    const modal = document.getElementById('auth-modal');
     if (modal) {
         modal.classList.remove('hidden');
         setAuthMode(mode);
@@ -166,18 +166,18 @@ function openAuthModal(mode = 'login') {
 }
 
 function closeAuthModal() {
-    const modal = document.getElementById('auth-modal');[cite: 8]
+    const modal = document.getElementById('auth-modal');
     if (modal) modal.classList.add('hidden');
 }
 
 function setAuthMode(mode) {
     authMode = mode;
-    const emailGroup = document.getElementById('auth-email-group');[cite: 8]
-    const roleGroup = document.getElementById('auth-role-group');[cite: 8]
-    const termsGroup = document.getElementById('auth-terms-group');[cite: 8]
-    const submitBtn = document.getElementById('auth-submit-btn');[cite: 8]
-    const tabLogin = document.getElementById('auth-tab-login');[cite: 8]
-    const tabRegister = document.getElementById('auth-tab-register');[cite: 8]
+    const emailGroup = document.getElementById('auth-email-group');
+    const roleGroup = document.getElementById('auth-role-group');
+    const termsGroup = document.getElementById('auth-terms-group');
+    const submitBtn = document.getElementById('auth-submit-btn');
+    const tabLogin = document.getElementById('auth-tab-login');
+    const tabRegister = document.getElementById('auth-tab-register');
 
     if (mode === 'register') {
         if (emailGroup) emailGroup.classList.remove('hidden');
@@ -185,10 +185,10 @@ function setAuthMode(mode) {
         if (termsGroup) termsGroup.classList.remove('hidden');
         if (submitBtn) submitBtn.textContent = 'Create Account';
         if (tabRegister) {
-            tabRegister.className = 'flex-1 py-1.5 rounded-md text-xs font-semibold text-white bg-[#161920] transition';[cite: 8]
+            tabRegister.className = 'flex-1 py-1.5 rounded-md text-xs font-semibold text-white bg-[#161920] transition';
         }
         if (tabLogin) {
-            tabLogin.className = 'flex-1 py-1.5 rounded-md text-xs font-semibold text-slate-400 transition';[cite: 8]
+            tabLogin.className = 'flex-1 py-1.5 rounded-md text-xs font-semibold text-slate-400 transition';
         }
     } else {
         if (emailGroup) emailGroup.classList.add('hidden');
@@ -196,10 +196,10 @@ function setAuthMode(mode) {
         if (termsGroup) termsGroup.classList.add('hidden');
         if (submitBtn) submitBtn.textContent = 'Log In';
         if (tabLogin) {
-            tabLogin.className = 'flex-1 py-1.5 rounded-md text-xs font-semibold text-white bg-[#161920] transition';[cite: 8]
+            tabLogin.className = 'flex-1 py-1.5 rounded-md text-xs font-semibold text-white bg-[#161920] transition';
         }
         if (tabRegister) {
-            tabRegister.className = 'flex-1 py-1.5 rounded-md text-xs font-semibold text-slate-400 transition';[cite: 8]
+            tabRegister.className = 'flex-1 py-1.5 rounded-md text-xs font-semibold text-slate-400 transition';
         }
     }
 }
@@ -208,17 +208,17 @@ function setAuthMode(mode) {
 // GESTIONE TEMA CHIARO / SCURO
 // ==========================================
 function toggleTheme() {
-    const currentTheme = localStorage.getItem('prodevunity_theme') || 'dark';[cite: 10]
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';[cite: 10]
-    localStorage.setItem('prodevunity_theme', newTheme);[cite: 10]
-    applySavedTheme();[cite: 10]
+    const currentTheme = localStorage.getItem('prodevunity_theme') || 'dark';
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    localStorage.setItem('prodevunity_theme', newTheme);
+    applySavedTheme();
 }
 
 function applySavedTheme() {
-    const savedTheme = localStorage.getItem('prodevunity_theme') || 'dark';[cite: 10]
+    const savedTheme = localStorage.getItem('prodevunity_theme') || 'dark';
     if (savedTheme === 'light') {
-        document.documentElement.classList.add('light-theme');[cite: 10]
+        document.documentElement.classList.add('light-theme');
     } else {
-        document.documentElement.classList.remove('light-theme');[cite: 10]
+        document.documentElement.classList.remove('light-theme');
     }
 }
