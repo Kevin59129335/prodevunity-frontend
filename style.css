@@ -13,13 +13,13 @@
     --card-shadow: none;
 }
 
-/* TEMA CHIARO (Light Mode) - CONTRASTO ELEVATO E PUNTI SOTTILI */
+/* TEMA CHIARO (Light Mode) */
 html.light-theme {
-    --bg-main: #e2e8f0;            /* Sfondo grigio chiaro ben definito */
-    --card-bg: #ffffff;            /* Schede bianche nitide */
-    --border-color: #cbd5e1;        /* Bordi marcati per le schede */
-    --text-primary: #0f172a;        /* Testo scuro/nero per leggibilità */
-    --text-muted: #475569;         /* Testo secondario scuro */
+    --bg-main: #e2e8f0;            /* Sfondo grigio chiaro */
+    --card-bg: #ffffff;            /* Schede bianche */
+    --border-color: #cbd5e1;        /* Bordi marcati */
+    --text-primary: #0f172a;        /* Testo scuro */
+    --text-muted: #475569;         /* Testo secondario */
     --accent-blue: #2563eb;
     --dock-bg: rgba(255, 255, 255, 0.95);
     /* Punti ultrasottili e delicati in Light Mode */
@@ -39,7 +39,6 @@ body {
     background-position: 0 0 !important;
 }
 
-/* Schede e contenitori */
 .flat-card {
     background-color: var(--card-bg) !important;
     border: 1px solid var(--border-color) !important;
@@ -48,14 +47,12 @@ body {
     transition: background-color 0.25s ease, border-color 0.25s ease;
 }
 
-/* Header */
 header {
     background-color: var(--card-bg) !important;
     border-color: var(--border-color) !important;
     box-shadow: var(--card-shadow);
 }
 
-/* Dock Laterale */
 .flat-dock-container {
     background: var(--dock-bg);
     backdrop-filter: blur(12px);
@@ -81,7 +78,6 @@ header {
     color: #ffffff !important;
 }
 
-/* Pulsanti Primari */
 .flat-btn-primary {
     background-color: var(--accent-blue);
     color: #ffffff;
@@ -93,19 +89,11 @@ header {
     opacity: 0.9;
 }
 
-/* Input Form */
 input, textarea, select {
     background-color: var(--bg-main) !important;
     color: var(--text-primary) !important;
     border-color: var(--border-color) !important;
 }
 
-/* Sovrascrittura testi generici per Tema Chiaro */
-html.light-theme .text-white {
-    color: var(--text-primary) !important;
-}
-
-html.light-theme .text-slate-300,
-html.light-theme .text-slate-400 {
-    color: var(--text-muted) !important;
-}
+html.light-theme .text-white { color: var(--text-primary) !important; }
+html.light-theme .text-slate-300, html.light-theme .text-slate-400 { color: var(--text-muted) !important; }
