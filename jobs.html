@@ -1,94 +1,204 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="it" class="dark">
 <head>
     <script>
-      // Applica il tema PRIMA del rendering della pagina per evitare il flash nero
       if (localStorage.getItem('prodevunity_theme') === 'light') {
         document.documentElement.classList.add('light-theme');
       }
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ProDevUnity - Progetti & Job Board</title>
+    <title>ProDevUnity - Incarichi & Pagamenti</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css?v=5">
 </head>
-<body class="min-h-screen flex flex-col relative pb-10">
+<body class="min-h-screen flex flex-col bg-[#0b0c10] text-slate-100">
 
-    <header class="sticky top-0 z-40 px-8 py-4 flex items-center justify-between border-b">
+    <!-- HEADER NAVIGATION -->
+    <header class="px-8 py-5 flex items-center justify-between border-b border-[#262a35] sticky top-0 bg-[#0b0c10]/90 backdrop-blur-md z-50">
         <a href="feed.html" class="flex items-center space-x-3">
-            <div class="w-8 h-8 rounded-lg bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-blue-400 font-bold text-sm">
+            <div class="w-9 h-9 rounded-lg bg-blue-500/20 border border-blue-500/30 flex items-center justify-center text-blue-400 font-bold text-base shadow-[0_0_15px_rgba(59,130,246,0.3)]">
                 <i class="fa-solid fa-code"></i>
             </div>
-            <span class="text-base font-bold tracking-tight">ProDev<span class="text-blue-400">Unity</span></span>
+            <span class="text-xl font-bold tracking-tight text-white">ProDev<span class="text-blue-400">Unity</span></span>
         </a>
         <div class="flex items-center space-x-4">
-            <button onclick="toggleTheme()" class="p-2 rounded-lg border border-slate-700/50 hover:bg-slate-800/20 transition text-xs flex items-center space-x-1.5" title="Cambia Tema">
-                <i class="fa-solid fa-sun text-amber-400"></i>
-                <i class="fa-solid fa-moon text-blue-400"></i>
-            </button>
-            <span id="user-display" class="text-xs font-medium text-slate-400 bg-[#161920] px-3 py-1.5 rounded-lg border border-[#262a35]">
-                User: <strong id="current-username-display" class="text-blue-400">@guest</strong>
-            </span>
-            <button onclick="logout()" id="logout-btn" class="text-xs bg-[#161920] hover:bg-[#222733] text-slate-300 border border-[#262a35] px-3.5 py-1.5 rounded-lg transition">Logout</button>
+            <span id="current-username-display" class="text-sm font-semibold text-slate-300">@guest</span>
+            <a id="admin-nav-btn" href="admin.html" class="hidden text-amber-400 bg-amber-500/10 border border-amber-500/20 px-3 py-1.5 rounded-lg text-xs font-semibold hover:bg-amber-500/20 transition"><i class="fa-solid fa-shield-halved mr-1"></i> Admin</a>
+            <button onclick="toggleTheme()" class="text-slate-400 hover:text-white px-3 py-2 transition"><i class="fa-solid fa-circle-half-stroke"></i></button>
+            <button id="logout-btn" onclick="logout()" class="flat-btn-primary bg-red-600/20 hover:bg-red-600/30 border border-red-500/30 text-red-400 text-xs px-4 py-2 rounded-lg font-semibold transition" style="display:none;">Logout</button>
         </div>
     </header>
 
-    <main id="main-container" class="max-w-6xl w-full mx-auto p-6 md:p-10 flex-1 z-10">
-        <section class="space-y-6">
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div>
-                    <h1 class="text-2xl font-bold tracking-tight">Job Board & Incarichi</h1>
-                    <p class="text-xs text-slate-400 mt-0.5">Offerte di lavoro verificate e contratti direttamente gestiti con i clienti.</p>
-                </div>
-                <button onclick="applyJob('Candidatura Generica')" class="flat-btn-primary font-semibold px-4 py-2 rounded-lg text-xs flex items-center space-x-2 self-start md:self-auto">
-                    <i class="fa-solid fa-paper-plane"></i>
-                    <span>Candidatura Spontanea</span>
-                </button>
-            </div>
-
-            <div id="jobs-container" class="space-y-4">
-                <div class="flat-card p-6 space-y-4">
-                    <div class="flex items-center justify-between">
-                        <span class="bg-blue-500/10 text-blue-400 text-[10px] font-semibold px-2.5 py-1 rounded border border-blue-500/20 uppercase">FREELANCE</span>
-                        <span class="text-emerald-400 font-bold text-sm">$3,500 USD</span>
-                    </div>
-                    <div>
-                        <h3 class="text-base font-bold">Full-Stack Stripe Integration Architect</h3>
-                        <p class="text-xs text-slate-400 leading-relaxed mt-1">Cerchiamo uno sviluppatore esperto per integrare webhook Express, connection pooling su MySQL e deploy del backend su Railway.</p>
-                    </div>
-                    <div class="pt-3 border-t border-[#262a35] flex items-center justify-between text-xs">
-                        <span class="text-slate-500 text-[11px]"><i class="fa-regular fa-clock mr-1"></i>Pubblicato recentemente</span>
-                        <button onclick="applyJob('Full-Stack Stripe Integration Architect')" class="flat-btn-primary px-4 py-2 rounded-lg text-xs font-semibold flex items-center space-x-1.5">
-                            <i class="fa-solid fa-paper-plane"></i>
-                            <span>Candidati Ora</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <div id="main-dock" class="fixed left-4 top-1/2 -translate-y-1/2 z-50">
-        <div class="flat-dock-container flex flex-col items-center gap-2">
-            <a href="feed.html" class="dock-item" title="Feed"><i class="fa-solid fa-fire text-base"></i></a>
-            <a href="jobs.html" class="dock-item active" title="Jobs"><i class="fa-solid fa-briefcase text-base"></i></a>
-            <a href="directory.html" class="dock-item" title="Featured"><i class="fa-solid fa-crown text-base"></i></a>
-            <a href="chat.html" class="dock-item" title="Chat"><i class="fa-solid fa-comments text-base"></i></a>
-            <a href="settings.html" class="dock-item" title="Impostazioni"><i class="fa-solid fa-gear text-base"></i></a>
+    <!-- MAIN DASHBOARD -->
+    <main class="max-w-4xl w-full mx-auto px-6 py-10 space-y-10 flex-1">
+        
+        <div class="space-y-2">
+            <h1 class="text-3xl font-bold tracking-tight text-white">Bacheca Incarichi & Pagamenti</h1>
+            <p class="text-sm text-slate-400">Gestisci i pagamenti sicuri tramite Stripe. Trattenuta automatica della piattaforma (15%).</p>
         </div>
-    </div>
+
+        <!-- SEZIONE SVILUPPATORE (ONBOARDING STRIPE) -->
+        <div id="dev-section" class="hidden flat-card p-8 border-[#262a35] bg-gradient-to-br from-[#13151b] to-[#1a1d26] text-center space-y-4 shadow-xl">
+            <div class="w-16 h-16 mx-auto bg-indigo-500/20 rounded-full flex items-center justify-center border border-indigo-500/30 mb-2">
+                <i class="fa-brands fa-stripe text-3xl text-indigo-400"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-white">Ricevi pagamenti dai Clienti</h2>
+            <p class="text-sm text-slate-400 max-w-md mx-auto">Per poter accettare incarichi e farti pagare dai clienti in totale sicurezza, devi collegare il tuo conto bancario tramite Stripe Connect.</p>
+            <button onclick="connectStripe()" class="mt-4 bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-3 rounded-lg font-bold transition shadow-lg shadow-indigo-500/30">
+                <i class="fa-solid fa-link mr-2"></i> Collega Conto Stripe
+            </button>
+        </div>
+
+        <!-- SEZIONE CLIENTE (LISTA SVILUPPATORI DA INGAGGIARE) -->
+        <div id="client-section" class="hidden space-y-4">
+            <h2 class="text-lg font-bold text-white flex items-center gap-2 border-b border-[#262a35] pb-2">
+                <i class="fa-solid fa-briefcase text-blue-400"></i> Sviluppatori Disponibili
+            </h2>
+            <div id="dev-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Sviluppatori caricati dinamicamente via JS -->
+            </div>
+        </div>
+
+        <!-- MESSAGGIO SE NON SEI LOGGATO -->
+        <div id="guest-section" class="text-center py-10">
+            <p class="text-slate-400 mb-4">Devi effettuare l'accesso per gestire gli incarichi.</p>
+            <a href="index.html" class="text-blue-400 hover:underline">Torna alla Home per il Login</a>
+        </div>
+
+    </main>
 
     <script src="main.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            if (!currentUser) { window.location.href = 'index.html'; }
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Controlla i parametri URL per i messaggi di successo/errore di Stripe
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('stripe') === 'success') {
+                setTimeout(() => alert('Conto Stripe collegato con successo! Ora sei pronto a ricevere pagamenti.'), 500);
+            } else if (urlParams.get('payment') === 'success') {
+                setTimeout(() => alert('Pagamento effettuato con successo! Il denaro è ora protetto.'), 500);
+            } else if (urlParams.get('payment') === 'cancelled') {
+                setTimeout(() => alert('Procedura di pagamento annullata.'), 500);
+            }
+
+            // Mostra UI in base al ruolo dell'utente
+            if (!currentUser) {
+                document.getElementById('guest-section').classList.remove('hidden');
+                return;
+            }
+
+            document.getElementById('guest-section').classList.add('hidden');
+
+            if (currentUser.role === 'dev') {
+                document.getElementById('dev-section').classList.remove('hidden');
+            } else if (currentUser.role === 'client' || currentUser.role === 'admin') {
+                document.getElementById('client-section').classList.remove('hidden');
+                loadDevelopers();
+            }
         });
 
-        function applyJob(title) {
-            alert(`Candidatura inviata per l'incarico: "${title}"! Verrai reindirizzato alla chat per parlare con il cliente.`);
-            window.location.href = 'chat.html';
+        // ==========================================
+        // 1. Funzione Sviluppatori: Onboarding Stripe
+        // ==========================================
+        async function connectStripe() {
+            alert('Reindirizzamento a Stripe in corso...');
+            try {
+                const res = await fetchWithAuth(`${API_BASE_URL}/api/payments/connect-developer`, { method: 'POST' });
+                const data = await res.json();
+                
+                if (data.url) {
+                    window.location.href = data.url; // Reindirizza a Stripe Express
+                } else {
+                    alert(data.error || 'Errore durante la connessione a Stripe.');
+                }
+            } catch (e) {
+                alert('Impossibile contattare il server per configurare Stripe.');
+            }
+        }
+
+        // ==========================================
+        // 2. Funzione Clienti: Carica lista Dev
+        // ==========================================
+        async function loadDevelopers() {
+            const devList = document.getElementById('dev-list');
+            try {
+                const res = await fetch(`${API_BASE_URL}/api/accounts`);
+                const users = await res.json();
+                
+                // Filtra solo gli utenti che hanno il ruolo 'dev'
+                const devs = users.filter(u => u.role === 'dev');
+
+                if (devs.length === 0) {
+                    devList.innerHTML = '<p class="text-slate-500 italic col-span-2">Nessuno sviluppatore disponibile al momento.</p>';
+                    return;
+                }
+
+                devList.innerHTML = devs.map(dev => `
+                    <div class="flat-card p-5 border-[#262a35] flex flex-col justify-between h-full bg-[#12151c] hover:border-slate-700 transition">
+                        <div>
+                            <div class="flex items-center space-x-3 mb-3">
+                                <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 border border-slate-700">
+                                    <i class="fa-solid fa-user-astronaut"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-white">@${escapeHTML(dev.username)}</h3>
+                                    <p class="text-[10px] text-blue-400 uppercase tracking-widest font-bold">Sviluppatore</p>
+                                </div>
+                            </div>
+                            <p class="text-xs text-slate-400 mb-4 line-clamp-2">${escapeHTML(dev.bio || 'Nessuna bio inserita.')}</p>
+                        </div>
+                        <button onclick="hireDeveloper('${dev.id}', '${escapeHTML(dev.username)}')" class="w-full bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-400 border border-emerald-500/30 py-2 rounded text-sm font-semibold transition mt-2">
+                            <i class="fa-solid fa-credit-card mr-1"></i> Ingaggia e Paga
+                        </button>
+                    </div>
+                `).join('');
+
+            } catch (e) {
+                devList.innerHTML = '<p class="text-red-400">Errore nel caricamento degli sviluppatori.</p>';
+            }
+        }
+
+        // ==========================================
+        // 3. Funzione Clienti: Checkout Sicuro
+        // ==========================================
+        async function hireDeveloper(devId, devUsername) {
+            const title = prompt(`Che incarico vuoi assegnare a @${devUsername}? \n(es. Creazione E-commerce)`);
+            if (!title) return;
+
+            const budgetStr = prompt(`Qual è il budget stabilito in Euro? \n(es. 500)`);
+            if (!budgetStr) return;
+            
+            const budget = parseFloat(budgetStr.replace(',', '.'));
+            if (isNaN(budget) || budget <= 0) {
+                alert('Inserisci un importo valido.');
+                return;
+            }
+
+            alert('Creazione sessione di pagamento sicura in corso...');
+
+            try {
+                // Passiamo l'ID corretto per permettere al backend di divider i fondi
+                const payload = { 
+                    amountEuro: budget, 
+                    devId: devId, 
+                    jobTitle: title 
+                };
+
+                const res = await fetchWithAuth(`${API_BASE_URL}/api/payments/create-checkout-session`, {
+                    method: 'POST',
+                    body: JSON.stringify(payload)
+                });
+                
+                const data = await res.json();
+                if (data.url) {
+                    window.location.href = data.url; // Ti porta sulla pagina sicura di Stripe!
+                } else {
+                    alert(data.error || 'Errore: questo sviluppatore non ha ancora configurato Stripe.');
+                }
+            } catch(e) {
+                alert('Errore di comunicazione con il server per il checkout.');
+            }
         }
     </script>
 </body>
