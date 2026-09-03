@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="it" class="dark">
+<html lang="en" class="dark">
 <head>
     <script>
       if (localStorage.getItem('prodevunity_theme') === 'light') {
@@ -8,7 +8,7 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ProDevUnity - Incarichi & Pagamenti</title>
+    <title>ProDevUnity - Job Board & Payments</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css?v=5">
@@ -35,36 +35,36 @@
     <main class="max-w-4xl w-full mx-auto px-6 py-10 space-y-10 flex-1">
         
         <div class="space-y-2">
-            <h1 class="text-3xl font-bold tracking-tight text-white">Bacheca Incarichi & Pagamenti</h1>
-            <p class="text-sm text-slate-400">Gestisci i pagamenti sicuri tramite Stripe. Trattenuta automatica della piattaforma (15%).</p>
+            <h1 class="text-3xl font-bold tracking-tight text-white">Job Board & Payments</h1>
+            <p class="text-sm text-slate-400">Manage secure transactions via Stripe with automatic 15% platform commission.</p>
         </div>
 
-        <!-- SEZIONE SVILUPPATORE (ONBOARDING STRIPE) -->
+        <!-- DEVELOPER SECTION (STRIPE ONBOARDING) -->
         <div id="dev-section" class="hidden flat-card p-8 border-[#262a35] bg-gradient-to-br from-[#13151b] to-[#1a1d26] text-center space-y-4 shadow-xl">
             <div class="w-16 h-16 mx-auto bg-indigo-500/20 rounded-full flex items-center justify-center border border-indigo-500/30 mb-2">
                 <i class="fa-brands fa-stripe text-3xl text-indigo-400"></i>
             </div>
-            <h2 class="text-2xl font-bold text-white">Ricevi pagamenti dai Clienti</h2>
-            <p class="text-sm text-slate-400 max-w-md mx-auto">Per poter accettare incarichi e farti pagare dai clienti in totale sicurezza, devi collegare il tuo conto bancario tramite Stripe Connect.</p>
+            <h2 class="text-2xl font-bold text-white">Get Paid by Clients</h2>
+            <p class="text-sm text-slate-400 max-w-md mx-auto">To accept job offers and receive payouts securely, connect your bank account via Stripe Connect.</p>
             <button onclick="connectStripe()" class="mt-4 bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-3 rounded-lg font-bold transition shadow-lg shadow-indigo-500/30">
-                <i class="fa-solid fa-link mr-2"></i> Collega Conto Stripe
+                <i class="fa-solid fa-link mr-2"></i> Connect Stripe Account
             </button>
         </div>
 
-        <!-- SEZIONE CLIENTE (LISTA SVILUPPATORI DA INGAGGIARE) -->
+        <!-- CLIENT SECTION (AVAILABLE DEVELOPERS) -->
         <div id="client-section" class="hidden space-y-4">
             <h2 class="text-lg font-bold text-white flex items-center gap-2 border-b border-[#262a35] pb-2">
-                <i class="fa-solid fa-briefcase text-blue-400"></i> Sviluppatori Disponibili
+                <i class="fa-solid fa-briefcase text-blue-400"></i> Available Developers
             </h2>
             <div id="dev-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <!-- Sviluppatori caricati dinamicamente via JS -->
+                <!-- Dynamically loaded developers -->
             </div>
         </div>
 
-        <!-- MESSAGGIO SE NON SEI LOGGATO -->
+        <!-- GUEST MESSAGE -->
         <div id="guest-section" class="text-center py-10">
-            <p class="text-slate-400 mb-4">Devi effettuare l'accesso per gestire gli incarichi.</p>
-            <a href="index.html" class="text-blue-400 hover:underline">Torna alla Home per il Login</a>
+            <p class="text-slate-400 mb-4">Please sign in to manage jobs and payouts.</p>
+            <a href="index.html" class="text-blue-400 hover:underline">Return to Home to Sign In</a>
         </div>
 
     </main>
@@ -72,17 +72,15 @@
     <script src="main.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
-            // Controlla i parametri URL per i messaggi di successo/errore di Stripe
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.get('stripe') === 'success') {
-                setTimeout(() => alert('Conto Stripe collegato con successo! Ora sei pronto a ricevere pagamenti.'), 500);
+                setTimeout(() => alert('Stripe account connected successfully! You are ready to receive payouts.'), 500);
             } else if (urlParams.get('payment') === 'success') {
-                setTimeout(() => alert('Pagamento effettuato con successo! Il denaro è ora protetto.'), 500);
+                setTimeout(() => alert('Payment completed successfully! Funds are now protected.'), 500);
             } else if (urlParams.get('payment') === 'cancelled') {
-                setTimeout(() => alert('Procedura di pagamento annullata.'), 500);
+                setTimeout(() => alert('Payment process cancelled.'), 500);
             }
 
-            // Mostra UI in base al ruolo dell'utente
             if (!currentUser) {
                 document.getElementById('guest-section').classList.remove('hidden');
                 return;
@@ -98,39 +96,32 @@
             }
         });
 
-        // ==========================================
-        // 1. Funzione Sviluppatori: Onboarding Stripe
-        // ==========================================
         async function connectStripe() {
-            alert('Reindirizzamento a Stripe in corso...');
+            alert('Redirecting to Stripe...');
             try {
                 const res = await fetchWithAuth(`${API_BASE_URL}/api/payments/connect-developer`, { method: 'POST' });
                 const data = await res.json();
                 
                 if (data.url) {
-                    window.location.href = data.url; // Reindirizza a Stripe Express
+                    window.location.href = data.url;
                 } else {
-                    alert(data.error || 'Errore durante la connessione a Stripe.');
+                    alert(data.error || 'Error connecting to Stripe.');
                 }
             } catch (e) {
-                alert('Impossibile contattare il server per configurare Stripe.');
+                alert('Unable to connect to server for Stripe configuration.');
             }
         }
 
-        // ==========================================
-        // 2. Funzione Clienti: Carica lista Dev
-        // ==========================================
         async function loadDevelopers() {
             const devList = document.getElementById('dev-list');
             try {
                 const res = await fetch(`${API_BASE_URL}/api/accounts`);
                 const users = await res.json();
                 
-                // Filtra solo gli utenti che hanno il ruolo 'dev'
                 const devs = users.filter(u => u.role === 'dev');
 
                 if (devs.length === 0) {
-                    devList.innerHTML = '<p class="text-slate-500 italic col-span-2">Nessuno sviluppatore disponibile al momento.</p>';
+                    devList.innerHTML = '<p class="text-slate-500 italic col-span-2">No developers available at the moment.</p>';
                     return;
                 }
 
@@ -143,42 +134,38 @@
                                 </div>
                                 <div>
                                     <h3 class="font-bold text-white">@${escapeHTML(dev.username)}</h3>
-                                    <p class="text-[10px] text-blue-400 uppercase tracking-widest font-bold">Sviluppatore</p>
+                                    <p class="text-[10px] text-blue-400 uppercase tracking-widest font-bold">Developer</p>
                                 </div>
                             </div>
-                            <p class="text-xs text-slate-400 mb-4 line-clamp-2">${escapeHTML(dev.bio || 'Nessuna bio inserita.')}</p>
+                            <p class="text-xs text-slate-400 mb-4 line-clamp-2">${escapeHTML(dev.bio || 'No bio available.')}</p>
                         </div>
                         <button onclick="hireDeveloper('${dev.id}', '${escapeHTML(dev.username)}')" class="w-full bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-400 border border-emerald-500/30 py-2 rounded text-sm font-semibold transition mt-2">
-                            <i class="fa-solid fa-credit-card mr-1"></i> Ingaggia e Paga
+                            <i class="fa-solid fa-credit-card mr-1"></i> Hire & Pay
                         </button>
                     </div>
                 `).join('');
 
             } catch (e) {
-                devList.innerHTML = '<p class="text-red-400">Errore nel caricamento degli sviluppatori.</p>';
+                devList.innerHTML = '<p class="text-red-400">Error loading developers.</p>';
             }
         }
 
-        // ==========================================
-        // 3. Funzione Clienti: Checkout Sicuro
-        // ==========================================
         async function hireDeveloper(devId, devUsername) {
-            const title = prompt(`Che incarico vuoi assegnare a @${devUsername}? \n(es. Creazione E-commerce)`);
+            const title = prompt(`What task do you want to assign to @${devUsername}? \n(e.g. E-commerce Development)`);
             if (!title) return;
 
-            const budgetStr = prompt(`Qual è il budget stabilito in Euro? \n(es. 500)`);
+            const budgetStr = prompt(`What is the agreed budget in Euros? \n(e.g. 500)`);
             if (!budgetStr) return;
             
             const budget = parseFloat(budgetStr.replace(',', '.'));
             if (isNaN(budget) || budget <= 0) {
-                alert('Inserisci un importo valido.');
+                alert('Please enter a valid amount.');
                 return;
             }
 
-            alert('Creazione sessione di pagamento sicura in corso...');
+            alert('Creating secure payment session...');
 
             try {
-                // Passiamo l'ID corretto per permettere al backend di divider i fondi
                 const payload = { 
                     amountEuro: budget, 
                     devId: devId, 
@@ -192,12 +179,12 @@
                 
                 const data = await res.json();
                 if (data.url) {
-                    window.location.href = data.url; // Ti porta sulla pagina sicura di Stripe!
+                    window.location.href = data.url;
                 } else {
-                    alert(data.error || 'Errore: questo sviluppatore non ha ancora configurato Stripe.');
+                    alert(data.error || 'Error: This developer has not set up Stripe yet.');
                 }
             } catch(e) {
-                alert('Errore di comunicazione con il server per il checkout.');
+                alert('Server communication error during checkout.');
             }
         }
     </script>
