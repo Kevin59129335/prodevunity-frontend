@@ -4,7 +4,7 @@ let currentUser = JSON.parse(localStorage.getItem('prodevunity_user')) || null;
 let authMode = 'login';
 
 // ==========================================
-// SOSTITUZIONE POPUP NATIVI (NO ALERT NETLIFY)
+// SOSTITUZIONE POPUP NATIVI (TOAST CUSTOM)
 // ==========================================
 window.alert = function (message) {
     let toast = document.getElementById('custom-toast');
@@ -22,18 +22,19 @@ window.alert = function (message) {
         <p class="text-xs text-slate-200 flex-1 leading-snug">${escapeHTML(message)}</p>
     `;
     
-    // Mostra la notifica
     setTimeout(() => {
         toast.classList.remove('translate-y-10', 'opacity-0', 'pointer-events-none');
     }, 10);
 
-    // Nascondi la notifica dopo 3.5 secondi
     clearTimeout(window.toastTimer);
     window.toastTimer = setTimeout(() => {
         toast.classList.add('translate-y-10', 'opacity-0', 'pointer-events-none');
     }, 3500);
 };
 
+// ==========================================
+// INIZIALIZZAZIONE DOM & UTILITY
+// ==========================================
 document.addEventListener('DOMContentLoaded', () => {
     applySavedTheme();
     updateUIAuth();
@@ -62,7 +63,6 @@ async function fetchWithAuth(url, options = {}) {
 // ==========================================
 // MODALE AUTENTICAZIONE
 // ==========================================
-
 function openAuthModal(mode = 'login') {
     authMode = mode;
     const modal = document.getElementById('auth-modal');
@@ -139,9 +139,8 @@ async function handleAuthSubmit(e) {
 }
 
 // ==========================================
-// SESSIONE & LOGOUT
+// SESSIONE & INTERFACCIA UTENTE
 // ==========================================
-
 async function checkAuthSession() {
     try {
         const res = await fetch(`${API_BASE_URL}/api/auth/me`, {
@@ -157,7 +156,7 @@ async function checkAuthSession() {
             localStorage.removeItem('prodevunity_user');
         }
     } catch (err) {
-        console.error("Errore sessione:", err);
+        console.error("Errore verifica sessione:", err);
     }
     updateUIAuth();
 }
@@ -166,12 +165,21 @@ function updateUIAuth() {
     const userDisplay = document.getElementById('current-username-display');
     const logoutBtn = document.getElementById('logout-btn');
     const loginBtn = document.getElementById('login-btn');
+    const adminBtn = document.getElementById('admin-nav-btn');
 
     if (userDisplay) {
         userDisplay.textContent = currentUser ? `@${currentUser.username}` : '@guest';
     }
     if (logoutBtn) logoutBtn.style.display = currentUser ? 'block' : 'none';
     if (loginBtn) loginBtn.style.display = currentUser ? 'none' : 'block';
+
+    if (adminBtn) {
+        if (currentUser && currentUser.role === 'admin') {
+            adminBtn.classList.remove('hidden');
+        } else {
+            adminBtn.classList.add('hidden');
+        }
+    }
 }
 
 async function logout() {
@@ -181,7 +189,7 @@ async function logout() {
             credentials: 'include'
         });
     } catch (err) {
-        console.error("Errore logout:", err);
+        console.error("Errore durante il logout:", err);
     } finally {
         currentUser = null;
         localStorage.removeItem('prodevunity_user');
@@ -192,7 +200,6 @@ async function logout() {
 // ==========================================
 // TEMA CHIARO / SCURO
 // ==========================================
-
 function toggleTheme() {
     const currentTheme = localStorage.getItem('prodevunity_theme') || 'dark';
     const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
