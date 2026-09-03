@@ -8,21 +8,21 @@
     --text-muted: #94a3b8;
     --accent-blue: #3b82f6;
     --dock-bg: rgba(19, 21, 27, 0.85);
-    /* Punti sullo sfondo (Tema Scuro: Grigio/Bianco trasparente) */
     --dot-color: rgba(255, 255, 255, 0.12);
+    --card-shadow: none;
 }
 
-/* TEMA CHIARO (Light Mode) */
+/* TEMA CHIARO (Light Mode) - CONTRASTO ELEVATO */
 html.light-theme {
-    --bg-main: #f8fafc;
-    --card-bg: #ffffff;
-    --border-color: #e2e8f0;
-    --text-primary: #0f172a;
-    --text-muted: #64748b;
+    --bg-main: #e2e8f0;            /* Grigio chiaro ben marcato per fare contrasto */
+    --card-bg: #ffffff;            /* Card bianche brillanti */
+    --border-color: #cbd5e1;        /* Bordi grigi definiti */
+    --text-primary: #0f172a;        /* Testo scuro/nero */
+    --text-muted: #475569;         /* Testo secondario ben leggibile */
     --accent-blue: #2563eb;
-    --dock-bg: rgba(255, 255, 255, 0.9);
-    /* Punti sullo sfondo (Tema Chiaro: Punti NERI) */
-    --dot-color: rgba(0, 0, 0, 0.22);
+    --dock-bg: rgba(255, 255, 255, 0.95);
+    --dot-color: rgba(0, 0, 0, 0.28); /* Punti neri ben definiti */
+    --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
 }
 
 body {
@@ -31,17 +31,18 @@ body {
     color: var(--text-primary);
     transition: background-color 0.25s ease, color 0.25s ease;
     
-    /* SFONDO CON GRIGLIA A PUNTINI DINAMICI */
-    background-image: radial-gradient(var(--dot-color) 1.2px, transparent 1.2px);
+    /* SFONDO A PUNTINI */
+    background-image: radial-gradient(var(--dot-color) 1.5px, transparent 1.5px);
     background-size: 24px 24px;
     background-position: 0 0;
 }
 
-/* Schede e contenitori */
+/* Schede e contenitori con ombra e stacco netto */
 .flat-card {
     background-color: var(--card-bg) !important;
     border: 1px solid var(--border-color) !important;
     border-radius: 12px;
+    box-shadow: var(--card-shadow);
     transition: background-color 0.25s ease, border-color 0.25s ease;
 }
 
@@ -49,6 +50,7 @@ body {
 header {
     background-color: var(--card-bg) !important;
     border-color: var(--border-color) !important;
+    box-shadow: var(--card-shadow);
 }
 
 /* Dock Laterale */
@@ -58,7 +60,7 @@ header {
     border: 1px solid var(--border-color);
     padding: 8px;
     border-radius: 16px;
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--card-shadow);
 }
 
 .dock-item {
@@ -96,7 +98,7 @@ input, textarea, select {
     border-color: var(--border-color) !important;
 }
 
-/* Sovrascrittura testi generici per Tema Chiaro */
+/* Sovrascrittura testi per Tema Chiaro */
 html.light-theme .text-white {
     color: var(--text-primary) !important;
 }
