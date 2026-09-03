@@ -4,7 +4,7 @@ let currentUser = JSON.parse(localStorage.getItem('prodevunity_user')) || null;
 let authMode = 'login';
 
 // ==========================================
-// SOSTITUZIONE POPUP NATIVI (TOAST CUSTOM)
+// CUSTOM TOAST NOTIFICATIONS
 // ==========================================
 window.alert = function (message) {
     let toast = document.getElementById('custom-toast');
@@ -33,7 +33,7 @@ window.alert = function (message) {
 };
 
 // ==========================================
-// INIZIALIZZAZIONE DOM & UTILITY
+// INITIALIZATION & UTILITIES
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
     applySavedTheme();
@@ -61,7 +61,7 @@ async function fetchWithAuth(url, options = {}) {
 }
 
 // ==========================================
-// MODALE AUTENTICAZIONE
+// AUTHENTICATION MODAL
 // ==========================================
 function openAuthModal(mode = 'login') {
     authMode = mode;
@@ -77,9 +77,9 @@ function openAuthModal(mode = 'login') {
     if (!modal) return;
 
     if (mode === 'register') {
-        if (title) title.textContent = 'Crea il tuo Account';
-        if (submitBtn) submitBtn.textContent = 'Registrati Ora';
-        if (toggleText) toggleText.innerHTML = 'Hai già un account? <a href="#" onclick="openAuthModal(\'login\')" class="text-blue-400 font-bold">Accedi</a>';
+        if (title) title.textContent = 'Create Your Account';
+        if (submitBtn) submitBtn.textContent = 'Register Now';
+        if (toggleText) toggleText.innerHTML = 'Already have an account? <a href="#" onclick="openAuthModal(\'login\')" class="text-blue-400 font-bold">Sign In</a>';
         if (roleGroup) roleGroup.classList.remove('hidden');
         
         if (tabRegister) {
@@ -92,9 +92,9 @@ function openAuthModal(mode = 'login') {
         }
 
     } else {
-        if (title) title.textContent = 'Accedi a ProDevUnity';
-        if (submitBtn) submitBtn.textContent = 'Accedi';
-        if (toggleText) toggleText.innerHTML = 'Non hai un account? <a href="#" onclick="openAuthModal(\'register\')" class="text-blue-400 font-bold">Registrati</a>';
+        if (title) title.textContent = 'Sign In to ProDevUnity';
+        if (submitBtn) submitBtn.textContent = 'Sign In';
+        if (toggleText) toggleText.innerHTML = 'Don\'t have an account? <a href="#" onclick="openAuthModal(\'register\')" class="text-blue-400 font-bold">Register</a>';
         if (roleGroup) roleGroup.classList.add('hidden');
         
         if (tabLogin) {
@@ -126,7 +126,7 @@ async function handleAuthSubmit(e) {
     const role = roleInput ? roleInput.value : 'dev';
 
     if (!username || !password) {
-        alert('Compila tutti i campi obbligatori.');
+        alert('Please fill in all required fields.');
         return;
     }
 
@@ -144,7 +144,7 @@ async function handleAuthSubmit(e) {
 
         if (res.ok) {
             if (authMode === 'register') {
-                alert('Registrazione completata! Ora effettua il login.');
+                alert('Registration successful! Please sign in.');
                 openAuthModal('login');
             } else {
                 currentUser = data.user;
@@ -153,15 +153,15 @@ async function handleAuthSubmit(e) {
                 window.location.href = 'feed.html';
             }
         } else {
-            alert(data.error || 'Errore durante la richiesta.');
+            alert(data.error || 'Request error occurred.');
         }
     } catch (err) {
-        alert('Impossibile contattare il server.');
+        alert('Unable to connect to the server.');
     }
 }
 
 // ==========================================
-// SESSIONE & INTERFACCIA UTENTE
+// SESSION & USER INTERFACE
 // ==========================================
 async function checkAuthSession() {
     try {
@@ -178,7 +178,7 @@ async function checkAuthSession() {
             localStorage.removeItem('prodevunity_user');
         }
     } catch (err) {
-        console.error("Errore verifica sessione:", err);
+        console.error("Session verification error:", err);
     }
     updateUIAuth();
 }
@@ -211,7 +211,7 @@ async function logout() {
             credentials: 'include'
         });
     } catch (err) {
-        console.error("Errore durante il logout:", err);
+        console.error("Error during logout:", err);
     } finally {
         currentUser = null;
         localStorage.removeItem('prodevunity_user');
@@ -220,7 +220,7 @@ async function logout() {
 }
 
 // ==========================================
-// TEMA CHIARO / SCURO
+// THEME SWITCHER
 // ==========================================
 function toggleTheme() {
     const currentTheme = localStorage.getItem('prodevunity_theme') || 'dark';
