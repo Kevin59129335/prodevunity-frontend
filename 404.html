@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
+    <script>
+      // Applica il tema PRIMA del rendering della pagina per evitare il flash nero
+      if (localStorage.getItem('prodevunity_theme') === 'light') {
+        document.documentElement.classList.add('light-theme');
+      }
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ProDevUnity - Pagina non trovata (404)</title>
