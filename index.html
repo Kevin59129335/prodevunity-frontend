@@ -15,6 +15,7 @@
 </head>
 <body class="min-h-screen flex flex-col bg-[#0b0c10] text-slate-100">
 
+    <!-- HEADER NAVIGATION -->
     <header class="px-8 py-5 flex items-center justify-between border-b border-[#262a35] sticky top-0 bg-[#0b0c10]/90 backdrop-blur-md z-50">
         <a href="index.html" class="flex items-center space-x-3">
             <div class="w-9 h-9 rounded-lg bg-blue-500/20 border border-blue-500/30 flex items-center justify-center text-blue-400 font-bold text-base shadow-[0_0_15px_rgba(59,130,246,0.3)]">
@@ -31,18 +32,58 @@
         </div>
     </header>
 
-    <main class="flex-1 flex flex-col items-center justify-center px-6 py-20 text-center">
-        <h1 class="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-6">
-            Build Faster. Collaborate. <br>
-            <span class="text-blue-400">On ProDevUnity.</span>
-        </h1>
-        <p class="text-slate-400 text-base md:text-lg max-w-2xl mb-10">
-            Piattaforma ad alte prestazioni per Full-Stack Developers e Clienti. Incarichi e pagamenti protetti al 100% in totale sicurezza.
-        </p>
-        <div class="flex space-x-4">
-            <button onclick="openAuthModal('register')" class="bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-xl font-bold text-sm shadow-lg shadow-blue-500/30 transition">Unisciti Ora</button>
-            <button onclick="openAuthModal('login')" class="bg-[#12151c] hover:bg-[#181c26] text-slate-300 border border-[#262a35] px-6 py-3 rounded-xl font-bold text-sm transition">Accedi</button>
+    <!-- HERO SECTION & CONTENUTI COMPLETI LANDING PAGE -->
+    <main class="flex-1 flex flex-col items-center justify-center px-6 py-16 text-center max-w-6xl mx-auto w-full">
+        
+        <div class="max-w-3xl mx-auto space-y-6">
+            <h1 class="text-4xl md:text-6xl font-extrabold text-white tracking-tight leading-tight">
+                Build Faster. Collaborate. <br>
+                <span class="text-blue-400">On ProDevUnity.</span>
+            </h1>
+            <p class="text-slate-400 text-base md:text-lg leading-relaxed">
+                Piattaforma ad alte prestazioni per Full-Stack Developers e Clienti. Incarichi e pagamenti protetti al 100% in totale sicurezza.
+            </p>
+            <div class="flex items-center justify-center space-x-4 pt-4">
+                <button onclick="openAuthModal('register')" class="bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-xl font-bold text-sm shadow-lg shadow-blue-500/30 transition">Unisciti Ora</button>
+                <button onclick="openAuthModal('login')" class="bg-[#12151c] hover:bg-[#181c26] text-slate-300 border border-[#262a35] px-6 py-3 rounded-xl font-bold text-sm transition">Accedi</button>
+            </div>
         </div>
+
+        <!-- STRUMENTI & CARATTERISTICHE PIATTAFORMA -->
+        <div class="mt-20 w-full text-center space-y-4">
+            <h2 class="text-2xl font-bold text-white tracking-tight">Tutto ciò che serve per collaborare ed eseguire</h2>
+            <p class="text-xs text-slate-400 max-w-xl mx-auto">Strumenti avanzati pensati sia per professionisti del codice che per aziende in cerca di talenti.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6 text-left">
+                <!-- Card 1 -->
+                <div class="flat-card p-6 border-[#262a35] bg-[#12151c]/60 space-y-3">
+                    <div class="w-10 h-10 rounded-lg bg-blue-500/10 border border-blue-500/20 text-blue-400 flex items-center justify-center text-lg">
+                        <i class="fa-solid fa-code"></i>
+                    </div>
+                    <h3 class="text-white font-bold text-base">Feed & Snippet Code</h3>
+                    <p class="text-slate-400 text-xs leading-relaxed">Condividi componenti, snippet e progetti con la community per ricevere feedback immediati.</p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="flat-card p-6 border-[#262a35] bg-[#12151c]/60 space-y-3">
+                    <div class="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center text-lg">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <h3 class="text-white font-bold text-base">Pagamenti Stripe (15%)</h3>
+                    <p class="text-slate-400 text-xs leading-relaxed">Incarichi protetti con commissione di piattaforma automatica. Ricevi ed effettua pagamenti in sicurezza.</p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="flat-card p-6 border-[#262a35] bg-[#12151c]/60 space-y-3">
+                    <div class="w-10 h-10 rounded-lg bg-purple-500/10 border border-purple-500/20 text-purple-400 flex items-center justify-center text-lg">
+                        <i class="fa-solid fa-comments"></i>
+                    </div>
+                    <h3 class="text-white font-bold text-base">Canali & Chat Privati</h3>
+                    <p class="text-slate-400 text-xs leading-relaxed">Stanze di discussione pubbliche o canali riservati protetti da passcode per lavorare in team.</p>
+                </div>
+            </div>
+        </div>
+
     </main>
 
     <!-- MODALE AUTENTICAZIONE -->
@@ -57,7 +98,7 @@
                 <p class="text-xs text-slate-400">Join the developer network.</p>
             </div>
 
-            <!-- TAB SELECTOR -->
+            <!-- TAB SELECTOR CORRETTO -->
             <div class="flex bg-[#0b0c10] p-1 rounded-lg border border-[#232733]">
                 <button id="tab-login" onclick="openAuthModal('login')" class="w-1/2 py-2 rounded-md font-semibold text-xs transition bg-[#1c1f28] text-white shadow">
                     Login
