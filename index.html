@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="it" class="dark">
 <head>
     <script>
-      // Applica il tema PRIMA del rendering della pagina per evitare il flash nero
+      // Applica il tema PRIMA del rendering per evitare il flash nero
       if (localStorage.getItem('prodevunity_theme') === 'light') {
         document.documentElement.classList.add('light-theme');
       }
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ProDevUnity - Network for Senior Developers</title>
+    <title>ProDevUnity - Platform for Senior Developers & Clients</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css?v=5">
@@ -21,6 +21,7 @@
 </head>
 <body class="min-h-screen flex flex-col justify-between">
 
+    <!-- HEADER NAVIGATION -->
     <header class="px-8 py-5 flex items-center justify-between border-b sticky top-0 z-50">
         <a href="index.html" class="flex items-center space-x-3">
             <div class="w-9 h-9 rounded-lg bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-blue-400 font-bold text-base">
@@ -34,23 +35,129 @@
         </div>
     </header>
 
-    <main class="max-w-6xl w-full mx-auto px-6 py-16 md:py-24 space-y-20 flex-1">
+    <!-- HERO SECTION -->
+    <main class="max-w-6xl w-full mx-auto px-6 py-16 md:py-24 space-y-24 flex-1">
+        
         <div class="text-center max-w-3xl mx-auto space-y-6">
-            <span class="px-3.5 py-1.5 rounded-full text-[11px] font-semibold bg-[#161920] text-blue-400 border border-[#262a35] inline-flex items-center gap-2">
+            <span class="px-3.5 py-1.5 rounded-full text-[11px] font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20 inline-flex items-center gap-2">
                 <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> The Verified Developer Network
             </span>
             <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight text-white leading-tight">
                 Build, Test & Hire in One <br><span class="text-blue-500">Unified Platform.</span>
             </h1>
             <p class="text-sm md:text-base text-slate-400 leading-relaxed max-w-2xl mx-auto">
-                A high-performance hub connecting software architects with verified clients. Execute live code snippets and showcase client-backed reviews.
+                L'ecosistema ad alte prestazioni che connette Software Architect, Full-Stack Developer e Clienti verificati. Esegui snippet di codice live e gestisci incarichi in totale sicurezza.
             </p>
             <div class="flex items-center justify-center space-x-4 pt-4">
                 <button onclick="openAuthModal('register')" class="flat-btn-primary font-semibold px-8 py-3.5 rounded-lg text-xs uppercase tracking-wider shadow-lg shadow-blue-500/20">
-                    Create Free Account
+                    Crea Account Gratuito
                 </button>
+                <a href="#features" class="px-6 py-3.5 rounded-lg text-xs font-semibold text-slate-300 hover:text-white border border-[#262a35] transition">
+                    Scopri le Funzionalità
+                </a>
             </div>
         </div>
+
+        <!-- METRICHE E STATISTICHE -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="flat-card p-6 text-center space-y-1">
+                <p class="text-3xl font-extrabold text-blue-400">10k+</p>
+                <p class="text-xs text-slate-400 font-medium">Sviluppatori Senior</p>
+            </div>
+            <div class="flat-card p-6 text-center space-y-1">
+                <p class="text-3xl font-extrabold text-emerald-400">99.8%</p>
+                <p class="text-xs text-slate-400 font-medium">Uptime Sandbox Live</p>
+            </div>
+            <div class="flat-card p-6 text-center space-y-1">
+                <p class="text-3xl font-extrabold text-amber-400">2,500+</p>
+                <p class="text-xs text-slate-400 font-medium">Incarichi Completati</p>
+            </div>
+            <div class="flat-card p-6 text-center space-y-1">
+                <p class="text-3xl font-extrabold text-purple-400">4.9/5</p>
+                <p class="text-xs text-slate-400 font-medium">Valutazione Clienti</p>
+            </div>
+        </div>
+
+        <!-- SEZIONE FUNZIONALITÀ PRINCIPALI -->
+        <div id="features" class="space-y-12">
+            <div class="text-center space-y-3">
+                <h2 class="text-2xl md:text-3xl font-bold">Tutto ciò che serve per collaborare ed eseguire codice</h2>
+                <p class="text-xs text-slate-400 max-w-lg mx-auto">Strumenti avanzati pensati sia per professionisti del codice che per aziende in cerca di talenti.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- FEATURE 1 -->
+                <div class="flat-card p-6 space-y-4">
+                    <div class="w-10 h-10 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 text-lg">
+                        <i class="fa-solid fa-terminal"></i>
+                    </div>
+                    <h3 class="font-bold text-base">Live Code Sandbox</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Condividi ed esegui snippet di codice direttamente nel feed di discussione. Un'area di prova sicura per mostrare soluzioni tecniche in tempo reale.
+                    </p>
+                </div>
+
+                <!-- FEATURE 2 -->
+                <div class="flat-card p-6 space-y-4">
+                    <div class="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-lg">
+                        <i class="fa-solid fa-users-viewfinder"></i>
+                    </div>
+                    <h3 class="font-bold text-base">Directory Sviluppatori</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Filtra profili verifcati con recensioni trasparenti e badge di ruolo. Trova l'architetto software o lo sviluppatore ideale per ogni progetto.
+                    </p>
+                </div>
+
+                <!-- FEATURE 3 -->
+                <div class="flat-card p-6 space-y-4">
+                    <div class="w-10 h-10 rounded-lg bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 text-lg">
+                        <i class="fa-solid fa-comments"></i>
+                    </div>
+                    <h3 class="font-bold text-base">Canali & Chat Dirette</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Comunica in canali tematici pubblici, crea stanze private protette da codice di accesso o avvia messaggi diretti tra clienti e sviluppatori.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SEZIONE COME FUNZIONA -->
+        <div class="space-y-12 border-t border-[#262a35] pt-16">
+            <div class="text-center space-y-3">
+                <h2 class="text-2xl md:text-3xl font-bold">Come funziona la piattaforma</h2>
+                <p class="text-xs text-slate-400">Pochi passaggi per entrare a far parte del network.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="flat-card p-6 space-y-3 relative">
+                    <span class="text-4xl font-extrabold text-blue-500/20">01</span>
+                    <h4 class="font-bold text-sm">Registra un Account</h4>
+                    <p class="text-xs text-slate-400">Scegli se registrarti come Sviluppatore (dev_) o Cliente (client_) per accedere agli strumenti dedicati.</p>
+                </div>
+
+                <div class="flat-card p-6 space-y-3 relative">
+                    <span class="text-4xl font-extrabold text-blue-500/20">02</span>
+                    <h4 class="font-bold text-sm">Mostra Competenze o Progetti</h4>
+                    <p class="text-xs text-slate-400">Pubblica post con codice eseguibile nel Feed o proponi/accetta contratti di lavoro nella Job Board.</p>
+                </div>
+
+                <div class="flat-card p-6 space-y-3 relative">
+                    <span class="text-4xl font-extrabold text-blue-500/20">03</span>
+                    <h4 class="font-bold text-sm">Collabora e Cresci</h4>
+                    <p class="text-xs text-slate-400">Raccogli valutazioni verificate, espandi la tua rete professionale e gestisci le trattative in modo sicuro.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- BANNER FINALE / CTA -->
+        <div class="flat-card p-10 text-center space-y-6 border-blue-500/30">
+            <h2 class="text-2xl md:text-3xl font-extrabold">Pronto a iniziare con ProDevUnity?</h2>
+            <p class="text-xs text-slate-400 max-w-md mx-auto">Unisciti alla community di sviluppatori e clienti oggi stesso. Nessun costo di registrazione.</p>
+            <button onclick="openAuthModal('register')" class="flat-btn-primary font-semibold px-8 py-3.5 rounded-lg text-xs uppercase tracking-wider shadow-lg shadow-blue-500/20">
+                Inizia Subito Gratuitamente
+            </button>
+        </div>
+
     </main>
 
     <!-- FOOTER LEGALE -->
