@@ -2,7 +2,6 @@
 <html lang="it" class="dark">
 <head>
     <script>
-      // Applica il tema PRIMA del rendering per evitare il flash nero
       if (localStorage.getItem('prodevunity_theme') === 'light') {
         document.documentElement.classList.add('light-theme');
       }
@@ -36,7 +35,7 @@
     </header>
 
     <!-- HERO SECTION -->
-    <main class="max-w-6xl w-full mx-auto px-6 py-16 md:py-24 space-y-24 flex-1">
+    <main class="max-w-6xl w-full mx-auto px-6 py-16 md:py-24 space-y-20 flex-1">
         
         <div class="text-center max-w-3xl mx-auto space-y-6">
             <span class="px-3.5 py-1.5 rounded-full text-[11px] font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20 inline-flex items-center gap-2">
@@ -58,26 +57,6 @@
             </div>
         </div>
 
-        <!-- METRICHE E STATISTICHE -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div class="flat-card p-6 text-center space-y-1">
-                <p class="text-3xl font-extrabold text-blue-400">10k+</p>
-                <p class="text-xs text-slate-400 font-medium">Sviluppatori Senior</p>
-            </div>
-            <div class="flat-card p-6 text-center space-y-1">
-                <p class="text-3xl font-extrabold text-emerald-400">99.8%</p>
-                <p class="text-xs text-slate-400 font-medium">Uptime Sandbox Live</p>
-            </div>
-            <div class="flat-card p-6 text-center space-y-1">
-                <p class="text-3xl font-extrabold text-amber-400">2,500+</p>
-                <p class="text-xs text-slate-400 font-medium">Incarichi Completati</p>
-            </div>
-            <div class="flat-card p-6 text-center space-y-1">
-                <p class="text-3xl font-extrabold text-purple-400">4.9/5</p>
-                <p class="text-xs text-slate-400 font-medium">Valutazione Clienti</p>
-            </div>
-        </div>
-
         <!-- SEZIONE FUNZIONALITÀ PRINCIPALI -->
         <div id="features" class="space-y-12">
             <div class="text-center space-y-3">
@@ -86,7 +65,6 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- FEATURE 1 -->
                 <div class="flat-card p-6 space-y-4">
                     <div class="w-10 h-10 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 text-lg">
                         <i class="fa-solid fa-terminal"></i>
@@ -97,18 +75,16 @@
                     </p>
                 </div>
 
-                <!-- FEATURE 2 -->
                 <div class="flat-card p-6 space-y-4">
                     <div class="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-lg">
                         <i class="fa-solid fa-users-viewfinder"></i>
                     </div>
                     <h3 class="font-bold text-base">Directory Sviluppatori</h3>
                     <p class="text-xs text-slate-400 leading-relaxed">
-                        Filtra profili verifcati con recensioni trasparenti e badge di ruolo. Trova l'architetto software o lo sviluppatore ideale per ogni progetto.
+                        Filtra profili verificati con recensioni trasparenti e badge di ruolo. Trova l'architetto software o lo sviluppatore ideale per ogni progetto.
                     </p>
                 </div>
 
-                <!-- FEATURE 3 -->
                 <div class="flat-card p-6 space-y-4">
                     <div class="w-10 h-10 rounded-lg bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 text-lg">
                         <i class="fa-solid fa-comments"></i>
@@ -152,7 +128,7 @@
         <!-- BANNER FINALE / CTA -->
         <div class="flat-card p-10 text-center space-y-6 border-blue-500/30">
             <h2 class="text-2xl md:text-3xl font-extrabold">Pronto a iniziare con ProDevUnity?</h2>
-            <p class="text-xs text-slate-400 max-w-md mx-auto">Unisciti alla community di sviluppatori e clienti oggi stesso. Nessun costo di registrazione.</p>
+            <p class="text-xs text-slate-400 max-w-md mx-auto">Unisciti alla community di sviluppatori e clienti oggi stesso.</p>
             <button onclick="openAuthModal('register')" class="flat-btn-primary font-semibold px-8 py-3.5 rounded-lg text-xs uppercase tracking-wider shadow-lg shadow-blue-500/20">
                 Inizia Subito Gratuitamente
             </button>
