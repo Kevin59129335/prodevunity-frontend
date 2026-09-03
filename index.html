@@ -8,176 +8,92 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ProDevUnity - Platform for Senior Developers & Clients</title>
+    <title>ProDevUnity - Landing Page</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css?v=5">
-    <script>
-        if (localStorage.getItem('prodevunity_user')) {
-            window.location.href = 'feed.html';
-        }
-    </script>
 </head>
-<body class="min-h-screen flex flex-col justify-between">
+<body class="min-h-screen flex flex-col bg-[#0b0c10] text-slate-100">
 
-    <!-- HEADER NAVIGATION -->
-    <header class="px-8 py-5 flex items-center justify-between border-b sticky top-0 z-50">
+    <header class="px-8 py-5 flex items-center justify-between border-b border-[#262a35] sticky top-0 bg-[#0b0c10]/90 backdrop-blur-md z-50">
         <a href="index.html" class="flex items-center space-x-3">
-            <div class="w-9 h-9 rounded-lg bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-blue-400 font-bold text-base">
-                <i class="fa-solid fa-code text-sm"></i>
+            <div class="w-9 h-9 rounded-lg bg-blue-500/20 border border-blue-500/30 flex items-center justify-center text-blue-400 font-bold text-base shadow-[0_0_15px_rgba(59,130,246,0.3)]">
+                <i class="fa-solid fa-code"></i>
             </div>
             <span class="text-xl font-bold tracking-tight text-white">ProDev<span class="text-blue-400">Unity</span></span>
         </a>
         <div class="flex items-center space-x-4">
-            <button onclick="openAuthModal('login')" class="text-xs font-semibold text-slate-300 hover:text-white px-3 py-2 transition">Sign In</button>
-            <button onclick="openAuthModal('register')" class="flat-btn-primary text-xs px-4 py-2 rounded-lg font-semibold transition">Get Started</button>
+            <span id="current-username-display" class="text-sm font-semibold text-slate-300">@guest</span>
+            <a id="admin-nav-btn" href="admin.html" class="hidden text-amber-400 bg-amber-500/10 border border-amber-500/20 px-3 py-1.5 rounded-lg text-xs font-semibold hover:bg-amber-500/20 transition"><i class="fa-solid fa-shield-halved mr-1"></i> Admin</a>
+            <button onclick="toggleTheme()" class="text-slate-400 hover:text-white px-3 py-2 transition"><i class="fa-solid fa-circle-half-stroke"></i></button>
+            <button id="login-btn" onclick="openAuthModal('login')" class="bg-blue-600 hover:bg-blue-500 text-white text-xs px-4 py-2 rounded-lg font-semibold transition">Accedi</button>
+            <button id="logout-btn" onclick="logout()" class="flat-btn-primary bg-red-600/20 hover:bg-red-600/30 border border-red-500/30 text-red-400 text-xs px-4 py-2 rounded-lg font-semibold transition" style="display:none;">Logout</button>
         </div>
     </header>
 
-    <!-- HERO SECTION -->
-    <main class="max-w-6xl w-full mx-auto px-6 py-16 md:py-24 space-y-20 flex-1">
-        
-        <div class="text-center max-w-3xl mx-auto space-y-6">
-            <span class="px-3.5 py-1.5 rounded-full text-[11px] font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20 inline-flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> The Verified Developer Network
-            </span>
-            <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight text-white leading-tight">
-                Build, Test & Hire in One <br><span class="text-blue-500">Unified Platform.</span>
-            </h1>
-            <p class="text-sm md:text-base text-slate-400 leading-relaxed max-w-2xl mx-auto">
-                L'ecosistema ad alte prestazioni che connette Software Architect, Full-Stack Developer e Clienti verificati. Esegui snippet di codice live e gestisci incarichi in totale sicurezza.
-            </p>
-            <div class="flex items-center justify-center space-x-4 pt-4">
-                <button onclick="openAuthModal('register')" class="flat-btn-primary font-semibold px-8 py-3.5 rounded-lg text-xs uppercase tracking-wider shadow-lg shadow-blue-500/20">
-                    Crea Account Gratuito
-                </button>
-                <a href="#features" class="px-6 py-3.5 rounded-lg text-xs font-semibold text-slate-300 hover:text-white border border-[#262a35] transition">
-                    Scopri le Funzionalità
-                </a>
-            </div>
+    <main class="flex-1 flex flex-col items-center justify-center px-6 py-20 text-center">
+        <h1 class="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-6">
+            Build Faster. Collaborate. <br>
+            <span class="text-blue-400">On ProDevUnity.</span>
+        </h1>
+        <p class="text-slate-400 text-base md:text-lg max-w-2xl mb-10">
+            Piattaforma ad alte prestazioni per Full-Stack Developers e Clienti. Incarichi e pagamenti protetti al 100% in totale sicurezza.
+        </p>
+        <div class="flex space-x-4">
+            <button onclick="openAuthModal('register')" class="bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-xl font-bold text-sm shadow-lg shadow-blue-500/30 transition">Unisciti Ora</button>
+            <button onclick="openAuthModal('login')" class="bg-[#12151c] hover:bg-[#181c26] text-slate-300 border border-[#262a35] px-6 py-3 rounded-xl font-bold text-sm transition">Accedi</button>
         </div>
-
-        <!-- SEZIONE FUNZIONALITÀ PRINCIPALI -->
-        <div id="features" class="space-y-12">
-            <div class="text-center space-y-3">
-                <h2 class="text-2xl md:text-3xl font-bold">Tutto ciò che serve per collaborare ed eseguire codice</h2>
-                <p class="text-xs text-slate-400 max-w-lg mx-auto">Strumenti avanzati pensati sia per professionisti del codice che per aziende in cerca di talenti.</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="flat-card p-6 space-y-4">
-                    <div class="w-10 h-10 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 text-lg">
-                        <i class="fa-solid fa-terminal"></i>
-                    </div>
-                    <h3 class="font-bold text-base">Live Code Sandbox</h3>
-                    <p class="text-xs text-slate-400 leading-relaxed">
-                        Condividi ed esegui snippet di codice direttamente nel feed di discussione. Un'area di prova sicura per mostrare soluzioni tecniche in tempo reale.
-                    </p>
-                </div>
-
-                <div class="flat-card p-6 space-y-4">
-                    <div class="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-lg">
-                        <i class="fa-solid fa-users-viewfinder"></i>
-                    </div>
-                    <h3 class="font-bold text-base">Directory Sviluppatori</h3>
-                    <p class="text-xs text-slate-400 leading-relaxed">
-                        Filtra profili verificati con recensioni trasparenti e badge di ruolo. Trova l'architetto software o lo sviluppatore ideale per ogni progetto.
-                    </p>
-                </div>
-
-                <div class="flat-card p-6 space-y-4">
-                    <div class="w-10 h-10 rounded-lg bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 text-lg">
-                        <i class="fa-solid fa-comments"></i>
-                    </div>
-                    <h3 class="font-bold text-base">Canali & Chat Dirette</h3>
-                    <p class="text-xs text-slate-400 leading-relaxed">
-                        Comunica in canali tematici pubblici, crea stanze private protette da codice di accesso o avvia messaggi diretti tra clienti e sviluppatori.
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <!-- SEZIONE COME FUNZIONA -->
-        <div class="space-y-12 border-t border-[#262a35] pt-16">
-            <div class="text-center space-y-3">
-                <h2 class="text-2xl md:text-3xl font-bold">Come funziona la piattaforma</h2>
-                <p class="text-xs text-slate-400">Pochi passaggi per entrare a far parte del network.</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="flat-card p-6 space-y-3 relative">
-                    <span class="text-4xl font-extrabold text-blue-500/20">01</span>
-                    <h4 class="font-bold text-sm">Registra un Account</h4>
-                    <p class="text-xs text-slate-400">Scegli se registrarti come Sviluppatore (dev_) o Cliente (client_) per accedere agli strumenti dedicati.</p>
-                </div>
-
-                <div class="flat-card p-6 space-y-3 relative">
-                    <span class="text-4xl font-extrabold text-blue-500/20">02</span>
-                    <h4 class="font-bold text-sm">Mostra Competenze o Progetti</h4>
-                    <p class="text-xs text-slate-400">Pubblica post con codice eseguibile nel Feed o proponi/accetta contratti di lavoro nella Job Board.</p>
-                </div>
-
-                <div class="flat-card p-6 space-y-3 relative">
-                    <span class="text-4xl font-extrabold text-blue-500/20">03</span>
-                    <h4 class="font-bold text-sm">Collabora e Cresci</h4>
-                    <p class="text-xs text-slate-400">Raccogli valutazioni verificate, espandi la tua rete professionale e gestisci le trattative in modo sicuro.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- BANNER FINALE / CTA -->
-        <div class="flat-card p-10 text-center space-y-6 border-blue-500/30">
-            <h2 class="text-2xl md:text-3xl font-extrabold">Pronto a iniziare con ProDevUnity?</h2>
-            <p class="text-xs text-slate-400 max-w-md mx-auto">Unisciti alla community di sviluppatori e clienti oggi stesso.</p>
-            <button onclick="openAuthModal('register')" class="flat-btn-primary font-semibold px-8 py-3.5 rounded-lg text-xs uppercase tracking-wider shadow-lg shadow-blue-500/20">
-                Inizia Subito Gratuitamente
-            </button>
-        </div>
-
     </main>
 
-    <!-- FOOTER LEGALE -->
-    <footer class="border-t py-8 px-6 text-center text-xs text-slate-500 flex flex-col md:flex-row justify-between items-center max-w-6xl mx-auto w-full">
-        <p>&copy; 2026 ProDevUnity. All rights reserved.</p>
-        <div class="flex space-x-4 mt-2 md:mt-0">
-            <a href="terms.html" class="hover:text-white">Terms & Conditions</a>
-            <a href="terms.html#privacy" class="hover:text-white">Privacy Policy</a>
-        </div>
-    </footer>
+    <!-- MODALE AUTENTICAZIONE -->
+    <div id="auth-modal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-[#13151b] border border-[#232733] rounded-2xl w-full max-w-md p-6 space-y-6 relative shadow-2xl">
+            <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white transition">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
 
-    <!-- AUTH MODAL -->
-    <div id="auth-modal" class="hidden fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4">
-        <div class="flat-card max-w-sm w-full p-6 space-y-4 relative">
-            <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg">&times;</button>
             <div class="text-center space-y-1">
-                <h3 id="modal-title" class="text-lg font-bold text-white">Access ProDevUnity</h3>
+                <h2 id="modal-title" class="text-xl font-bold text-white">Accedi a ProDevUnity</h2>
                 <p class="text-xs text-slate-400">Join the developer network.</p>
             </div>
 
-            <div class="flex bg-[#0f1115] p-1 rounded-lg border border-[#262a35]">
-                <button type="button" onclick="openAuthModal('login')" id="auth-tab-login" class="flex-1 py-1.5 rounded-md text-xs font-semibold text-white bg-[#161920] transition">Login</button>
-                <button type="button" onclick="openAuthModal('register')" id="auth-tab-register" class="flex-1 py-1.5 rounded-md text-xs font-semibold text-slate-400 transition">Register</button>
+            <!-- TAB SELECTOR -->
+            <div class="flex bg-[#0b0c10] p-1 rounded-lg border border-[#232733]">
+                <button id="tab-login" onclick="openAuthModal('login')" class="w-1/2 py-2 rounded-md font-semibold text-xs transition bg-[#1c1f28] text-white shadow">
+                    Login
+                </button>
+                <button id="tab-register" onclick="openAuthModal('register')" class="w-1/2 py-2 rounded-md font-semibold text-xs transition text-slate-400 hover:text-white">
+                    Register
+                </button>
             </div>
 
-            <form onsubmit="handleAuthSubmit(event)" class="space-y-3">
+            <form onsubmit="handleAuthSubmit(event)" class="space-y-4">
                 <div>
                     <label class="block text-xs font-medium text-slate-400 mb-1">Username</label>
-                    <input type="text" id="auth-username" required class="w-full bg-[#0f1115] border border-[#262a35] rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500 transition">
+                    <input type="text" id="auth-username" required class="w-full bg-[#0b0c10] border border-[#232733] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500">
                 </div>
+
                 <div>
                     <label class="block text-xs font-medium text-slate-400 mb-1">Password</label>
-                    <input type="password" id="auth-password" required class="w-full bg-[#0f1115] border border-[#262a35] rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500 transition">
+                    <input type="password" id="auth-password" required class="w-full bg-[#0b0c10] border border-[#232733] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500">
                 </div>
+
                 <div id="role-select-group" class="hidden">
                     <label class="block text-xs font-medium text-slate-400 mb-1">Account Role</label>
-                    <select id="auth-role" class="w-full bg-[#0f1115] border border-[#262a35] rounded-lg px-3 py-2 text-xs text-white focus:outline-none">
+                    <select id="auth-role" class="w-full bg-[#0b0c10] border border-[#232733] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500">
                         <option value="dev">Developer (dev_)</option>
                         <option value="client">Client (client_)</option>
                     </select>
                 </div>
-                <button type="submit" id="auth-submit-btn" class="w-full flat-btn-primary font-semibold py-2.5 rounded-lg text-xs uppercase tracking-wider">Log In</button>
+
+                <button type="submit" id="auth-submit-btn" class="w-full bg-blue-600 hover:bg-blue-500 text-white py-2.5 rounded-lg font-bold text-xs uppercase tracking-wider transition">
+                    Accedi
+                </button>
             </form>
-            <p id="auth-toggle-text" class="text-center text-xs text-slate-400 pt-2"></p>
+
+            <div class="text-center text-xs text-slate-400" id="auth-toggle-text">
+                Non hai un account? <a href="#" onclick="openAuthModal('register')" class="text-blue-400 font-bold">Registrati</a>
+            </div>
         </div>
     </div>
 
