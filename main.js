@@ -3,6 +3,37 @@ const API_BASE_URL = 'https://prodevunity-backend.onrender.com';
 let currentUser = JSON.parse(localStorage.getItem('prodevunity_user')) || null;
 let authMode = 'login';
 
+// ==========================================
+// SOSTITUZIONE POPUP NATIVI (NO ALERT NETLIFY)
+// ==========================================
+window.alert = function (message) {
+    let toast = document.getElementById('custom-toast');
+    if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'custom-toast';
+        toast.className = 'fixed bottom-5 right-5 z-[100] max-w-sm bg-[#13151b] text-slate-100 border border-[#232733] px-4 py-3 rounded-xl shadow-2xl flex items-center space-x-3 transition-all duration-300 transform translate-y-10 opacity-0 pointer-events-none';
+        document.body.appendChild(toast);
+    }
+    
+    toast.innerHTML = `
+        <div class="w-7 h-7 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 font-bold text-xs flex-shrink-0">
+            <i class="fa-solid fa-circle-info"></i>
+        </div>
+        <p class="text-xs text-slate-200 flex-1 leading-snug">${escapeHTML(message)}</p>
+    `;
+    
+    // Mostra la notifica
+    setTimeout(() => {
+        toast.classList.remove('translate-y-10', 'opacity-0', 'pointer-events-none');
+    }, 10);
+
+    // Nascondi la notifica dopo 3.5 secondi
+    clearTimeout(window.toastTimer);
+    window.toastTimer = setTimeout(() => {
+        toast.classList.add('translate-y-10', 'opacity-0', 'pointer-events-none');
+    }, 3500);
+};
+
 document.addEventListener('DOMContentLoaded', () => {
     applySavedTheme();
     updateUIAuth();
@@ -29,7 +60,7 @@ async function fetchWithAuth(url, options = {}) {
 }
 
 // ==========================================
-// FIX TASTI & MODALE AUTENTICAZIONE
+// MODALE AUTENTICAZIONE
 // ==========================================
 
 function openAuthModal(mode = 'login') {
@@ -73,7 +104,7 @@ async function handleAuthSubmit(e) {
     const role = roleInput ? roleInput.value : 'dev';
 
     if (!username || !password) {
-        alert('Compila tutti i campi.');
+        alert('Compila tutti i campi obbligatori.');
         return;
     }
 
