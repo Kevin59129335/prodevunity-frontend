@@ -13,126 +13,104 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css?v=5">
 </head>
-<body class="flex h-screen bg-[#0b0c10] text-slate-100 overflow-hidden">
+<body class="min-h-screen bg-[#0b0c10] text-slate-100 flex flex-col antialiased">
 
-    <!-- SIDEBAR NAVIGATION -->
-    <aside class="w-20 md:w-64 border-r border-[#262a35] bg-[#0b0c10] flex flex-col justify-between hidden sm:flex flex-shrink-0 z-50 relative">
-        <div>
-            <div class="h-20 flex items-center justify-center md:justify-start md:px-8 border-b border-[#262a35]">
-                <a href="feed.html" class="flex items-center space-x-3">
-                    <div class="w-9 h-9 rounded-lg bg-blue-500/20 border border-blue-500/30 flex items-center justify-center text-blue-400 font-bold text-base shadow-[0_0_15px_rgba(59,130,246,0.3)]">
-                        <i class="fa-solid fa-code"></i>
-                    </div>
-                    <span class="text-xl font-bold tracking-tight text-white hidden md:block">ProDev<span class="text-blue-400">Unity</span></span>
-                </a>
-            </div>
-            <nav class="mt-8 px-4 space-y-2">
-                <a href="feed.html" class="flex items-center space-x-3 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-[#12151c] transition group">
-                    <i class="fa-solid fa-house text-lg group-hover:text-blue-400 transition w-6 text-center"></i>
-                    <span class="font-semibold text-sm hidden md:block">Feed</span>
-                </a>
-                <a href="jobs.html" class="flex items-center space-x-3 px-4 py-3 rounded-xl bg-blue-600/10 text-blue-400 border border-blue-500/20 transition group shadow-[0_0_15px_rgba(37,99,235,0.1)]">
-                    <i class="fa-solid fa-briefcase text-lg w-6 text-center"></i>
-                    <span class="font-semibold text-sm hidden md:block">Jobs</span>
-                </a>
-                <a href="chat.html" class="flex items-center space-x-3 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-[#12151c] transition group">
-                    <i class="fa-solid fa-comments text-lg group-hover:text-blue-400 transition w-6 text-center"></i>
-                    <span class="font-semibold text-sm hidden md:block">Chat</span>
-                </a>
-                <a href="directory.html" class="flex items-center space-x-3 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-[#12151c] transition group">
-                    <i class="fa-solid fa-users text-lg group-hover:text-blue-400 transition w-6 text-center"></i>
-                    <span class="font-semibold text-sm hidden md:block">Directory</span>
-                </a>
-            </nav>
-        </div>
+    <!-- FLOATING CAPSULE SIDEBAR (DESKTOP) -->
+    <aside class="fixed left-6 top-1/2 -translate-y-1/2 z-50 hidden sm:flex flex-col items-center py-6 px-3 bg-[#12151c]/90 backdrop-blur-md border border-[#232733] rounded-[2.5rem] shadow-2xl space-y-6">
+        <!-- Feed (Flame) -->
+        <a href="feed.html" title="Feed" class="w-12 h-12 flex items-center justify-center text-slate-400 hover:text-white transition group">
+            <i class="fa-solid fa-fire text-xl group-hover:scale-110 transition-transform"></i>
+        </a>
+        <!-- Jobs (Briefcase) - Active on jobs.html -->
+        <a href="jobs.html" title="Jobs" class="w-12 h-12 flex items-center justify-center bg-blue-600 text-white rounded-2xl shadow-lg shadow-blue-600/30 transition">
+            <i class="fa-solid fa-briefcase text-xl"></i>
+        </a>
+        <!-- Directory (Crown) -->
+        <a href="directory.html" title="Top Developers" class="w-12 h-12 flex items-center justify-center text-slate-400 hover:text-white transition group">
+            <i class="fa-solid fa-crown text-xl group-hover:scale-110 transition-transform"></i>
+        </a>
+        <!-- Chat (Comments) -->
+        <a href="chat.html" title="Chat" class="w-12 h-12 flex items-center justify-center text-slate-400 hover:text-white transition group">
+            <i class="fa-solid fa-comments text-xl group-hover:scale-110 transition-transform"></i>
+        </a>
+        <!-- Settings / Admin (Gear) -->
+        <a href="admin.html" id="admin-sidebar-btn" title="Admin Settings" class="hidden w-12 h-12 flex items-center justify-center text-slate-400 hover:text-amber-400 transition group">
+            <i class="fa-solid fa-gear text-xl group-hover:rotate-45 transition-transform"></i>
+        </a>
     </aside>
 
-    <!-- MAIN CONTENT AREA -->
-    <div class="flex-1 flex flex-col h-screen overflow-y-auto relative">
+    <!-- HEADER NAVIGATION -->
+    <header class="px-8 py-5 flex items-center justify-between border-b border-[#262a35] sticky top-0 bg-[#0b0c10]/90 backdrop-blur-md z-40 sm:pl-28">
+        <a href="feed.html" class="flex items-center space-x-3">
+            <div class="w-9 h-9 rounded-lg bg-blue-500/20 border border-blue-500/30 flex items-center justify-center text-blue-400 font-bold text-base shadow-[0_0_15px_rgba(59,130,246,0.3)]">
+                <i class="fa-solid fa-code"></i>
+            </div>
+            <span class="text-xl font-bold tracking-tight text-white">ProDev<span class="text-blue-400">Unity</span></span>
+        </a>
+        <div class="flex items-center space-x-4">
+            <span id="current-username-display" class="text-sm font-semibold text-slate-300">@guest</span>
+            <button onclick="toggleTheme()" class="text-slate-400 hover:text-white px-3 py-2 transition"><i class="fa-solid fa-circle-half-stroke"></i></button>
+            <button id="logout-btn" onclick="logout()" class="flat-btn-primary bg-red-600/20 hover:bg-red-600/30 border border-red-500/30 text-red-400 text-xs px-4 py-2 rounded-lg font-semibold transition" style="display:none;">Logout</button>
+            <button id="login-btn" onclick="window.location.href='index.html'" class="bg-blue-600 hover:bg-blue-500 text-white text-xs px-4 py-2 rounded-lg font-semibold transition">Sign In</button>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="max-w-4xl w-full mx-auto px-6 py-10 space-y-10 flex-1 sm:pl-24">
         
-        <!-- HEADER -->
-        <header class="px-6 py-5 flex items-center justify-between border-b border-[#262a35] sticky top-0 bg-[#0b0c10]/90 backdrop-blur-md z-40">
-            <!-- Mobile Logo -->
-            <div class="flex items-center sm:hidden">
-                <a href="feed.html" class="flex items-center space-x-3">
-                    <div class="w-9 h-9 rounded-lg bg-blue-500/20 border border-blue-500/30 flex items-center justify-center text-blue-400 font-bold text-base">
-                        <i class="fa-solid fa-code"></i>
-                    </div>
-                </a>
+        <div class="space-y-2">
+            <h1 class="text-3xl font-bold tracking-tight text-white">Job Board & Payments</h1>
+            <p class="text-sm text-slate-400">Manage secure transactions via Stripe with automatic 15% platform commission.</p>
+        </div>
+
+        <!-- DEVELOPER SECTION (STRIPE ONBOARDING) -->
+        <div id="dev-section" class="hidden flat-card p-8 border-[#262a35] bg-gradient-to-br from-[#13151b] to-[#1a1d26] text-center space-y-4 shadow-xl relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-1 bg-indigo-500/50"></div>
+            <div class="w-16 h-16 mx-auto bg-indigo-500/20 rounded-full flex items-center justify-center border border-indigo-500/30 mb-2">
+                <i class="fa-brands fa-stripe text-3xl text-indigo-400"></i>
             </div>
-            
-            <div class="hidden sm:block"></div> <!-- Spacer for desktop -->
+            <h2 class="text-2xl font-bold text-white">Get Paid by Clients</h2>
+            <p class="text-sm text-slate-400 max-w-md mx-auto">To accept job offers and receive payouts securely, connect your bank account via Stripe Connect.</p>
+            <button onclick="connectStripe()" class="mt-4 bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-3 rounded-lg font-bold transition shadow-lg shadow-indigo-500/30">
+                <i class="fa-solid fa-link mr-2"></i> Connect Stripe Account
+            </button>
+        </div>
 
-            <div class="flex items-center space-x-4">
-                <span id="current-username-display" class="text-sm font-semibold text-slate-300">@guest</span>
-                <a id="admin-nav-btn" href="admin.html" class="hidden text-amber-400 bg-amber-500/10 border border-amber-500/20 px-3 py-1.5 rounded-lg text-xs font-semibold hover:bg-amber-500/20 transition"><i class="fa-solid fa-shield-halved mr-1"></i> Admin</a>
-                <button onclick="toggleTheme()" class="text-slate-400 hover:text-white px-3 py-2 transition"><i class="fa-solid fa-circle-half-stroke"></i></button>
-                <button id="logout-btn" onclick="logout()" class="flat-btn-primary bg-red-600/20 hover:bg-red-600/30 border border-red-500/30 text-red-400 text-xs px-4 py-2 rounded-lg font-semibold transition" style="display:none;">Logout</button>
-                <button id="login-btn" onclick="window.location.href='index.html'" class="bg-blue-600 hover:bg-blue-500 text-white text-xs px-4 py-2 rounded-lg font-semibold transition">Sign In</button>
+        <!-- CLIENT SECTION (AVAILABLE DEVELOPERS) -->
+        <div id="client-section" class="hidden space-y-4">
+            <h2 class="text-lg font-bold text-white flex items-center gap-2 border-b border-[#262a35] pb-2">
+                <i class="fa-solid fa-briefcase text-blue-400"></i> Available Developers
+            </h2>
+            <div id="dev-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Dynamically loaded developers -->
             </div>
-        </header>
+        </div>
 
-        <!-- DASHBOARD CONTENT -->
-        <main class="max-w-4xl w-full mx-auto px-6 py-10 space-y-10">
-            
-            <div class="space-y-2">
-                <h1 class="text-3xl font-bold tracking-tight text-white">Job Board & Payments</h1>
-                <p class="text-sm text-slate-400">Manage secure transactions via Stripe with automatic 15% platform commission.</p>
+        <!-- GUEST MESSAGE -->
+        <div id="guest-section" class="text-center py-16 flat-card border-[#262a35]">
+            <div class="w-16 h-16 mx-auto bg-slate-800/50 rounded-full flex items-center justify-center text-slate-400 mb-4">
+                <i class="fa-solid fa-lock text-2xl"></i>
             </div>
+            <h3 class="text-lg font-bold text-white mb-2">Authentication Required</h3>
+            <p class="text-slate-400 text-sm mb-6">Please sign in to manage jobs, hire developers, and process payouts.</p>
+            <a href="index.html" class="bg-blue-600 hover:bg-blue-500 text-white px-6 py-2.5 rounded-lg font-bold text-sm transition shadow-lg shadow-blue-500/20">Sign In Now</a>
+        </div>
 
-            <!-- DEVELOPER SECTION (STRIPE ONBOARDING) -->
-            <div id="dev-section" class="hidden flat-card p-8 border-[#262a35] bg-gradient-to-br from-[#13151b] to-[#1a1d26] text-center space-y-4 shadow-xl relative overflow-hidden">
-                <div class="absolute top-0 left-0 w-full h-1 bg-indigo-500/50"></div>
-                <div class="w-16 h-16 mx-auto bg-indigo-500/20 rounded-full flex items-center justify-center border border-indigo-500/30 mb-2">
-                    <i class="fa-brands fa-stripe text-3xl text-indigo-400"></i>
-                </div>
-                <h2 class="text-2xl font-bold text-white">Get Paid by Clients</h2>
-                <p class="text-sm text-slate-400 max-w-md mx-auto">To accept job offers and receive payouts securely, connect your bank account via Stripe Connect.</p>
-                <button onclick="connectStripe()" class="mt-4 bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-3 rounded-lg font-bold transition shadow-lg shadow-indigo-500/30">
-                    <i class="fa-solid fa-link mr-2"></i> Connect Stripe Account
-                </button>
-            </div>
+    </main>
 
-            <!-- CLIENT SECTION (AVAILABLE DEVELOPERS) -->
-            <div id="client-section" class="hidden space-y-4">
-                <h2 class="text-lg font-bold text-white flex items-center gap-2 border-b border-[#262a35] pb-2">
-                    <i class="fa-solid fa-briefcase text-blue-400"></i> Available Developers
-                </h2>
-                <div id="dev-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <!-- Dynamically loaded developers -->
-                </div>
-            </div>
-
-            <!-- GUEST MESSAGE -->
-            <div id="guest-section" class="text-center py-16 flat-card border-[#262a35]">
-                <div class="w-16 h-16 mx-auto bg-slate-800/50 rounded-full flex items-center justify-center text-slate-400 mb-4">
-                    <i class="fa-solid fa-lock text-2xl"></i>
-                </div>
-                <h3 class="text-lg font-bold text-white mb-2">Authentication Required</h3>
-                <p class="text-slate-400 text-sm mb-6">Please sign in to manage jobs, hire developers, and process payouts.</p>
-                <a href="index.html" class="bg-blue-600 hover:bg-blue-500 text-white px-6 py-2.5 rounded-lg font-bold text-sm transition shadow-lg shadow-blue-500/20">Sign In Now</a>
-            </div>
-
-        </main>
-    </div>
-
-    <!-- MOBILE NAVIGATION BAR (Visible only on small screens) -->
-    <nav class="sm:hidden fixed bottom-0 left-0 w-full bg-[#0b0c10]/95 backdrop-blur-md border-t border-[#262a35] z-50 flex justify-around py-3">
-        <a href="feed.html" class="text-slate-400 flex flex-col items-center hover:text-blue-400 transition">
-            <i class="fa-solid fa-house text-lg"></i>
-            <span class="text-[10px] font-semibold mt-1">Feed</span>
+    <!-- MOBILE BOTTOM NAVIGATION BAR -->
+    <nav class="sm:hidden fixed bottom-4 left-1/2 -translate-x-1/2 bg-[#12151c]/95 backdrop-blur-md border border-[#232733] rounded-full z-50 flex items-center space-x-2 p-2 shadow-2xl">
+        <a href="feed.html" class="w-10 h-10 flex items-center justify-center text-slate-400 hover:text-white transition">
+            <i class="fa-solid fa-fire text-base"></i>
         </a>
-        <a href="jobs.html" class="text-blue-400 flex flex-col items-center transition">
-            <i class="fa-solid fa-briefcase text-lg"></i>
-            <span class="text-[10px] font-semibold mt-1">Jobs</span>
+        <a href="jobs.html" class="w-10 h-10 flex items-center justify-center bg-blue-600 text-white rounded-full shadow-lg shadow-blue-600/30 transition">
+            <i class="fa-solid fa-briefcase text-base"></i>
         </a>
-        <a href="chat.html" class="text-slate-400 flex flex-col items-center hover:text-blue-400 transition">
-            <i class="fa-solid fa-comments text-lg"></i>
-            <span class="text-[10px] font-semibold mt-1">Chat</span>
+        <a href="directory.html" class="w-10 h-10 flex items-center justify-center text-slate-400 hover:text-white transition">
+            <i class="fa-solid fa-crown text-base"></i>
         </a>
-        <a href="directory.html" class="text-slate-400 flex flex-col items-center hover:text-blue-400 transition">
-            <i class="fa-solid fa-users text-lg"></i>
-            <span class="text-[10px] font-semibold mt-1">Directory</span>
+        <a href="chat.html" class="w-10 h-10 flex items-center justify-center text-slate-400 hover:text-white transition">
+            <i class="fa-solid fa-comments text-base"></i>
         </a>
     </nav>
 
@@ -154,6 +132,11 @@
             }
 
             document.getElementById('guest-section').classList.add('hidden');
+
+            if (currentUser.role === 'admin') {
+                const adminBtn = document.getElementById('admin-sidebar-btn');
+                if (adminBtn) adminBtn.classList.remove('hidden');
+            }
 
             if (currentUser.role === 'dev') {
                 document.getElementById('dev-section').classList.remove('hidden');
