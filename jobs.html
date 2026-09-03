@@ -8,7 +8,7 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ProDevUnity - Job Board & Payments</title>
+    <title>ProDevUnity - Developer Directory</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css?v=5">
@@ -21,13 +21,13 @@
         <a href="feed.html" title="Feed" class="w-12 h-12 flex items-center justify-center text-slate-400 hover:text-white transition group">
             <i class="fa-solid fa-fire text-xl group-hover:scale-110 transition-transform"></i>
         </a>
-        <!-- Jobs (Briefcase) - Active on jobs.html -->
-        <a href="jobs.html" title="Jobs" class="w-12 h-12 flex items-center justify-center bg-blue-600 text-white rounded-2xl shadow-lg shadow-blue-600/30 transition">
-            <i class="fa-solid fa-briefcase text-xl"></i>
+        <!-- Jobs (Briefcase) -->
+        <a href="jobs.html" title="Jobs" class="w-12 h-12 flex items-center justify-center text-slate-400 hover:text-white transition group">
+            <i class="fa-solid fa-briefcase text-xl group-hover:scale-110 transition-transform"></i>
         </a>
-        <!-- Directory (Crown) -->
-        <a href="directory.html" title="Top Developers" class="w-12 h-12 flex items-center justify-center text-slate-400 hover:text-white transition group">
-            <i class="fa-solid fa-crown text-xl group-hover:scale-110 transition-transform"></i>
+        <!-- Directory (Crown) - Active -->
+        <a href="directory.html" title="Developer Directory" class="w-12 h-12 flex items-center justify-center bg-blue-600 text-white rounded-2xl shadow-lg shadow-blue-600/30 transition">
+            <i class="fa-solid fa-crown text-xl"></i>
         </a>
         <!-- Chat (Comments) -->
         <a href="chat.html" title="Chat" class="w-12 h-12 flex items-center justify-center text-slate-400 hover:text-white transition group">
@@ -56,44 +56,15 @@
     </header>
 
     <!-- MAIN CONTENT -->
-    <main class="max-w-4xl w-full mx-auto px-6 py-10 space-y-10 flex-1 sm:pl-24">
+    <main class="max-w-5xl w-full mx-auto px-6 py-10 space-y-8 flex-1 sm:pl-24">
         
         <div class="space-y-2">
-            <h1 class="text-3xl font-bold tracking-tight text-white">Job Board & Payments</h1>
-            <p class="text-sm text-slate-400">Manage secure transactions via Stripe with automatic 15% platform commission.</p>
+            <h1 class="text-3xl font-bold tracking-tight text-white">Developer Directory</h1>
+            <p class="text-sm text-slate-400">Profiles with client-verified ratings and reviews.</p>
         </div>
 
-        <!-- DEVELOPER SECTION (STRIPE ONBOARDING) -->
-        <div id="dev-section" class="hidden flat-card p-8 border-[#262a35] bg-gradient-to-br from-[#13151b] to-[#1a1d26] text-center space-y-4 shadow-xl relative overflow-hidden">
-            <div class="absolute top-0 left-0 w-full h-1 bg-indigo-500/50"></div>
-            <div class="w-16 h-16 mx-auto bg-indigo-500/20 rounded-full flex items-center justify-center border border-indigo-500/30 mb-2">
-                <i class="fa-brands fa-stripe text-3xl text-indigo-400"></i>
-            </div>
-            <h2 class="text-2xl font-bold text-white">Get Paid by Clients</h2>
-            <p class="text-sm text-slate-400 max-w-md mx-auto">To accept job offers and receive payouts securely, connect your bank account via Stripe Connect.</p>
-            <button onclick="connectStripe()" class="mt-4 bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-3 rounded-lg font-bold transition shadow-lg shadow-indigo-500/30">
-                <i class="fa-solid fa-link mr-2"></i> Connect Stripe Account
-            </button>
-        </div>
-
-        <!-- CLIENT SECTION (AVAILABLE DEVELOPERS) -->
-        <div id="client-section" class="hidden space-y-4">
-            <h2 class="text-lg font-bold text-white flex items-center gap-2 border-b border-[#262a35] pb-2">
-                <i class="fa-solid fa-briefcase text-blue-400"></i> Available Developers
-            </h2>
-            <div id="dev-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <!-- Dynamically loaded developers -->
-            </div>
-        </div>
-
-        <!-- GUEST MESSAGE -->
-        <div id="guest-section" class="text-center py-16 flat-card border-[#262a35]">
-            <div class="w-16 h-16 mx-auto bg-slate-800/50 rounded-full flex items-center justify-center text-slate-400 mb-4">
-                <i class="fa-solid fa-lock text-2xl"></i>
-            </div>
-            <h3 class="text-lg font-bold text-white mb-2">Authentication Required</h3>
-            <p class="text-slate-400 text-sm mb-6">Please sign in to manage jobs, hire developers, and process payouts.</p>
-            <a href="index.html" class="bg-blue-600 hover:bg-blue-500 text-white px-6 py-2.5 rounded-lg font-bold text-sm transition shadow-lg shadow-blue-500/20">Sign In Now</a>
+        <div id="directory-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Dynamically populated developers -->
         </div>
 
     </main>
@@ -103,10 +74,10 @@
         <a href="feed.html" class="w-10 h-10 flex items-center justify-center text-slate-400 hover:text-white transition">
             <i class="fa-solid fa-fire text-base"></i>
         </a>
-        <a href="jobs.html" class="w-10 h-10 flex items-center justify-center bg-blue-600 text-white rounded-full shadow-lg shadow-blue-600/30 transition">
+        <a href="jobs.html" class="w-10 h-10 flex items-center justify-center text-slate-400 hover:text-white transition">
             <i class="fa-solid fa-briefcase text-base"></i>
         </a>
-        <a href="directory.html" class="w-10 h-10 flex items-center justify-center text-slate-400 hover:text-white transition">
+        <a href="directory.html" class="w-10 h-10 flex items-center justify-center bg-blue-600 text-white rounded-full shadow-lg shadow-blue-600/30 transition">
             <i class="fa-solid fa-crown text-base"></i>
         </a>
         <a href="chat.html" class="w-10 h-10 flex items-center justify-center text-slate-400 hover:text-white transition">
@@ -117,125 +88,59 @@
     <script src="main.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.get('stripe') === 'success') {
-                setTimeout(() => alert('Stripe account connected successfully! You are ready to receive payouts.'), 500);
-            } else if (urlParams.get('payment') === 'success') {
-                setTimeout(() => alert('Payment completed successfully! Funds are now protected.'), 500);
-            } else if (urlParams.get('payment') === 'cancelled') {
-                setTimeout(() => alert('Payment process cancelled.'), 500);
-            }
-
-            if (!currentUser) {
-                document.getElementById('guest-section').classList.remove('hidden');
-                return;
-            }
-
-            document.getElementById('guest-section').classList.add('hidden');
-
-            if (currentUser.role === 'admin') {
+            if (currentUser && currentUser.role === 'admin') {
                 const adminBtn = document.getElementById('admin-sidebar-btn');
                 if (adminBtn) adminBtn.classList.remove('hidden');
             }
-
-            if (currentUser.role === 'dev') {
-                document.getElementById('dev-section').classList.remove('hidden');
-            } else if (currentUser.role === 'client' || currentUser.role === 'admin') {
-                document.getElementById('client-section').classList.remove('hidden');
-                loadDevelopers();
-            }
+            loadDirectory();
         });
 
-        async function connectStripe() {
-            alert('Redirecting to Stripe...');
-            try {
-                const res = await fetchWithAuth(`${API_BASE_URL}/api/payments/connect-developer`, { method: 'POST' });
-                const data = await res.json();
-                
-                if (data.url) {
-                    window.location.href = data.url;
-                } else {
-                    alert(data.error || 'Error connecting to Stripe.');
-                }
-            } catch (e) {
-                alert('Unable to connect to server for Stripe configuration.');
-            }
-        }
-
-        async function loadDevelopers() {
-            const devList = document.getElementById('dev-list');
+        async function loadDirectory() {
+            const grid = document.getElementById('directory-grid');
             try {
                 const res = await fetch(`${API_BASE_URL}/api/accounts`);
                 const users = await res.json();
-                
-                const devs = users.filter(u => u.role === 'dev');
 
-                if (devs.length === 0) {
-                    devList.innerHTML = '<p class="text-slate-500 italic col-span-2">No developers available at the moment.</p>';
+                if (!users || users.length === 0) {
+                    grid.innerHTML = '<p class="text-slate-500 italic col-span-full">No users found in the directory.</p>';
                     return;
                 }
 
-                devList.innerHTML = devs.map(dev => `
-                    <div class="flat-card p-5 border-[#262a35] flex flex-col justify-between h-full bg-[#12151c] hover:border-slate-700 transition">
-                        <div>
-                            <div class="flex items-center space-x-3 mb-3">
-                                <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 border border-slate-700">
-                                    <i class="fa-solid fa-user-astronaut"></i>
+                grid.innerHTML = users.map(user => `
+                    <div class="flat-card p-6 border-[#262a35] bg-[#12151c] flex flex-col justify-between space-y-4 hover:border-slate-700 transition">
+                        <div class="space-y-3">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 rounded-full bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 font-bold text-sm">
+                                    <i class="fa-solid fa-at"></i>
                                 </div>
                                 <div>
-                                    <h3 class="font-bold text-white">@${escapeHTML(dev.username)}</h3>
-                                    <p class="text-[10px] text-blue-400 uppercase tracking-widest font-bold">Developer</p>
+                                    <h3 class="font-bold text-white text-base">@${escapeHTML(user.username)}</h3>
+                                    <span class="inline-block px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
+                                        user.role === 'admin' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30' :
+                                        user.role === 'client' ? 'bg-purple-500/20 text-purple-400 border border-purple-500/30' :
+                                        'bg-blue-500/20 text-blue-400 border border-blue-500/30'
+                                    }">${user.role}</span>
                                 </div>
                             </div>
-                            <p class="text-xs text-slate-400 mb-4 line-clamp-2">${escapeHTML(dev.bio || 'No bio available.')}</p>
+                            <p class="text-xs text-slate-400 line-clamp-3 leading-relaxed">${escapeHTML(user.bio || 'Developer on ProDevUnity')}</p>
                         </div>
-                        <button onclick="hireDeveloper('${dev.id}', '${escapeHTML(dev.username)}')" class="w-full bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-400 border border-emerald-500/30 py-2 rounded text-sm font-semibold transition mt-2">
-                            <i class="fa-solid fa-credit-card mr-1"></i> Hire & Pay
-                        </button>
+                        <div class="pt-2 border-t border-[#262a35] flex items-center justify-between">
+                            <span class="text-xs font-semibold text-amber-400 flex items-center gap-1">
+                                <i class="fa-solid fa-star text-xs"></i> 5.0
+                            </span>
+                            <button onclick="contactUser('${escapeHTML(user.username)}')" class="bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 border border-blue-500/30 px-4 py-1.5 rounded-lg text-xs font-semibold transition">
+                                Contact
+                            </button>
+                        </div>
                     </div>
                 `).join('');
-
             } catch (e) {
-                devList.innerHTML = '<p class="text-red-400">Error loading developers.</p>';
+                grid.innerHTML = '<p class="text-red-400 col-span-full">Error loading developer directory.</p>';
             }
         }
 
-        async function hireDeveloper(devId, devUsername) {
-            const title = prompt(`What task do you want to assign to @${devUsername}? \n(e.g. E-commerce Development)`);
-            if (!title) return;
-
-            const budgetStr = prompt(`What is the agreed budget in Euros? \n(e.g. 500)`);
-            if (!budgetStr) return;
-            
-            const budget = parseFloat(budgetStr.replace(',', '.'));
-            if (isNaN(budget) || budget <= 0) {
-                alert('Please enter a valid amount.');
-                return;
-            }
-
-            alert('Creating secure payment session...');
-
-            try {
-                const payload = { 
-                    amountEuro: budget, 
-                    devId: devId, 
-                    jobTitle: title 
-                };
-
-                const res = await fetchWithAuth(`${API_BASE_URL}/api/payments/create-checkout-session`, {
-                    method: 'POST',
-                    body: JSON.stringify(payload)
-                });
-                
-                const data = await res.json();
-                if (data.url) {
-                    window.location.href = data.url;
-                } else {
-                    alert(data.error || 'Error: This developer has not set up Stripe yet.');
-                }
-            } catch(e) {
-                alert('Server communication error during checkout.');
-            }
+        function contactUser(username) {
+            window.location.href = `chat.html?user=${encodeURIComponent(username)}`;
         }
     </script>
 </body>
