@@ -8,8 +8,8 @@
     --text-muted: #94a3b8;
     --accent-blue: #3b82f6;
     --dock-bg: rgba(19, 21, 27, 0.85);
-    /* Punti quasi invisibili in Dark Mode */
-    --dot-color: rgba(255, 255, 255, 0.04);
+    /* Punti piccolissimi e impercettibili in Dark Mode */
+    --dot-color: rgba(255, 255, 255, 0.025);
     --card-shadow: none;
 }
 
@@ -21,8 +21,8 @@ html.light-theme {
     --text-muted: #475569;
     --accent-blue: #2563eb;
     --dock-bg: rgba(255, 255, 255, 0.95);
-    /* Punti eleganti e molto trasparenti in Light Mode */
-    --dot-color: rgba(0, 0, 0, 0.08);
+    /* Punti delicatissimi e ultrasottili in Light Mode */
+    --dot-color: rgba(0, 0, 0, 0.05);
     --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08);
 }
 
@@ -32,9 +32,9 @@ body {
     color: var(--text-primary);
     transition: background-color 0.25s ease, color 0.25s ease;
     
-    /* SFONDO CON PUNTI SOTTILISSIMI */
-    background-image: radial-gradient(var(--dot-color) 1px, transparent 1px);
-    background-size: 28px 28px;
+    /* SFONDO CON PUNTI ULTRASOTTILI (0.5px) */
+    background-image: radial-gradient(var(--dot-color) 0.5px, transparent 0.5px);
+    background-size: 24px 24px;
     background-position: 0 0;
 }
 
