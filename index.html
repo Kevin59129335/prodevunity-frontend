@@ -8,7 +8,7 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ProDevUnity - Landing Page</title>
+    <title>ProDevUnity - Platform per Developers e Clienti</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css?v=5">
@@ -32,59 +32,152 @@
         </div>
     </header>
 
-    <!-- HERO SECTION & CONTENUTI COMPLETI LANDING PAGE -->
-    <main class="flex-1 flex flex-col items-center justify-center px-6 py-16 text-center max-w-6xl mx-auto w-full">
+    <!-- HERO SECTION -->
+    <main class="flex-1 flex flex-col items-center justify-center px-6 py-16 text-center max-w-6xl mx-auto w-full space-y-20">
         
-        <div class="max-w-3xl mx-auto space-y-6">
+        <div class="max-w-3xl mx-auto space-y-6 pt-4">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold">
+                <i class="fa-solid fa-sparkles"></i> La Piattaforma Next-Gen per Full-Stack Devs & Clienti
+            </div>
             <h1 class="text-4xl md:text-6xl font-extrabold text-white tracking-tight leading-tight">
                 Build Faster. Collaborate. <br>
                 <span class="text-blue-400">On ProDevUnity.</span>
             </h1>
             <p class="text-slate-400 text-base md:text-lg leading-relaxed">
-                Piattaforma ad alte prestazioni per Full-Stack Developers e Clienti. Incarichi e pagamenti protetti al 100% in totale sicurezza.
+                Il punto d'incontro tra sviluppatori di talento e aziende. Pubblica snippet di codice, partecipa a canali dedicati, completa incarichi freelance e gestisci pagamenti con trattenuta automatica in tutta sicurezza.
             </p>
-            <div class="flex items-center justify-center space-x-4 pt-4">
+            <div class="flex items-center justify-center space-x-4 pt-2">
                 <button onclick="openAuthModal('register')" class="bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-xl font-bold text-sm shadow-lg shadow-blue-500/30 transition">Unisciti Ora</button>
-                <button onclick="openAuthModal('login')" class="bg-[#12151c] hover:bg-[#181c26] text-slate-300 border border-[#262a35] px-6 py-3 rounded-xl font-bold text-sm transition">Accedi</button>
+                <button onclick="openAuthModal('login')" class="bg-[#12151c] hover:bg-[#181c26] text-slate-300 border border-[#262a35] px-6 py-3 rounded-xl font-bold text-sm transition">Accedi al Profilo</button>
+            </div>
+        </div>
+
+        <!-- STATISTICHE & HIGHLIGHTS -->
+        <div class="w-full grid grid-cols-2 md:grid-cols-4 gap-4 p-6 rounded-2xl bg-[#12151c]/80 border border-[#262a35]">
+            <div class="space-y-1">
+                <p class="text-2xl font-black text-blue-400">85%</p>
+                <p class="text-xs text-slate-400">Compenso Sviluppatore</p>
+            </div>
+            <div class="space-y-1">
+                <p class="text-2xl font-black text-emerald-400">15%</p>
+                <p class="text-xs text-slate-400">Fee Piattaforma</p>
+            </div>
+            <div class="space-y-1">
+                <p class="text-2xl font-black text-purple-400">Stripe</p>
+                <p class="text-xs text-slate-400">Checkout Sicuro</p>
+            </div>
+            <div class="space-y-1">
+                <p class="text-2xl font-black text-amber-400">24/7</p>
+                <p class="text-xs text-slate-400">Moderazione & Chat</p>
             </div>
         </div>
 
         <!-- STRUMENTI & CARATTERISTICHE PIATTAFORMA -->
-        <div class="mt-20 w-full text-center space-y-4">
-            <h2 class="text-2xl font-bold text-white tracking-tight">Tutto ciò che serve per collaborare ed eseguire</h2>
-            <p class="text-xs text-slate-400 max-w-xl mx-auto">Strumenti avanzati pensati sia per professionisti del codice che per aziende in cerca di talenti.</p>
+        <div class="w-full text-center space-y-8">
+            <div class="space-y-2">
+                <h2 class="text-2xl md:text-3xl font-bold text-white tracking-tight">Tutto ciò che serve per collaborare ed eseguire</h2>
+                <p class="text-xs md:text-sm text-slate-400 max-w-xl mx-auto">Strumenti avanzati pensati sia per professionisti del codice che per aziende in cerca di talenti.</p>
+            </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6 text-left">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
                 <!-- Card 1 -->
-                <div class="flat-card p-6 border-[#262a35] bg-[#12151c]/60 space-y-3">
+                <div class="flat-card p-6 border-[#262a35] bg-[#12151c]/60 space-y-3 hover:border-blue-500/40 transition">
                     <div class="w-10 h-10 rounded-lg bg-blue-500/10 border border-blue-500/20 text-blue-400 flex items-center justify-center text-lg">
                         <i class="fa-solid fa-code"></i>
                     </div>
                     <h3 class="text-white font-bold text-base">Feed & Snippet Code</h3>
-                    <p class="text-slate-400 text-xs leading-relaxed">Condividi componenti, snippet e progetti con la community per ricevere feedback immediati.</p>
+                    <p class="text-slate-400 text-xs leading-relaxed">Condividi componenti, frammenti di codice e soluzioni tecniche con la community per ricevere feedback immediati e mostrare le tue skill.</p>
                 </div>
 
                 <!-- Card 2 -->
-                <div class="flat-card p-6 border-[#262a35] bg-[#12151c]/60 space-y-3">
+                <div class="flat-card p-6 border-[#262a35] bg-[#12151c]/60 space-y-3 hover:border-emerald-500/40 transition">
                     <div class="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center text-lg">
                         <i class="fa-solid fa-shield-halved"></i>
                     </div>
                     <h3 class="text-white font-bold text-base">Pagamenti Stripe (15%)</h3>
-                    <p class="text-slate-400 text-xs leading-relaxed">Incarichi protetti con commissione di piattaforma automatica. Ricevi ed effettua pagamenti in sicurezza.</p>
+                    <p class="text-slate-400 text-xs leading-relaxed">Gestione degli incarichi con sistema di garanzia. Il cliente paga in tutta sicurezza, la piattaforma trattiene il 15% e l'85% va diretto al developer.</p>
                 </div>
 
                 <!-- Card 3 -->
-                <div class="flat-card p-6 border-[#262a35] bg-[#12151c]/60 space-y-3">
+                <div class="flat-card p-6 border-[#262a35] bg-[#12151c]/60 space-y-3 hover:border-purple-500/40 transition">
                     <div class="w-10 h-10 rounded-lg bg-purple-500/10 border border-purple-500/20 text-purple-400 flex items-center justify-center text-lg">
                         <i class="fa-solid fa-comments"></i>
                     </div>
                     <h3 class="text-white font-bold text-base">Canali & Chat Privati</h3>
-                    <p class="text-slate-400 text-xs leading-relaxed">Stanze di discussione pubbliche o canali riservati protetti da passcode per lavorare in team.</p>
+                    <p class="text-slate-400 text-xs leading-relaxed">Stanze di discussione pubbliche o canali riservati protetti da passcode per collaborare in tempo reale su progetti riservati.</p>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="flat-card p-6 border-[#262a35] bg-[#12151c]/60 space-y-3 hover:border-amber-500/40 transition">
+                    <div class="w-10 h-10 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center text-lg">
+                        <i class="fa-solid fa-user-check"></i>
+                    </div>
+                    <h3 class="text-white font-bold text-base">Directory Sviluppatori</h3>
+                    <p class="text-slate-400 text-xs leading-relaxed">Trova rapidamente i profili migliori valutando bio, progetti precedenti e ruolo verificato all'interno della piattaforma.</p>
+                </div>
+
+                <!-- Card 5 -->
+                <div class="flat-card p-6 border-[#262a35] bg-[#12151c]/60 space-y-3 hover:border-red-500/40 transition">
+                    <div class="w-10 h-10 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 flex items-center justify-center text-lg">
+                        <i class="fa-solid fa-user-shield"></i>
+                    </div>
+                    <h3 class="text-white font-bold text-base">Moderazione & Sicurezza</h3>
+                    <p class="text-slate-400 text-xs leading-relaxed">Sistemi avanzati di RBAC (Admin, Dev, Client) e strumenti di moderazione per garantire un ambiente di lavoro pulito e professionale.</p>
+                </div>
+
+                <!-- Card 6 -->
+                <div class="flat-card p-6 border-[#262a35] bg-[#12151c]/60 space-y-3 hover:border-cyan-500/40 transition">
+                    <div class="w-10 h-10 rounded-lg bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 flex items-center justify-center text-lg">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                    <h3 class="text-white font-bold text-base">Incarichi Diretti</h3>
+                    <p class="text-slate-400 text-xs leading-relaxed">I clienti possono ingaggiare sviluppatori con un solo click definendo budget e specifiche del progetto in modo trasparente.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- COME FUNZIONA -->
+        <div class="w-full space-y-8 bg-[#12151c]/40 border border-[#262a35] p-8 rounded-2xl text-center">
+            <h2 class="text-2xl font-bold text-white">Come Funziona ProDevUnity</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
+                <div class="space-y-2">
+                    <div class="text-blue-400 font-extrabold text-sm uppercase tracking-wider">01. Registrazione</div>
+                    <h4 class="text-white font-bold">Crea il tuo profilo</h4>
+                    <p class="text-slate-400 text-xs leading-relaxed">Scegli il ruolo di Developer per farti ingaggiare o Client per pubblicare incarichi e trovare esperti.</p>
+                </div>
+                <div class="space-y-2">
+                    <div class="text-blue-400 font-extrabold text-sm uppercase tracking-wider">02. Connessione</div>
+                    <h4 class="text-white font-bold">Collega Stripe / Scegli Dev</h4>
+                    <p class="text-slate-400 text-xs leading-relaxed">I developer collegano il proprio conto Stripe Express. I clienti selezionano il professionista idoneo.</p>
+                </div>
+                <div class="space-y-2">
+                    <div class="text-blue-400 font-extrabold text-sm uppercase tracking-wider">03. Esecuzione & Payout</div>
+                    <h4 class="text-white font-bold">Completa e Ricevi l'85%</h4>
+                    <p class="text-slate-400 text-xs leading-relaxed">Il pagamento sicuro deposita l'85% allo sviluppatore e il 15% alla piattaforma al completamento dell'incarico.</p>
                 </div>
             </div>
         </div>
 
     </main>
+
+    <!-- FOOTER CON TERMINI & COPYRIGHT -->
+    <footer class="border-t border-[#262a35] bg-[#0b0c10] py-8 px-6 text-slate-400 text-xs">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center space-x-2">
+                <div class="w-6 h-6 rounded bg-blue-500/20 border border-blue-500/30 flex items-center justify-center text-blue-400 font-bold text-xs">
+                    <i class="fa-solid fa-code"></i>
+                </div>
+                <span class="font-bold text-white">ProDevUnity</span>
+                <span>&copy; 2026. Tutti i diritti riservati.</span>
+            </div>
+
+            <div class="flex items-center space-x-6 text-slate-400">
+                <a href="#" onclick="openTermsModal(event)" class="hover:text-white transition">Termini e Condizioni</a>
+                <a href="#" onclick="openPrivacyModal(event)" class="hover:text-white transition">Privacy Policy</a>
+                <a href="mailto:support@prodevunity.com" class="hover:text-white transition">Contatti & Supporto</a>
+            </div>
+        </div>
+    </footer>
 
     <!-- MODALE AUTENTICAZIONE -->
     <div id="auth-modal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
@@ -98,7 +191,7 @@
                 <p class="text-xs text-slate-400">Join the developer network.</p>
             </div>
 
-            <!-- TAB SELECTOR CORRETTO -->
+            <!-- TAB SELECTOR -->
             <div class="flex bg-[#0b0c10] p-1 rounded-lg border border-[#232733]">
                 <button id="tab-login" onclick="openAuthModal('login')" class="w-1/2 py-2 rounded-md font-semibold text-xs transition bg-[#1c1f28] text-white shadow">
                     Login
@@ -138,6 +231,38 @@
         </div>
     </div>
 
+    <!-- MODALE TERMINI E CONDIZIONI -->
+    <div id="terms-modal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-[#13151b] border border-[#232733] rounded-2xl w-full max-w-2xl p-6 space-y-4 relative shadow-2xl max-h-[80vh] overflow-y-auto text-left">
+            <button onclick="closeTermsModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white transition">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <h3 class="text-lg font-bold text-white">Termini e Condizioni di Servizio</h3>
+            <div class="text-xs text-slate-300 space-y-3 leading-relaxed">
+                <p><strong>1. Accettazione dei Termini:</strong> Utilizzando la piattaforma ProDevUnity accetti integralmente le seguenti condizioni di utilizzo.</p>
+                <p><strong>2. Gestione dei Pagamenti e Commissioni:</strong> I pagamenti vengono elaborati in modo sicuro tramite Stripe Connect. ProDevUnity trattiene una commissione del 15% sull'importo totale degli incarichi transati per la manutenzione e la sicurezza del servizio. L'85% dell'importo viene versato direttamente al conto dello sviluppatore idoneo.</p>
+                <p><strong>3. Responsabilità dei Contenuti:</strong> Gli utenti sono unici responsabili dei codici, messaggi e post condivisi all'interno della community. La piattaforma si riserva il diritto di moderare ed eliminare contenuti inappropriati o violazioni.</p>
+                <p><strong>4. Account e Sicurezza:</strong> È responsabilità dell'utente mantenere la riservatezza delle proprie credenziali d'accesso.</p>
+            </div>
+            <div class="pt-2 text-right">
+                <button onclick="closeTermsModal()" class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg text-xs font-bold transition">Chiudi</button>
+            </div>
+        </div>
+    </div>
+
     <script src="main.js"></script>
+    <script>
+        function openTermsModal(e) {
+            if(e) e.preventDefault();
+            document.getElementById('terms-modal').classList.remove('hidden');
+        }
+        function closeTermsModal() {
+            document.getElementById('terms-modal').classList.add('hidden');
+        }
+        function openPrivacyModal(e) {
+            if(e) e.preventDefault();
+            alert('Privacy Policy: ProDevUnity rispetta i dati personali. I cookie di sessione sono utilizzati esclusivamente per la gestione sicura dell\'autenticazione.');
+        }
+    </script>
 </body>
 </html>
