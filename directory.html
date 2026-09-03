@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ProDevUnity - Directory Developer</title>
+    <title>ProDevUnity - Directory Sviluppatori</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="min-h-screen flex flex-col relative pb-10">
-    
+
     <header class="sticky top-0 z-40 px-8 py-4 flex items-center justify-between border-b">
         <a href="feed.html" class="flex items-center space-x-3">
             <div class="w-8 h-8 rounded-lg bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-blue-400 font-bold text-sm">
@@ -29,65 +29,65 @@
         </div>
     </header>
 
-    <main id="main-container" class="max-w-6xl w-full mx-auto p-6 md:p-10 flex-1 z-10">
-        <section class="space-y-6">
-            <div class="flex items-center justify-between">
-                <div>
-                    <h1 class="text-2xl font-bold tracking-tight">Directory Sviluppatori</h1>
-                    <p class="text-xs text-slate-400 mt-0.5">Profili con valutazioni e recensioni verificate dai clienti.</p>
-                </div>
-            </div>
-            <div id="featured-developers-list" class="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
-        </section>
+    <main class="max-w-6xl w-full mx-auto p-6 md:p-10 flex-1 z-10 space-y-6">
+        <div>
+            <h1 class="text-2xl font-bold">Directory Sviluppatori</h1>
+            <p class="text-xs text-slate-400">Profili con valutazioni e recensioni verificate dai clienti.</p>
+        </div>
+
+        <div id="developers-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div class="text-slate-500 text-xs col-span-full">Caricamento sviluppatori...</div>
+        </div>
     </main>
 
     <div id="main-dock" class="fixed left-4 top-1/2 -translate-y-1/2 z-50">
         <div class="flat-dock-container flex flex-col items-center gap-2">
             <a href="feed.html" class="dock-item" title="Feed"><i class="fa-solid fa-fire text-base"></i></a>
             <a href="jobs.html" class="dock-item" title="Jobs"><i class="fa-solid fa-briefcase text-base"></i></a>
-            <a href="directory.html" class="dock-item active" title="Featured"><i class="fa-solid fa-crown text-base"></i></a>
+            <a href="directory.html" class="dock-item active" title="Directory"><i class="fa-solid fa-crown text-base"></i></a>
             <a href="chat.html" class="dock-item" title="Chat"><i class="fa-solid fa-comments text-base"></i></a>
             <a href="settings.html" class="dock-item" title="Impostazioni"><i class="fa-solid fa-gear text-base"></i></a>
         </div>
     </div>
 
-    <!-- BANNER COOKIE GDPR -->
-    <div id="cookie-banner" class="hidden fixed bottom-4 right-4 max-w-xs bg-[#131722] border border-[#262a35] p-4 rounded-xl shadow-xl z-50 text-xs space-y-3">
-        <p class="text-slate-300">Utilizziamo cookie tecnici per mantenere attiva la tua sessione in modo sicuro.</p>
-        <div class="flex space-x-2">
-            <button onclick="acceptCookies()" class="flat-btn-primary px-3 py-1 rounded font-semibold text-[11px]">Accetta</button>
-            <a href="terms.html" class="text-slate-400 hover:text-white px-2 py-1 text-[11px]">Info</a>
-        </div>
-    </div>
-
     <script src="main.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            if (!currentUser) { window.location.href = 'index.html'; return; }
-            loadAccounts();
-        });
+        document.addEventListener('DOMContentLoaded', loadDevelopers);
 
-        async function loadAccounts() {
-            const container = document.getElementById('featured-developers-list');
+        async function loadDevelopers() {
+            const grid = document.getElementById('developers-grid');
             try {
                 const res = await fetch(`${API_BASE_URL}/api/accounts`);
-                const accounts = await res.json();
-                const list = Object.entries(accounts);
+                const devs = await res.json();
 
-                container.innerHTML = list.map(([user, details]) => `
-                    <div class="flat-card p-5 space-y-3 ${details.boostedUntil > Date.now() ? 'boosted-card' : ''}">
-                        <div class="flex items-center justify-between">
-                            ${details.boostedUntil > Date.now() ? '<span class="text-amber-500 text-[10px] font-bold tracking-wider">FEATURED</span>' : '<span class="text-slate-500 text-[10px] font-medium">MEMBER</span>'}
-                            <span class="text-[10px] text-slate-400">(${details.reviewCount} recensioni)</span>
+                if (!devs.length) {
+                    grid.innerHTML = '<div class="text-slate-500 text-xs col-span-full">Nessuno sviluppatore registrato.</div>';
+                    return;
+                }
+
+                grid.innerHTML = devs.map(dev => `
+                    <div class="flat-card p-5 flex flex-col justify-between space-y-4">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 rounded-full bg-blue-600/20 border border-blue-500/30 flex items-center justify-center font-bold text-blue-400 text-sm">
+                                @
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-sm text-white">@${escapeHTML(dev.username)}</h3>
+                                <span class="text-[10px] px-2 py-0.5 rounded bg-blue-500/10 text-blue-400 border border-blue-500/20 uppercase font-semibold">
+                                    ${escapeHTML(dev.role || 'dev')}
+                                </span>
+                            </div>
                         </div>
-                        <div>
-                            <h4 class="font-bold text-sm">@${escapeHTML(user)}</h4>
-                            <div class="mt-1">${renderStarRating(details.rating)}</div>
+                        <p class="text-xs text-slate-300 line-clamp-3">${escapeHTML(dev.bio || 'Nessuna biografia inserita.')}</p>
+                        <div class="pt-3 border-t border-[#262a35] flex items-center justify-between text-xs">
+                            <span class="text-amber-400 font-bold"><i class="fa-solid fa-star"></i> 5.0</span>
+                            <a href="chat.html" class="flat-btn-primary px-3 py-1 rounded-lg text-xs">Contatta</a>
                         </div>
-                        <p class="text-xs text-slate-400">${escapeHTML(details.profile?.bio || 'Sviluppatore su ProDevUnity')}</p>
                     </div>
                 `).join('');
-            } catch (err) { console.error('Error loading accounts'); }
+            } catch (err) {
+                grid.innerHTML = '<div class="text-red-400 text-xs col-span-full">Errore nel caricamento della directory.</div>';
+            }
         }
     </script>
 </body>
